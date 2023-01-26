@@ -1,0 +1,429 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright (c) 1991, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011 Bayard G. Bell. All rights reserved.
+# Copyright (c) 2011 by Delphix. All rights reserved.
+# Copyright (c) 2013 Andrew Stormont.  All rights reserved.
+# Copyright 2016 Hans Rosenfeld <rosenfeld@grumpf.hope-2000.org>
+#
+
+#
+#	This Makefile contains the common targets and definitions for
+#	all kernels. It is to be included in the Makefiles for specific
+#	implementation architectures and processor architecture dependent
+#	modules: i.e.: all driving kernel Makefiles.
+#
+#	Include global definitions:
+#
+include $(SRC)/Makefile.master
+
+#
+#	No text domain in the kernel.
+#
+DTEXTDOM =
+
+#
+# 	Keep references to $(SRC)/common relative.
+COMMONBASE=	$(UTSBASE)/../common
+
+#
+#	Setup build-specific vars
+#	To add a build type:
+#		add name to ALL_BUILDS32 & ALL_BUILDS64
+#		set CLASS_name and OBJ_DIR_name
+#		add targets to Makefile.targ
+#
+
+#
+#	DEF_BUILDS is for def,  sischeck, and install
+#	ALL_BUILDS is for everything else (all, clean, ...)
+#
+# The NOT_RELEASE_BUILD noise is to maintain compatibility with the
+# gatekeeper's nightly build script.
+#
+DEF_BUILDS32				= obj32
+DEF_BUILDS64				= obj64
+DEF_BUILDSONLY64			= obj64
+$(NOT_RELEASE_BUILD)DEF_BUILDS32	= debug32
+$(NOT_RELEASE_BUILD)DEF_BUILDS64	= debug64
+$(NOT_RELEASE_BUILD)DEF_BUILDSONLY64	= debug64
+ALL_BUILDS32				= obj32 debug32
+ALL_BUILDS64				= obj64 debug64
+ALL_BUILDSONLY64			= obj64 debug64
+
+#
+#	Build class (32b or 64b)
+#
+CLASS_OBJ32	= 32
+CLASS_DBG32	= 32
+CLASS_OBJ64	= 64
+CLASS_DBG64	= 64
+CLASS		= $(CLASS_$(BUILD_TYPE))
+
+#
+#	Build subdirectory
+#
+OBJS_DIR_OBJ32	= obj32
+OBJS_DIR_DBG32	= debug32
+OBJS_DIR_OBJ64	= obj64
+OBJS_DIR_DBG64	= debug64
+OBJS_DIR	= $(OBJS_DIR_$(BUILD_TYPE))
+
+#
+#	Create defaults so empty rules don't
+#	confuse make
+#
+CLASS_		= 64
+OBJS_DIR_	= debug64
+
+#
+#	Build tools
+#
+CC_sparc_32	= $(sparc_CC)
+CC_sparc_64	= $(sparcv9_CC)
+
+CC_i386_32	= $(i386_CC)
+CC_i386_64	= $(amd64_CC)
+CC_amd64_64	= $(amd64_CC)
+
+CC		= $(CC_$(MACH)_$(CLASS))
+
+AS_sparc_32	= $(sparc_AS)
+AS_sparc_64	= $(sparcv9_AS)
+
+AS_i386_32	= $(i386_AS)
+AS_i386_64	= $(amd64_AS)
+AS_amd64_64	= $(amd64_AS)
+
+AS		= $(AS_$(MACH)_$(CLASS))
+
+LD_sparc_32	= $(sparc_LD)
+LD_sparc_64	= $(sparcv9_LD)
+
+LD_i386_32	= $(i386_LD)
+LD_i386_64	= $(amd64_LD)
+LD_amd64_64	= $(amd64_LD)
+
+LD		= $(LD_$(MACH)_$(CLASS))
+
+MODEL_32	= ilp32
+MODEL_64	= lp64
+MODEL		= $(MODEL_$(CLASS))
+
+#
+#	Build the compile/assemble lines:
+#
+EXTRA_OPTIONS		= 
+AS_DEFS			= -D_ASM
+
+ALWAYS_DEFS_32		= -D_KERNEL -D_SYSCALL32 -D_DDI_STRICT -D_UNLEASHED_SOURCE
+ALWAYS_DEFS_64		= -D_KERNEL -D_SYSCALL32 -D_SYSCALL32_IMPL -D_ELF64 \
+			-D_DDI_STRICT -D_UNLEASHED_SOURCE
+#
+# XX64	This should be defined by the compiler!
+#
+ALWAYS_DEFS_64		+= -Dsun -D__sun -D__SVR4
+ALWAYS_DEFS		= $(ALWAYS_DEFS_$(CLASS))
+
+#
+#	CPPFLAGS is deliberatly set with a "=" and not a "+=".  For the kernel
+#	the header include path should not look for header files outside of
+#	the kernel code.  This "=" removes the search path built in
+#	Makefile.master inside CPPFLAGS.  Ditto for AS_CPPFLAGS.
+#
+CPPFLAGS	= $(ALWAYS_DEFS) $(ALL_DEFS) $(CONFIG_DEFS) \
+		   $(INCLUDE_PATH) $(EXTRA_OPTIONS)
+AS_CPPFLAGS	= $(ALWAYS_DEFS) $(ALL_DEFS) $(CONFIG_DEFS) $(AS_DEFS) \
+		   $(AS_INC_PATH) $(EXTRA_OPTIONS)
+
+#
+#	Make it (relatively) easy to share compilation options between
+#	all kernel implementations.
+#
+
+# Override the default, the kernel is squeaky clean
+CERRWARN = -Wall -Wextra -Werror
+
+CERRWARN += -Wno-missing-braces
+CERRWARN += -Wno-sign-compare
+CERRWARN += -Wno-unknown-pragmas
+CERRWARN += -Wno-unused-parameter
+CERRWARN += -Wno-missing-field-initializers
+
+# DEBUG v. -nd make for frequent unused variables, empty conditions, etc. in
+# -nd builds
+$(RELEASE_BUILD)CERRWARN += -Wno-unused
+$(RELEASE_BUILD)CERRWARN += -Wno-empty-body
+
+#
+# Unfortunately, _IOWR() is regularly used with a third argument of 0,
+# so we have to disable all these smatch checks.
+#
+SMOFF += sizeof
+
+CSTD = $(CSTD_GNU99)
+
+CFLAGS_uts		=
+CFLAGS_uts		+= $(STAND_FLAGS_$(CLASS))
+CFLAGS_uts		+= $(XAOPT)
+CFLAGS_uts		+= $(CTF_FLAGS_$(CLASS))
+CFLAGS_uts		+= $(CERRWARN)
+CFLAGS_uts		+= $(CCNOAUTOINLINE)
+CFLAGS_uts		+= $(EXTRA_CFLAGS)
+CFLAGS_uts		+= $(CSOURCEDEBUGFLAGS)
+CFLAGS_uts		+= $(CUSERFLAGS)
+
+#
+#	Declare that $(OBJECTS) can be compiled in parallel.
+#	The DUMMY target is for those instances where OBJECTS
+#	are empty (to avoid an unconditional .PARALLEL).
+.PARALLEL:	$(OBJECTS) DUMMY
+
+#
+#	Expanded dependencies
+#
+DEF_DEPS	= $(DEF_BUILDS:%=def.%)
+ALL_DEPS	= $(ALL_BUILDS:%=all.%)
+CLEAN_DEPS	= $(ALL_BUILDS:%=clean.%)
+CLOBBER_DEPS	= $(ALL_BUILDS:%=clobber.%)
+MODLIST_DEPS	= $(DEF_BUILDS:%=modlist.%)
+INSTALL_DEPS	= $(DEF_BUILDS:%=install.%)
+SYM_DEPS	= $(SYM_BUILDS:%=symcheck.%)
+SISCHECK_DEPS	= $(DEF_BUILDS:%=sischeck.%)
+SISCLEAN_DEPS	= $(ALL_BUILDS:%=sisclean.%)
+
+#
+#	Default module name
+#
+BINARY		= $(OBJS_DIR)/$(MODULE)
+
+#
+#	Default cleanup definitions
+#
+CLEANFILES	= $(OBJECTS)
+CLOBBERFILES	= $(BINARY) $(CLEANFILES)
+
+#
+#	Installation constants:
+#
+#		FILEMODE is the mode given to the kernel modules
+#		CFILEMODE is the mode given to the '.conf' files
+#
+FILEMODE	 = 755
+DIRMODE		 = 755
+CFILEMODE	 = 644
+
+#
+#	Special Installation Macros for the installation of '.conf' files.
+#
+#	These are unique because they are not installed from the current
+#	working directory.
+#
+CONFFILE		= $(MODULE).conf
+SRC_CONFFILE		= $(CONF_SRCDIR)/$(CONFFILE)
+ROOT_CONFFILE_32	= $(ROOTMODULE).conf
+ROOT_CONFFILE_64	= $(ROOTMODULE:%/$(SUBDIR64)/$(MODULE)=%/$(MODULE)).conf
+ROOT_CONFFILE		= $(ROOT_CONFFILE_$(CLASS))
+
+
+INS.conffile= \
+	$(INS) -m $(CFILEMODE) $(SRC_CONFFILE) $(@D)/
+
+CTFMERGE_MODULE=	$(CTFMERGE) $(CTFMRGFLAGS) -L VERSION -o $@ $(OBJECTS) \
+    $(CTFEXTRAOBJS)
+
+#
+# Rule for building fake shared libraries used for symbol resolution
+# when building other modules.  -znoreloc is needed here to avoid
+# tripping over code that isn't really suitable for shared libraries.
+#
+BUILD.SO		= \
+	$(LD) -o $@ -G $(ZNORELOC) -h $(SONAME)
+
+#
+# SONAME defaults for common fake shared libraries.
+#
+$(LIBGEN)		:= SONAME = $(MODULE)
+$(PLATLIB)		:= SONAME = misc/platmod
+$(CPULIB)		:= SONAME = 'cpu/$$CPU'
+$(DTRACESTUBS)		:= SONAME = dtracestubs
+
+#
+#	Installation directories
+#
+
+#
+#	For now, 64b modules install into a subdirectory
+#	of their 32b brethren.
+#
+SUBDIR64_sparc		= sparcv9
+SUBDIR64_i386		= amd64
+SUBDIR64		= $(SUBDIR64_$(MACH))
+
+ROOT_MOD_DIR		= $(ROOT)/kernel
+
+ROOT_KERN_DIR		= $(ROOT_MOD_DIR)
+ROOT_BRAND_DIR		= $(ROOT_MOD_DIR)/brand
+ROOT_DRV_DIR		= $(ROOT_MOD_DIR)/drv
+ROOT_DTRACE_DIR		= $(ROOT_MOD_DIR)/dtrace
+ROOT_EXEC_DIR		= $(ROOT_MOD_DIR)/exec
+ROOT_FS_DIR		= $(ROOT_MOD_DIR)/fs
+ROOT_SCHED_DIR		= $(ROOT_MOD_DIR)/sched
+ROOT_SOCK_DIR		= $(ROOT_MOD_DIR)/socketmod
+ROOT_STRMOD_DIR		= $(ROOT_MOD_DIR)/strmod
+ROOT_IPP_DIR		= $(ROOT_MOD_DIR)/ipp
+ROOT_SYS_DIR		= $(ROOT_MOD_DIR)/sys
+ROOT_MISC_DIR		= $(ROOT_MOD_DIR)/misc
+ROOT_KGSS_DIR		= $(ROOT_MOD_DIR)/misc/kgss
+ROOT_SCSI_VHCI_DIR	= $(ROOT_MOD_DIR)/misc/scsi_vhci
+ROOT_PMCS_FW_DIR	= $(ROOT_MOD_DIR)/misc/pmcs
+ROOT_QLC_FW_DIR		= $(ROOT_MOD_DIR)/misc/qlc
+ROOT_EMLXS_FW_DIR	= $(ROOT_MOD_DIR)/misc/emlxs
+ROOT_NLMISC_DIR		= $(ROOT_MOD_DIR)/misc
+ROOT_MACH_DIR		= $(ROOT_MOD_DIR)/mach
+ROOT_CPU_DIR		= $(ROOT_MOD_DIR)/cpu
+ROOT_TOD_DIR		= $(ROOT_MOD_DIR)/tod
+ROOT_FONT_DIR		= $(ROOT_MOD_DIR)/fonts
+ROOT_DACF_DIR		= $(ROOT_MOD_DIR)/dacf
+ROOT_CRYPTO_DIR		= $(ROOT_MOD_DIR)/crypto
+ROOT_MAC_DIR		= $(ROOT_MOD_DIR)/mac
+ROOT_KICONV_DIR		= $(ROOT_MOD_DIR)/kiconv
+ROOT_FIRMWARE_DIR	= $(ROOT_MOD_DIR)/firmware
+
+ROOT_MOD_DIRS		= $(ROOT_BRAND_DIR) $(ROOT_DRV_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_EXEC_DIR) $(ROOT_DTRACE_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_FS_DIR) $(ROOT_SCHED_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_STRMOD_DIR) $(ROOT_SYS_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_IPP_DIR) $(ROOT_SOCK_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_MISC_DIR) $(ROOT_MACH_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_KGSS_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_SCSI_VHCI_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_PMCS_FW_DIR)
+ROOT_MOD_DIRS	        += $(ROOT_QLC_FW_DIR)
+ROOT_MOD_DIRS	        += $(ROOT_EMLXS_FW_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_CPU_DIR) $(ROOT_FONT_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_TOD_DIR) $(ROOT_DACF_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_CRYPTO_DIR) $(ROOT_MAC_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_KICONV_DIR)
+ROOT_MOD_DIRS		+= $(ROOT_FIRMWARE_DIR)
+
+USR_MOD_DIR		= $(ROOT)/usr/kernel
+
+USR_DRV_DIR		= $(USR_MOD_DIR)/drv
+USR_EXEC_DIR		= $(USR_MOD_DIR)/exec
+USR_FS_DIR		= $(USR_MOD_DIR)/fs
+USR_SCHED_DIR		= $(USR_MOD_DIR)/sched
+USR_SOCK_DIR		= $(USR_MOD_DIR)/socketmod
+USR_STRMOD_DIR		= $(USR_MOD_DIR)/strmod
+USR_SYS_DIR		= $(USR_MOD_DIR)/sys
+USR_MISC_DIR		= $(USR_MOD_DIR)/misc
+USR_DACF_DIR		= $(USR_MOD_DIR)/dacf
+USR_PCBE_DIR		= $(USR_MOD_DIR)/pcbe
+USR_DTRACE_DIR		= $(USR_MOD_DIR)/dtrace
+USR_BRAND_DIR		= $(USR_MOD_DIR)/brand
+
+USR_MOD_DIRS		= $(USR_DRV_DIR) $(USR_EXEC_DIR)
+USR_MOD_DIRS		+= $(USR_FS_DIR) $(USR_SCHED_DIR)
+USR_MOD_DIRS		+= $(USR_STRMOD_DIR) $(USR_SYS_DIR)
+USR_MOD_DIRS		+= $(USR_MISC_DIR) $(USR_DACF_DIR)
+USR_MOD_DIRS		+= $(USR_PCBE_DIR)
+USR_MOD_DIRS		+= $(USR_DTRACE_DIR) $(USR_BRAND_DIR)
+USR_MOD_DIRS		+= $(USR_SOCK_DIR)
+
+#
+#
+#
+include $(SRC)/Makefile.psm
+
+#
+# Collection of all relevant, delivered kernel modules.
+#
+# Note that we insist on building genunix first.  When doing a 'make' from
+# usr/src/uts/, we'll enter the platform directories first.  These will cd
+# into the corresponding genunix directory and build it.  So genunix
+# /shouldn't/ get rebuilt when we get to building all the kernel modules.
+# However, due to an as-yet-unexplained problem with dependencies, sometimes
+# it does get rebuilt.  So we always force the issue here rather than try to
+# build genunix in parallel with everything else.
+#
+PARALLEL_KMODS = $(DRV_KMODS) $(EXEC_KMODS) $(FS_KMODS) \
+		 $(TOD_KMODS) $(STRMOD_KMODS) $(SYS_KMODS) $(MISC_KMODS) \
+		 $(NLMISC_KMODS) $(MACH_KMODS) $(CPU_KMODS) $(GSS_KMODS) \
+		 $(MMU_KMODS) $(DACF_KMODS) $(EXPORT_KMODS) $(IPP_KMODS) \
+		 $(CRYPTO_KMODS) $(PCBE_KMODS) \
+		 $(DRV_KMODS_$(CLASS)) $(MISC_KMODS_$(CLASS)) $(MAC_KMODS) \
+		 $(BRAND_KMODS) $(KICONV_KMODS)
+
+KMODS = $(GENUNIX_KMODS) $(PARALLEL_KMODS)
+
+$(PARALLEL_KMODS): $(GENUNIX_KMODS)
+
+#
+#	Files to be compiled with -xa, to generate basic block execution
+#	count data.
+#
+#	There are several ways to compile parts of the kernel for kcov:
+#               1)  Add targets to BB_FILES here or in other Makefiles
+#                       (they must in the form of $(OBJS_DIR)/target.o)
+#               2)  setenv BB_FILES '$(XXX_OBJS:%=$(OBJS_DIR)/%)'
+#               3)  setenv BB_FILES '$(OBJECTS)'
+#
+#       Do NOT setenv CFLAGS -xa, as that will cause infinite recursion
+#       in unix_bb.o
+#
+BB_FILES =
+$(BB_FILES)	:= XAOPT = -xa
+
+#
+#	The idea here is for unix_bb.o to be in all kernels except the
+#	kernel which actually gets shipped to customers.  In practice,
+#	$(RELEASE_BUILD) is on for a number of the late beta and fcs builds.
+#
+$(NOT_RELEASE_BUILD)$(OBJS_DIR)/unix_bb.o   := CPPFLAGS     += -DKCOV
+$(NOT_RELEASE_BUILD)$(OBJS_DIR)/unix_bb.ln  := CPPFLAGS     += -DKCOV
+
+#
+#	Do not let unix_bb.o get compiled with -xa!
+#
+$(OBJS_DIR)/unix_bb.o	:= XAOPT =
+
+#
+# Privilege files
+#
+PRIVS_AWK = $(SRCTOP)/tools/privs.awk
+PRIVS_DEF = $(SRCTOP)/kernel/os/priv_defs
+
+#
+# USB device data
+#
+USBDEVS_AWK =	$(SRCTOP)/tools/usbdevs2h.awk
+USBDEVS_DATA =	$(SRCTOP)/kernel/drivers/usb/usbdevs
+
+
+#
+# We need to make sure that we are building with the private -X option to
+# ctfconvert which allows us to fixup the struct cpu to account for machcpu.
+#
+CTFCVTFLAGS += -X
+
+INC_PATH += -I${SRCTOP}/include

@@ -1,0 +1,324 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+# Copyright 2016 Joyent, Inc.
+#
+#
+
+# libc build rules
+
+#
+# This first rule picks up optimized sources for libc variants.
+#
+pics/%.o: $(OPTIMIZED_LIBCBASE)/common/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/crt/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/crt/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/gen/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/gen/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/gen/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/_stack_grow.o: $(LIBCBASE)/../$(TARGET_ARCH)/gen/_stack_grow.s
+	$(BUILD.s) $(LIBCBASE)/../$(TARGET_ARCH)/gen/_stack_grow.s
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/fp/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(MACH)/fp/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/fp/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/fp/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/fp/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/sys/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../common/sys/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/sys/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(MACH)/sys/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(MACH)/sys/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/sys/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/sys/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%_w.o: $(LIBCBASE)/../port/stdio/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%_w.o: $(LIBCBASE)/../port/print/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%_pos.o: $(LIBCBASE)/../port/i18n/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%_sbyte.o: $(LIBCBASE)/../port/i18n/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%_possbyte.o: $(LIBCBASE)/../port/i18n/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%_longlong.o: $(LIBCBASE)/../port/i18n/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# libc build rules for objects built from "portable" source in ../port
+
+pics/%.o: $(LIBCBASE)/../port/fp/%.c
+	$(COMPILE.c) \
+	-I$(LIBCBASE)/../port/fp -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../port/i18n/%.c
+	$(COMPILE.c) \
+	-I$(LIBCBASE)/../port/i18n -o $@ $<
+	$(POST_PROCESS_O)
+
+# gen rules
+pics/%.o %.o: $(LIBCBASE)/../port/gen/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# inet rules
+pics/%.o: $(LIBCBASE)/../port/inet/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# locale rules
+pics/%.o %.o: $(LIBCBASE)/../port/locale/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# nsl rules
+pics/%.o: $(LIBCBASE)/../port/nsl/%.c $(LIBCBASE)/../port/nsl/nis_clnt.h
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# print rules
+pics/%.o: $(LIBCBASE)/../port/print/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# regex rules
+pics/%.o: $(LIBCBASE)/../port/regex/%.c
+	$(COMPILE.c) -DM_I18N_MB -DI18N \
+	-I$(LIBCBASE)/../port/regex \
+	-I$(LIBCBASE)/../port/gen -o $@ $<
+	$(POST_PROCESS_O)
+
+# socket rules
+pics/%.o: $(LIBCBASE)/../port/socket/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# stdio rules
+pics/%.o: $(LIBCBASE)/../port/stdio/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# aio rules
+pics/%.o: $(LIBCBASE)/../port/aio/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# rt rules
+pics/%.o: $(LIBCBASE)/../port/rt/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# tpool rules
+pics/%.o: $(LIBCBASE)/../port/tpool/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+# threads rules
+pics/%.o: $(LIBCBASE)/../port/threads/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/threads/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/threads/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/threads/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/threads/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/unwind/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(TARGET_ARCH)/unwind/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../port/unwind/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../$(MACH)/unwind/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../port/sys/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/../../crt/common/%.c
+	$(COMPILE.c) -o $@ $<
+	$(POST_PROCESS_O)
+
+pics/%.o: $(LIBCBASE)/$(CRTSRCS)/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+# $(SRC)/common rules
+pics/%.o: $(SRC)/common/atomic/$(TARGETMACH)/%.s
+	$(BUILD.s)
+	$(POST_PROCESS_O)
+
+$(COMOBJS:%=pics/%): $(SRC)/common/util/$$(@F:.o=.c)
+	$(COMPILE.c) -o $@ $(SRC)/common/util/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+$(XATTROBJS:%=pics/%): $(SRC)/common/xattr/$$(@F:.o=.c)
+	$(COMPILE.c) -o $@ $(SRC)/common/xattr/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+$(DTRACEOBJS:%=pics/%): $(SRC)/common/dtrace/$$(@F:.o=.c)
+	$(COMPILE.c) -o $@ $(SRC)/common/dtrace/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+$(SECFLAGSOBJS:%=pics/%): $(SRC)/common/secflags/$$(@F:.o=.c)
+	$(COMPILE.c) -o $@ $(SRC)/common/secflags/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+$(UNICODEOBJS:%=pics/%): $(SRC)/common/unicode/$$(@F:.o=.c)
+	$(COMPILE.c) -o $@ $(SRC)/common/unicode/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+$(CHACHAOBJS:%=pics/%): $(SRC)/common/crypto/chacha/$$(@F:.o=.c)
+	$(COMPILE.c) -I$(SRC)/common/crypto/chacha -DKEYSTREAM_ONLY \
+	    -o $@ $(SRC)/common/crypto/chacha/$(@F:.o=.c)
+	$(POST_PROCESS_O)
+
+# DTrace rules
+pics/%.o: $(LIBCBASE)/../port/threads/%.d $(THREADSOBJS:%=pics/%)
+	$(COMPILE.d) -C -xlazyload -s $< -o $@ $(THREADSOBJS:%=pics/%)
+	$(POST_PROCESS_O)
+
+include $(SRC)/lib/Makefile.targ
+
+# rpcgen'd stuff originally from libnsl
+
+RPCSVC_DIR= $(ROOTHDRDIR)/rpcsvc
+RPCSVC_SRCDIR= $(SRCTOP)/include/rpcsvc
+RPCSVC_UTS_SRCDIR= $(SRC)/uts/common/rpc
+
+RPCSVC_FILES= daemon_utils.h nis.x nis.h nis_object.x
+RPCSVC_FILES_UTS= key_prot.x
+
+ROOTHDRS += $(RPCSVC_FILES:%=$(RPCSVC_DIR)/%)
+
+$(RPCSVC_DIR):
+	$(INS.dir)
+
+$(RPCSVC_DIR)/%.h:	$(RPCSVC_SRCDIR)/%.h
+	$(INS.file)
+
+$(RPCSVC_DIR)/nis.h:	$(RPCSVC_SRCDIR)/nis.x $(RPCSVC_SRCDIR)/nis_object.x
+	$(RPCGEN) -C -h $(RPCSVC_SRCDIR)/nis.x > nis-tmp.h
+	$(SED) -e '/EDIT_START/,$$ d' < nis-tmp.h > nis.h
+	$(INS) -m $(FILEMODE) nis.h $@
+	$(RM) nis.h nis-tmp.h
+
+$(RPCSVC_DIR)/%.x:	$(RPCSVC_SRCDIR)/%.x
+	$(INS.file)
+
+$(RPCSVC_DIR)/%.x:	$(RPCSVC_UTS_SRCDIR)/%.x
+	$(INS.file)
+
+$(LIBCBASE)/../port/nsl/nis_clnt.h: $(RPCSVC_DIR)/nis.x $(RPCSVC_DIR)/nis_object.x
+	$(RPCGEN) -C -h $(RPCSVC_DIR)/nis.x > nis_clnt-gen.h
+	$(SED) -n -e '/EDIT_START/,$$ p' < nis_clnt-gen.h |\
+	$(SED) -e 's/_3_svc/_svc/' |\
+	$(SED) -e 's/_3/_clnt/' > $@
+	$(RM) nis_clnt-gen.h
+
+CLEANFILES += $(LIBCBASE)/../port/nsl/nis_clnt.h

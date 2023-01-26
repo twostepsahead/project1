@@ -1,0 +1,349 @@
+.\" Copyright (c) 1992, X/Open Company Limited All Rights Reserved.
+.\" Portions Copyright (c) 2009, Sun Microsystems, Inc.  All Rights Reserved.
+.\" Sun Microsystems, Inc. gratefully acknowledges The Open Group for permission to reproduce portions of its copyrighted documentation. Original documentation from The Open Group can be obtained online at  http://www.opengroup.org/bookstore/.
+.\" The Institute of Electrical and Electronics Engineers and The Open Group, have given us permission to reprint portions of their documentation. In the following statement, the phrase "this text" refers to portions of the system documentation. Portions of this text
+.\" are reprinted and reproduced in electronic form in the Sun OS Reference Manual, from IEEE Std 1003.1, 2004 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 6, Copyright (C) 2001-2004 by the Institute of Electrical
+.\" and Electronics Engineers, Inc and The Open Group. In the event of any discrepancy between these versions and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.opengroup.org/unix/online.html.
+.\"  This notice shall appear on any product containing this material.
+.\" The contents of this file are subject to the terms of the Common Development and Distribution License (the "License").  You may not use this file except in compliance with the License.
+.\" You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE or http://www.opensolaris.org/os/licensing.  See the License for the specific language governing permissions and limitations under the License.
+.\" When distributing Covered Code, include this CDDL HEADER in each file and include the License file at usr/src/OPENSOLARIS.LICENSE.  If applicable, add the following below this CDDL HEADER, with the fields enclosed by brackets "[]" replaced with your own identifying information: Portions Copyright [yyyy] [name of copyright owner]
+.Dd Jun 18, 2017
+.Dt SOCKET.H 3HEAD
+.Os
+.Sh NAME
+.Nm socket.h ,
+.Nm socket
+.Nd Internet Protocol family
+.Sh SYNOPSIS
+.In sys/socket.h
+.Sh DESCRIPTION
+The
+.Nm
+header defines the unsigned integral type
+.Vt sa_family_t
+through
+.Sy typedef .
+.Pp
+The
+.Nm
+header defines the
+.Vt sockaddr
+structure that includes the following members:
+.Bd -literal -offset indent
+sa_family_t   sa_family     /* address family */
+char          sa_data[]     /* socket   address (variable-length
+                                data) */
+.Ed
+The
+.Nm
+header defines the
+.Vt msghdr
+structure that includes the following members:
+.Bd -literal -offset indent
+void            *msg_name         /* optional address */
+socklen_t       msg_namelen       /* size of address */
+struct iovec    *msg_iov          /* scatter/gather array */
+int             msg_iovlen        /* members in msg_iov */
+void            *msg_control      /* ancillary data, see below */
+socklen_t       msg_controllen    /* ancillary data buffer len */
+int             msg_flags         /* flags on received message */
+.Ed
+.Pp
+The
+.Nm
+header defines the
+.Vt cmsghdr
+structure that includes the following members:
+.Bd -literal -offset indent
+socklen_t  cmsg_len      /* data byte count, including hdr */
+int        cmsg_level    /* originating protocol */
+int        cmsg_type     /* protocol-specific type */
+.Ed
+.Pp
+Ancillary data consists of a sequence of pairs, each consisting of a
+.Vt cmsghdr
+structure followed by a data array. The data array contains the ancillary data
+message, and the
+.Vt cmsghdr
+structure contains descriptive information that allows an application to
+correctly parse the data.
+.Pp
+The values for
+.Va cmsg_level
+will be legal values for the level argument to the
+.Fn getsockopt
+and
+.Fn setsockopt
+functions. The
+.Dv SCM_RIGHTS
+type is supported for level
+.Dv SOL_SOCKET .
+.Pp
+Ancillary data is also possible at the socket level. The
+.Nm
+header defines the following macros for use as the
+.Va cmsg_type
+values when
+.Va cmsg_level
+is
+.Dv SOL_SOCKET .
+.Bl -tag -width Ds
+.It Dv SCM_RIGHTS
+Indicates that the data array contains the access rights to be sent or
+received.
+.It Dv SCM_UCRED
+Indicates that the data array contains a
+.Vt ucred_t
+to be received. The
+.Vt ucred_t
+is the credential of the sending process at the time the message was sent. This
+is a Sun-specific, Evolving interface. See
+.Xr ucred_get 3C .
+.El
+.Pp
+The IPv4 data formats generally use the same values for data passed back in
+.Vt cmsghdr
+as for
+.Fn setsockopt
+to enable the feature. The IPv4 data formats are listed below with the
+associated payload for each.
+.Bl -tag -width Ds
+.It Dv IPPROTO_IP IP_RECVDSTADDR
+.Vt ipaddr_t ,
+IP address
+.It Dv IPPROTO_IP IP_RECVOPTS
+variable-length IP options, up to 40 bytes
+.It Dv IPPROTO_IP IP_RECVIF
+.Vt uint_t ,
+.Va ifIndex
+number
+.It Dv IPPROTO_IP IP_RECVSLLA
+.Vt struct sockaddr_dl ,
+link layer address
+.It Dv IPPROTO_IP IP_RECVTTL
+.Vt uint8_t
+.It Dv SOL_SOCKET SO_RECVUCRED
+.Vt ucred_t
+-
+.Va cmsghdr.cmsg_type
+is
+.Dv SCM_UCRED ,
+not
+.Dv SO_RECVUCRED
+.El
+.Pp
+The IPv6 data formats use different values for enabling the option and for
+passing the value back to the application. The IPv6 data formats are listed
+below with the associated payload for each.
+.Bl -tag -width Ds
+.It Dv IPPROTO_IPV6 IPV6_RECVPKTINFO
+.Vt in_pktinfo ,
+.Va cmsg_type
+.Dv IPV6_PKTINFO
+.It Dv IPPROTO_IPV6 IPV6_RECVTCLASS
+.Vt uint_t ,
+.Va cmsg_type
+.Dv IPV6_TCLASS
+.It Dv IPPROTO_IPV6 IPV6_RECVPATHMTU
+.Vt ip6_mtuinfo ,
+.Va cmsg_type
+.Dv IPV6_PATHMTU
+.It Dv IPPROTO_IPV6 IPV6_RECVHOPLIMIT
+.Vt uint_t ,
+.Va cmsg_type
+.Dv IPV6_HOPLIMIT
+.It Dv IPPROTO_IPV6 IPV6_RECVHOPOPTS
+variable-length IPv6 options,
+.Va cmsg_type
+.Dv IPV6_HOPOPTS
+.It Dv IPPROTO_IPV6 IPV6_RECVDSTOPTS
+variable-length IPv6 options,
+.Va cmsg_type
+.Dv IPV6_DSTOPTS
+.It Dv IPPROTO_IPV6 IPV6_RECVRTHDR
+variable-length IPv6 options,
+.Va cmsg_type
+.Dv IPV6_RTHDR
+.It Dv IPPROTO_IPV6 IPV6_RECVRTHDRDSTOPTS
+variable-length IPv6 options,
+.Va cmsg_type
+.Dv IPV6_DSTOPTS
+.El
+.Pp
+The
+.Nm
+header defines the following macros to gain access to the data arrays in the
+ancillary data associated with a message header:
+.Xr CMSG_DATA 3 ,
+.Xr CMSG_FIRSTHDR 3,
+.Xr CMSG_NXTHDR 3 ,
+and
+.Xr CMSG_SPACE 3 .
+.Pp
+The
+.Nm
+header defines the linger structure that includes the following members:
+.Bd -literal -offset indent
+int   l_onoff   /* indicates  whether  linger option is enabled */
+int   l_linger  /* linger time, in seconds */
+.Ed
+.Pp
+The
+.Nm
+header defines the following macros:
+.Bl -tag -width Ds
+.It Dv SOCK_DGRAM
+Datagram socket
+.It Dv SOCK_STREAM
+Byte-stream socket
+.It Dv SOCK_SEQPACKET
+Sequenced-packet socket
+.El
+.Pp
+The
+.Nm
+header defines the following macros for use as the
+.Fa level
+argument of
+.Fn setsockopt
+and
+.Fn getsockopt .
+.Bl -tag -width Ds
+.It Dv SOL_SOCKET
+Options to be accessed at the socket level, not the protocol level.
+.It Dv SOL_ROUTE
+Options to be accessed at the routing socket level, not the protocol level.
+.El
+.Pp
+The
+.Nm
+header defines the following macros for use as the
+.Fa option_name
+argument of
+.Fn getsockopt
+or
+.Fn setsockopt
+calls:
+.Bl -tag -width Ds
+.It Dv SO_DEBUG
+Debugging information is being recorded.
+.It Dv SO_ACCEPTCONN
+Socket is accepting connections.
+.It Dv SO_BROADCAST
+Transmission of broadcast messages is supported.
+.It Dv SO_REUSEADDR
+Reuse of local addresses is supported.
+.It Dv SO_KEEPALIVE
+Connections are kept alive with periodic messages.
+.It Dv SO_LINGER
+Socket lingers on close.
+.It Dv SO_OOBINLINE
+Out-of-band data is transmitted in line.
+.It Dv SO_SNDBUF
+Send buffer size.
+.It Dv SO_RCVBUF
+Receive buffer size.
+.It Dv SO_ERROR
+Socket error status.
+.It Dv SO_TYPE
+Socket type.
+.It Dv SO_RECVUCRED
+Request the reception of user credential ancillary data. This is a
+Sun-specific, Evolving interface. See
+.Xr ucred_get 3C .
+.It Dv SO_ALLZONES
+Bypass zone boundaries (privileged).
+.El
+.Pp
+The
+.Nm
+header defines the following macros for use as the valid values for the
+.Va msg_flags
+field in the
+.Vt msghdr
+structure, or the flags parameter in
+.Fn recvfrom ,
+.Fn recvmsg ,
+.Fn sendto ,
+or
+.Fn sendmsg
+calls:
+.Bl -tag -width Ds
+.It Dv MSG_CTRUNC
+Control data truncated.
+.It Dv MSG_EOR
+Terminates a record (if supported by the protocol).
+.It Dv MSG_OOB
+Out-of-band data.
+.It Dv MSG_PEEK
+Leave received data in queue.
+.It Dv MSG_TRUNC
+Normal data truncated.
+.It Dv MSG_WAITALL
+Wait for complete message.
+.It Dv MSG_NOSIGNAL
+Do not generate the SIGPIPE signal.
+.El
+.Pp
+The
+.Nm
+header defines the following macros:
+.Bl -tag -width Ds
+.It Dv AF_UNIX
+UNIX domain sockets
+.It Dv AF_INET
+Internet domain sockets
+.El
+.Pp
+The
+.Nm
+header defines the following macros:
+.Bl -tag -width Ds
+.It Dv SHUT_RD
+Disables further receive operations.
+.It Dv SHUT_WR
+Disables further send operations.
+.It Dv SHUT_RDWR
+Disables further send and receive operations.
+.El
+.Sh SEE ALSO
+.Xr CMSG_DATA 3 ,
+.Xr getpeerucred 3C ,
+.Xr ucred_get 3C ,
+.Xr accept 3SOCKET ,
+.Xr bind 3SOCKET ,
+.Xr connect 3SOCKET ,
+.Xr getpeername 3SOCKET ,
+.Xr getsockname 3SOCKET ,
+.Xr getsockopt 3SOCKET ,
+.Xr listen 3SOCKET ,
+.Xr recv 3SOCKET ,
+.Xr recvfrom 3SOCKET ,
+.Xr recvmsg 3SOCKET ,
+.Xr send 3SOCKET ,
+.Xr sendmsg 3SOCKET ,
+.Xr sendto 3SOCKET ,
+.Xr setsockopt 3SOCKET ,
+.Xr shutdown 3SOCKET ,
+.Xr sockaddr 3SOCKET ,
+.Xr socket 3SOCKET ,
+.Xr socketpair 3SOCKET ,
+.Xr accept 3XNET ,
+.Xr bind 3XNET ,
+.Xr connect 3XNET ,
+.Xr getpeername 3XNET ,
+.Xr getsockname 3XNET ,
+.Xr getsockopt 3XNET ,
+.Xr listen 3XNET ,
+.Xr recv 3XNET ,
+.Xr recvfrom 3XNET ,
+.Xr recvmsg 3XNET ,
+.Xr send 3XNET ,
+.Xr sendmsg 3XNET ,
+.Xr sendto 3XNET ,
+.Xr setsockopt 3XNET ,
+.Xr shutdown 3XNET ,
+.Xr socketpair 3XNET ,
+.Xr attributes 5 ,
+.Xr standards 5

@@ -1,0 +1,81 @@
+#
+# Copyright (c) 2016-2017 Lauri Tirkkonen <lotheac@iki.fi>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/developer/build/bmake@$(PKGVERS)
+set name=pkg.description value="NetBSD make(1)"
+set name=pkg.summary value="NetBSD make(1)"
+dir path=usr group=sys
+dir path=usr/share
+dir path=usr/share/man
+dir path=usr/share/man/man1
+dir path=usr/share/mk
+file path=usr/bin/make mode=0555
+file path=usr/share/man/man1/make.1
+file path=usr/share/mk/README
+file path=usr/share/mk/auto.dep.mk
+file path=usr/share/mk/autoconf.mk
+file path=usr/share/mk/autodep.mk
+file path=usr/share/mk/config.mk
+file path=usr/share/mk/cython.mk
+file path=usr/share/mk/dep.mk
+file path=usr/share/mk/dirdeps.mk
+file path=usr/share/mk/dpadd.mk
+file path=usr/share/mk/files.mk
+file path=usr/share/mk/final.mk
+file path=usr/share/mk/gendirdeps.mk
+file path=usr/share/mk/host-target.mk
+file path=usr/share/mk/host.libnames.mk
+file path=usr/share/mk/inc.mk
+file path=usr/share/mk/init.mk
+file path=usr/share/mk/install-new.mk
+file path=usr/share/mk/java.mk
+file path=usr/share/mk/kmod.mk
+file path=usr/share/mk/lib.mk
+file path=usr/share/mk/libnames.mk
+file path=usr/share/mk/libs.mk
+file path=usr/share/mk/links.mk
+file path=usr/share/mk/man.mk
+file path=usr/share/mk/manifest.mk
+file path=usr/share/mk/nls.mk
+file path=usr/share/mk/obj.mk
+file path=usr/share/mk/options.mk
+file path=usr/share/mk/own.mk
+file path=usr/share/mk/prlist.mk
+file path=usr/share/mk/prog.mk
+file path=usr/share/mk/progs.mk
+file path=usr/share/mk/rst2htm.mk
+file path=usr/share/mk/scripts.mk
+file path=usr/share/mk/subdir.mk
+file path=usr/share/mk/sys.clean-env.mk
+file path=usr/share/mk/sys.debug.mk
+file path=usr/share/mk/sys.dependfile.mk
+file path=usr/share/mk/sys.mk
+file path=usr/share/mk/sys.vars.mk
+file path=usr/share/mk/target-flags.mk
+file path=usr/share/mk/unleashed.mk
+file path=usr/share/mk/warnings.mk
+file path=usr/share/mk/whats.mk
+file path=usr/share/mk/yacc.mk
+hardlink path=usr/bin/bmake target=make
+link path=usr/share/mk/bsd.dep.mk target=dep.mk
+link path=usr/share/mk/bsd.init.mk target=init.mk
+link path=usr/share/mk/bsd.lib.mk target=lib.mk
+link path=usr/share/mk/bsd.links.mk target=links.mk
+link path=usr/share/mk/bsd.man.mk target=man.mk
+link path=usr/share/mk/bsd.nls.mk target=nls.mk
+link path=usr/share/mk/bsd.obj.mk target=obj.mk
+link path=usr/share/mk/bsd.own.mk target=own.mk
+link path=usr/share/mk/bsd.prog.mk target=prog.mk
+link path=usr/share/mk/bsd.subdir.mk target=subdir.mk

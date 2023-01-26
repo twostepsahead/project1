@@ -1,0 +1,13 @@
+((config
+   ; Support for Linux core files
+   LINUX_CORE_SUPPORT
+   (= MACH 'amd64))
+
+ (config
+   ; should SMB expose CUPS printers?
+   SMB_PRINTING
+   #f)
+
+ (include "kernel/Sconfig"))
+
+; vim: set syntax=scheme:

@@ -1,0 +1,787 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2013 Saso Kiselkov. All rights reserved.
+# Copyright 2014 Garrett D'Amore <garrett@damore.org>
+# Copyright 2015 Nexenta Systems, Inc. All rights reserved.
+# Copyright 2016 Hans Rosenfeld <rosenfeld@grumpf.hope-2000.org>
+# Copyright 2017 James S Blachly, MD <james.blachly@gmail.com>
+#
+
+#
+# The default for payload-bearing actions in this package is to appear in the
+# global zone only.  See the include file for greater detail, as well as
+# information about overriding the defaults.
+#
+<include global_zone_only_component>
+<include system-kernel.man8.inc>
+<include system-kernel.man2.inc>
+<include system-kernel.man4.inc>
+<include system-kernel.man5.inc>
+<include system-kernel.man7.inc>
+<include system-kernel.man7d.inc>
+<include system-kernel.man7fs.inc>
+<include system-kernel.man7m.inc>
+<include system-kernel.man7p.inc>
+<include system-kernel.man9.inc>
+<include system-kernel.man9e.inc>
+<include system-kernel.man9f.inc>
+<include system-kernel.man9p.inc>
+<include system-kernel.man9s.inc>
+
+# old system/kernel/* packages
+<include system-kernel-cpu-counters.inc>
+<include system-kernel-dtrace-providers.inc>
+<include system-kernel-dynamic-reconfiguration-i86pc.inc>
+<include system-kernel-platform.inc>
+<include system-kernel-power.inc>
+<include system-kernel-rsmops.inc>
+<include system-kernel-secure-rpc.inc>
+<include system-kernel-security-gss.inc>
+<include system-kernel-suspend-resume.inc>
+# old driver/* packages
+<include driver-audio-audio810.inc>
+<include driver-audio-audiocmi.inc>
+<include driver-audio-audiocmihd.inc>
+<include driver-audio-audioemu10k.inc>
+<include driver-audio-audiohd.inc>
+<include driver-audio-audioixp.inc>
+<include driver-audio-audiols.inc>
+<include driver-audio-audiop16x.inc>
+<include driver-audio-audiosolo.inc>
+<include driver-audio-audiovia823x.inc>
+<include driver-audio.inc>
+<include driver-crypto-dca.inc>
+<include driver-crypto-dprov.inc>
+<include driver-firewire.inc>
+<include driver-graphics-agpgart.inc>
+<include driver-graphics-av1394.inc>
+<include driver-graphics-dcam1394-devfsadm-dcam1394.inc>
+<include driver-graphics-dcam1394.inc>
+<include driver-graphics-drm.inc>
+<include driver-graphics-usbvc.inc>
+<include driver-i86pc-fipe.inc>
+<include driver-i86pc-ioat.inc>
+<include driver-i86pc-platform.inc>
+<include driver-ipmi.inc>
+<include driver-misc-virtio.inc>
+<include driver-network-afe.inc>
+<include driver-network-amd8111s.inc>
+<include driver-network-arn.inc>
+<include driver-network-atge.inc>
+<include driver-network-ath.inc>
+<include driver-network-atu.inc>
+<include driver-network-axf.inc>
+<include driver-network-bfe.inc>
+<include driver-network-bge.inc>
+<include driver-network-bnxe.inc>
+<include driver-network-bpf.inc>
+<include driver-network-chxge.inc>
+<include driver-network-cxgbe.inc>
+<include driver-network-dmfe.inc>
+<include driver-network-e1000g.inc>
+<include driver-network-efe.inc>
+<include driver-network-elxl.inc>
+<include driver-network-emlxs.inc>
+<include driver-network-eoib.inc>
+<include driver-network-fcip.inc>
+<include driver-network-fcoe.inc>
+<include driver-network-fcoei.inc>
+<include driver-network-fcoet.inc>
+<include driver-network-fcp.inc>
+<include driver-network-fcsm.inc>
+<include driver-network-fp.inc>
+<include driver-network-hermon.inc>
+<include driver-network-hme.inc>
+<include driver-network-hxge.inc>
+<include driver-network-i40e.inc>
+<include driver-network-ib.inc>
+<include driver-network-ibdma.inc>
+<include driver-network-ibp.inc>
+<include driver-network-igb.inc>
+<include driver-network-iprb.inc>
+<include driver-network-ipw.inc>
+<include driver-network-iwh.inc>
+<include driver-network-iwi.inc>
+<include driver-network-iwk.inc>
+<include driver-network-iwn.inc>
+<include driver-network-iwp.inc>
+<include driver-network-ixgbe.inc>
+<include driver-network-mwl.inc>
+<include driver-network-mxfe.inc>
+<include driver-network-myri10ge.inc>
+<include driver-network-nge.inc>
+<include driver-network-ntxn.inc>
+<include driver-network-nxge.inc>
+<include driver-network-ofk.inc>
+<include driver-network-pcn.inc>
+<include driver-network-platform.inc>
+<include driver-network-qede.inc>
+<include driver-network-qlc.inc>
+<include driver-network-ral.inc>
+<include driver-network-rds.inc>
+<include driver-network-rdsv3.inc>
+<include driver-network-rge.inc>
+<include driver-network-rpcib.inc>
+<include driver-network-rtls.inc>
+<include driver-network-rtw.inc>
+<include driver-network-rum.inc>
+<include driver-network-rwd.inc>
+<include driver-network-rwn.inc>
+<include driver-network-sdp.inc>
+<include driver-network-sfe.inc>
+<include driver-network-sfxge.inc>
+<include driver-network-srpt.inc>
+<include driver-network-tavor.inc>
+<include driver-network-uath.inc>
+<include driver-network-udmf.inc>
+<include driver-network-upf.inc>
+<include driver-network-ural.inc>
+<include driver-network-urf.inc>
+<include driver-network-urtw.inc>
+<include driver-network-usbecm.inc>
+<include driver-network-vioif.inc>
+<include driver-network-vmxnet3s.inc>
+<include driver-network-vr.inc>
+<include driver-network-wpi.inc>
+<include driver-network-xge.inc>
+<include driver-network-yge.inc>
+<include driver-network-zyd.inc>
+<include driver-serial-usbftdi.inc>
+<include driver-serial-usbsacm.inc>
+<include driver-serial-usbser.inc>
+<include driver-serial-usbsksp-usbs49_fw.inc>
+<include driver-serial-usbsksp.inc>
+<include driver-serial-usbsprl.inc>
+<include driver-storage-aac.inc>
+<include driver-storage-ahci.inc>
+<include driver-storage-amr.inc>
+<include driver-storage-arcmsr.inc>
+<include driver-storage-ata.inc>
+<include driver-storage-blkdev.inc>
+<include driver-storage-cpqary3.inc>
+<include driver-storage-mega_sas.inc>
+<include driver-storage-mpt_sas.inc>
+<include driver-storage-mr_sas.inc>
+<include driver-storage-nv_sata.inc>
+<include driver-storage-nvme.inc>
+<include driver-storage-pmcs.inc>
+<include driver-storage-pvscsi.inc>
+<include driver-storage-sbp2.inc>
+<include driver-storage-scsa1394.inc>
+<include driver-storage-sdcard.inc>
+<include driver-storage-ses.inc>
+<include driver-storage-si3124.inc>
+<include driver-storage-skd.inc>
+<include driver-storage-smp.inc>
+<include driver-storage-vioblk.inc>
+<include driver-usb-ugen.inc>
+<include driver-usb-usbgem.inc>
+<include driver-usb.inc>
+<include driver-x11-winlock.inc>
+<include driver-x11-xsvc.inc>
+set name=pkg.fmri value=pkg:/system/kernel@$(PKGVERS)
+set name=pkg.description \
+    value="core kernel software for a specific instruction-set architecture"
+set name=pkg.summary value="Core Kernel"
+set name=info.classification value=org.opensolaris.category.2008:System/Core
+set name=variant.arch value=$(ARCH)
+dir path=boot group=sys
+dir path=boot/acpi group=sys
+dir path=boot/acpi/tables group=sys
+dir path=boot/solaris group=sys
+dir path=boot/solaris/bin group=sys
+dir path=dev group=sys
+dir path=dev/dsk group=sys
+dir path=dev/fd group=root mode=0555
+dir path=dev/ipnet group=sys
+dir path=dev/net group=sys
+dir path=dev/pts group=sys
+dir path=dev/rdsk group=sys
+dir path=dev/rmt group=sys
+dir path=dev/sad group=sys
+dir path=dev/swap group=sys
+dir path=dev/term group=root
+dir path=dev/vt group=sys
+dir path=dev/zcons group=sys
+dir path=devices group=sys
+dir path=devices/pseudo group=sys
+dir path=etc group=sys
+dir path=etc/crypto group=sys
+dir path=etc/rcm group=sys
+dir path=etc/rcm/scripts group=sys
+dir path=etc/security group=sys
+dir path=etc/sock2path.d group=sys
+dir path=kernel group=sys
+dir path=kernel/crypto group=sys
+dir path=kernel/dacf group=sys
+dir path=kernel/drv group=sys
+dir path=kernel/exec group=sys
+dir path=kernel/firmware group=sys
+dir path=kernel/fs group=sys
+dir path=kernel/ipp group=sys
+dir path=kernel/kiconv group=sys
+dir path=kernel/mac group=sys
+dir path=kernel/misc group=sys
+dir path=kernel/misc/scsi_vhci group=sys
+dir path=kernel/sched group=sys
+dir path=kernel/socketmod group=sys
+dir path=kernel/strmod group=sys
+dir path=kernel/sys group=sys
+dir path=lib
+dir path=lib/svc
+dir path=lib/svc/manifest group=sys
+dir path=lib/svc/manifest/system group=sys
+dir path=lib/svc/method
+dir path=usr/kernel group=sys
+dir path=usr/kernel/drv group=sys
+dir path=usr/kernel/exec group=sys
+dir path=usr/kernel/fs group=sys
+dir path=usr/kernel/pcbe group=sys
+dir path=usr/kernel/strmod group=sys
+dir path=usr/kernel/sys group=sys
+dir path=usr/share/man
+dir path=usr/share/man/man2
+dir path=usr/share/man/man3
+dir path=usr/share/man/man4
+dir path=usr/share/man/man5
+dir path=usr/share/man/man7d
+dir path=usr/share/man/man7fs
+dir path=usr/share/man/man7m
+dir path=usr/share/man/man7p
+dir path=usr/share/man/man8
+dir path=usr/share/man/man9
+dir path=usr/share/man/man9e
+dir path=usr/share/man/man9f
+dir path=usr/share/man/man9p
+dir path=usr/share/man/man9s
+driver name=acpi_drv perms="* 0666 root sys"
+driver name=aggr perms="* 0666 root sys"
+driver name=arp perms="arp 0666 root sys"
+driver name=bl perms="* 0666 root sys"
+driver name=bridge clone_perms="bridge 0666 root sys" \
+    policy="read_priv_set=net_rawaccess write_priv_set=net_rawaccess"
+driver name=bscbus alias=SVI0101
+driver name=bscv
+driver name=clone
+driver name=cn perms="* 0620 root tty"
+driver name=conskbd perms="kbd 0666 root sys"
+driver name=consms perms="mouse 0666 root sys"
+driver name=cpuid perms="self 0644 root sys"
+driver name=cpunex alias=cpus
+driver name=crypto perms="crypto 0666 root sys"
+driver name=cryptoadm perms="cryptoadm 0644 root sys"
+driver name=devinfo perms="devinfo 0640 root sys" \
+    perms="devinfo,ro 0444 root sys"
+driver name=dld perms="* 0666 root sys"
+driver name=dlpistub perms="* 0666 root sys"
+driver name=i8042
+driver name=icmp perms="icmp 0666 root sys" \
+    policy="read_priv_set=net_icmpaccess write_priv_set=net_icmpaccess"
+driver name=icmp6 perms="icmp6 0666 root sys" \
+    policy="read_priv_set=net_icmpaccess write_priv_set=net_icmpaccess"
+driver name=intel_nb5000 \
+    alias=pci8086,25c0 \
+    alias=pci8086,25d0 \
+    alias=pci8086,25d4 \
+    alias=pci8086,25d8 \
+    alias=pci8086,3600 \
+    alias=pci8086,4000 \
+    alias=pci8086,4001 \
+    alias=pci8086,4003 \
+    alias=pci8086,65c0
+driver name=intel_nhm \
+    alias=pci8086,3423 \
+    alias=pci8086,372a
+driver name=ip perms="ip 0666 root sys" \
+    policy="read_priv_set=net_rawaccess write_priv_set=net_rawaccess"
+driver name=ip6 perms="ip6 0666 root sys" \
+    policy="read_priv_set=net_rawaccess write_priv_set=net_rawaccess"
+driver name=ipnet perms="lo0 0666 root sys" \
+    policy="read_priv_set=net_observability write_priv_set=net_observability"
+driver name=ippctl
+driver name=ipsecah perms="ipsecah 0666 root sys" \
+    policy="read_priv_set=sys_ip_config write_priv_set=sys_ip_config"
+driver name=ipsecesp perms="ipsecesp 0666 root sys" \
+    policy="read_priv_set=sys_ip_config write_priv_set=sys_ip_config"
+driver name=iptun
+driver name=iwscn
+driver name=kb8042 alias=pnpPNP,303
+driver name=keysock perms="keysock 0666 root sys" \
+    policy="read_priv_set=sys_ip_config write_priv_set=sys_ip_config"
+driver name=kmdb
+driver name=llc1 clone_perms="llc1 0666 root sys"
+driver name=lofi perms="* 0600 root sys" perms="ctl 0644 root sys"
+driver name=log perms="conslog 0666 root sys" perms="log 0640 root sys"
+driver name=mc-amd \
+    alias=pci1022,1100 \
+    alias=pci1022,1101 \
+    alias=pci1022,1102
+driver name=mm perms="allkmem 0600 root sys" perms="full 0666 root sys" \
+    perms="kmem 0640 root sys" perms="mem 0640 root sys" \
+    perms="null 0666 root sys" perms="zero 0666 root sys" \
+    policy="allkmem read_priv_set=all write_priv_set=all" \
+    policy="kmem read_priv_set=none write_priv_set=all" \
+    policy="mem read_priv_set=none write_priv_set=all"
+driver name=mouse8042 alias=pnpPNP,f03
+driver name=nulldriver \
+    alias=scsa,nodev \
+    alias=scsa,probe
+driver name=openeepr perms="openprom 0640 root sys" policy=write_priv_set=all
+driver name=options
+driver name=pci_pci class=pci \
+    alias=pci1011,1 \
+    alias=pci1011,21 \
+    alias=pci1014,22 \
+    alias=pciclass,060400 \
+    alias=pciclass,060401
+driver name=pcieb \
+    alias=pciexclass,060400 \
+    alias=pciexclass,060401
+driver name=physmem perms="* 0600 root sys"
+driver name=poll perms="* 0666 root sys"
+driver name=power
+driver name=pseudo alias=zconsnex
+driver name=ptc perms="* 0666 root sys"
+driver name=ptsl perms="* 0666 root sys"
+driver name=ramdisk perms="* 0600 root sys" perms="ctl 0644 root sys"
+driver name=random perms="* 0644 root sys" policy=write_priv_set=sys_devices
+driver name=rts perms="rts 0666 root sys"
+driver name=sad perms="admin 0666 root sys" perms="user 0666 root sys"
+driver name=scsi_vhci class=scsi-self-identifying perms="* 0666 root sys" \
+    policy="devctl write_priv_set=sys_devices"
+driver name=sd perms="* 0640 root sys" \
+    alias=scsiclass,00 \
+    alias=scsiclass,05
+driver name=sgen perms="* 0600 root sys" \
+    alias=scsa,08.bfcp \
+    alias=scsa,08.bvhci
+driver name=signalfd perms="* 0666 root sys"
+driver name=simnet clone_perms="simnet 0666 root sys" perms="* 0666 root sys"
+driver name=smbios perms="smbios 0444 root sys"
+driver name=softmac
+driver name=spdsock perms="spdsock 0666 root sys" \
+    policy="read_priv_set=sys_ip_config write_priv_set=sys_ip_config"
+driver name=st alias=scsiclass,01 perms="* 0666 root sys"
+driver name=sy perms="tty 0666 root tty"
+driver name=sysevent perms="* 0600 root sys"
+driver name=sysmsg perms="msglog 0600 root sys" perms="sysmsg 0600 root sys"
+driver name=tcp perms="tcp 0666 root sys"
+driver name=tcp6 perms="tcp6 0666 root sys"
+driver name=tl perms="* 0666 root sys" clone_perms="ticlts 0666 root sys" \
+    clone_perms="ticots 0666 root sys" clone_perms="ticotsord 0666 root sys"
+driver name=tzmon
+driver name=ucode perms="* 0644 root sys"
+driver name=udp perms="udp 0666 root sys"
+driver name=udp6 perms="udp6 0666 root sys"
+driver name=vgatext \
+    alias=pciclass,000100 \
+    alias=pciclass,030000 \
+    alias=pciclass,030001 \
+    alias=pnpPNP,900
+driver name=vnic clone_perms="vnic 0666 root sys" perms="* 0666 root sys"
+driver name=wc perms="* 0600 root sys"
+file path=boot/solaris/bin/create_ramdisk group=sys mode=0555
+file path=boot/solaris/bin/extract_boot_filelist group=sys mode=0555
+file path=boot/solaris/bin/symdef group=sys mode=0555
+file path=boot/solaris/filelist.ramdisk group=sys
+file path=boot/solaris/filelist.safe group=sys
+file path=etc/crypto/kcf.conf group=sys preserve=true
+file path=etc/dacf.conf group=sys
+file path=etc/devlink.tab group=sys preserve=true
+file path=etc/driver_aliases group=sys preserve=true
+file path=etc/driver_classes group=sys preserve=true
+file path=etc/iu.ap group=sys preserve=true
+file path=etc/mach group=sys preserve=true
+file path=etc/minor_perm group=sys preserve=true
+file path=etc/name_to_major group=sys preserve=true
+file path=etc/name_to_sysnum group=sys preserve=renameold
+file path=etc/path_to_inst group=root mode=0444 preserve=true
+file path=etc/security/device_policy group=sys preserve=true
+file path=etc/security/extra_privs group=sys preserve=true
+file path=etc/sock2path.d/system%2Fkernel group=sys
+file path=etc/system group=sys preserve=true
+file path=kernel/crypto/aes group=sys mode=0755
+file path=kernel/crypto/arcfour group=sys mode=0755
+file path=kernel/crypto/blowfish group=sys mode=0755
+file path=kernel/crypto/des group=sys mode=0755
+file path=kernel/crypto/ecc group=sys mode=0755
+file path=kernel/crypto/edonr group=sys mode=0755
+file path=kernel/crypto/md4 group=sys mode=0755
+file path=kernel/crypto/md5 group=sys mode=0755
+file path=kernel/crypto/rsa group=sys mode=0755
+file path=kernel/crypto/sha1 group=sys mode=0755
+file path=kernel/crypto/sha2 group=sys mode=0755
+file path=kernel/crypto/skein group=sys mode=0755
+file path=kernel/crypto/swrand group=sys mode=0755
+file path=kernel/dacf/net_dacf group=sys mode=0755
+file path=kernel/drv/acpi_drv group=sys
+file path=kernel/drv/acpi_drv.conf group=sys
+file path=kernel/drv/aggr group=sys
+file path=kernel/drv/aggr.conf group=sys
+file path=kernel/drv/arp group=sys
+file path=kernel/drv/arp.conf group=sys
+file path=kernel/drv/bl group=sys
+file path=kernel/drv/bl.conf group=sys
+file path=kernel/drv/bridge group=sys
+file path=kernel/drv/bridge.conf group=sys
+file path=kernel/drv/bscbus group=sys
+file path=kernel/drv/bscbus.conf group=sys
+file path=kernel/drv/bscv group=sys
+file path=kernel/drv/bscv.conf group=sys
+file path=kernel/drv/clone group=sys
+file path=kernel/drv/clone.conf group=sys
+file path=kernel/drv/cn group=sys
+file path=kernel/drv/cn.conf group=sys
+file path=kernel/drv/conskbd group=sys
+file path=kernel/drv/conskbd.conf group=sys
+file path=kernel/drv/consms group=sys
+file path=kernel/drv/consms.conf group=sys
+file path=kernel/drv/cpuid group=sys
+file path=kernel/drv/cpuid.conf group=sys
+file path=kernel/drv/cpunex group=sys
+file path=kernel/drv/crypto group=sys
+file path=kernel/drv/crypto.conf group=sys
+file path=kernel/drv/cryptoadm group=sys
+file path=kernel/drv/cryptoadm.conf group=sys
+file path=kernel/drv/devinfo group=sys
+file path=kernel/drv/devinfo.conf group=sys
+file path=kernel/drv/dld group=sys
+file path=kernel/drv/dld.conf group=sys
+file path=kernel/drv/dlpistub group=sys
+file path=kernel/drv/dlpistub.conf group=sys
+file path=kernel/drv/i8042 group=sys
+file path=kernel/drv/icmp group=sys
+file path=kernel/drv/icmp.conf group=sys
+file path=kernel/drv/icmp6 group=sys
+file path=kernel/drv/icmp6.conf group=sys
+file path=kernel/drv/intel_nb5000 group=sys
+file path=kernel/drv/intel_nb5000.conf group=sys
+file path=kernel/drv/intel_nhm group=sys
+file path=kernel/drv/intel_nhm.conf group=sys
+file path=kernel/drv/ip group=sys
+file path=kernel/drv/ip.conf group=sys
+file path=kernel/drv/ip6 group=sys
+file path=kernel/drv/ip6.conf group=sys
+file path=kernel/drv/ipnet group=sys
+file path=kernel/drv/ipnet.conf group=sys
+file path=kernel/drv/ippctl group=sys
+file path=kernel/drv/ippctl.conf group=sys
+file path=kernel/drv/ipsecah group=sys
+file path=kernel/drv/ipsecah.conf group=sys
+file path=kernel/drv/ipsecesp group=sys
+file path=kernel/drv/ipsecesp.conf group=sys
+file path=kernel/drv/iptun group=sys
+file path=kernel/drv/iptun.conf group=sys
+file path=kernel/drv/iwscn group=sys
+file path=kernel/drv/iwscn.conf group=sys
+file path=kernel/drv/kb8042 group=sys
+file path=kernel/drv/keysock group=sys
+file path=kernel/drv/keysock.conf group=sys
+file path=kernel/drv/kmdb group=sys
+file path=kernel/drv/kmdb.conf group=sys
+file path=kernel/drv/llc1 group=sys
+file path=kernel/drv/llc1.conf group=sys
+file path=kernel/drv/lofi group=sys
+file path=kernel/drv/lofi.conf group=sys
+file path=kernel/drv/log group=sys
+file path=kernel/drv/log.conf group=sys preserve=true
+file path=kernel/drv/mc-amd group=sys
+file path=kernel/drv/mc-amd.conf group=sys
+file path=kernel/drv/mm group=sys
+file path=kernel/drv/mm.conf group=sys
+file path=kernel/drv/mouse8042 group=sys
+file path=kernel/drv/nulldriver group=sys
+file path=kernel/drv/openeepr group=sys
+file path=kernel/drv/openeepr.conf group=sys
+file path=kernel/drv/options group=sys
+file path=kernel/drv/options.conf group=sys
+file path=kernel/drv/pci_pci group=sys
+file path=kernel/drv/pcieb group=sys
+file path=kernel/drv/pcieb.conf group=sys
+file path=kernel/drv/physmem group=sys
+file path=kernel/drv/physmem.conf group=sys
+file path=kernel/drv/poll group=sys
+file path=kernel/drv/poll.conf group=sys
+file path=kernel/drv/power group=sys
+file path=kernel/drv/power.conf group=sys
+file path=kernel/drv/pseudo group=sys
+file path=kernel/drv/pseudo.conf group=sys
+file path=kernel/drv/ptc group=sys
+file path=kernel/drv/ptc.conf group=sys
+file path=kernel/drv/ptsl group=sys
+file path=kernel/drv/ptsl.conf group=sys
+file path=kernel/drv/ramdisk group=sys
+file path=kernel/drv/ramdisk.conf group=sys
+file path=kernel/drv/random group=sys
+file path=kernel/drv/random.conf group=sys
+file path=kernel/drv/rts group=sys
+file path=kernel/drv/rts.conf group=sys
+file path=kernel/drv/sad group=sys
+file path=kernel/drv/sad.conf group=sys
+file path=kernel/drv/scsi_vhci group=sys
+file path=kernel/drv/scsi_vhci.conf group=sys preserve=true
+file path=kernel/drv/sd group=sys
+file path=kernel/drv/sd.conf group=sys preserve=true
+file path=kernel/drv/sgen group=sys
+file path=kernel/drv/sgen.conf group=sys preserve=true
+file path=kernel/drv/simnet group=sys
+file path=kernel/drv/simnet.conf group=sys
+file path=kernel/drv/smbios group=sys
+file path=kernel/drv/smbios.conf group=sys
+file path=kernel/drv/softmac group=sys
+file path=kernel/drv/softmac.conf group=sys
+file path=kernel/drv/spdsock group=sys
+file path=kernel/drv/spdsock.conf group=sys
+file path=kernel/drv/st group=sys
+file path=kernel/drv/st.conf group=sys preserve=true
+file path=kernel/drv/sy group=sys
+file path=kernel/drv/sy.conf group=sys
+file path=kernel/drv/sysevent group=sys
+file path=kernel/drv/sysevent.conf group=sys
+file path=kernel/drv/sysmsg group=sys
+file path=kernel/drv/sysmsg.conf group=sys
+file path=kernel/drv/tcp group=sys
+file path=kernel/drv/tcp.conf group=sys
+file path=kernel/drv/tcp6 group=sys
+file path=kernel/drv/tcp6.conf group=sys
+file path=kernel/drv/tl group=sys
+file path=kernel/drv/tl.conf group=sys
+file path=kernel/drv/tzmon group=sys
+file path=kernel/drv/tzmon.conf group=sys
+file path=kernel/drv/ucode group=sys
+file path=kernel/drv/ucode.conf group=sys
+file path=kernel/drv/udp group=sys
+file path=kernel/drv/udp.conf group=sys
+file path=kernel/drv/udp6 group=sys
+file path=kernel/drv/udp6.conf group=sys
+file path=kernel/drv/vgatext group=sys
+file path=kernel/drv/vnic group=sys
+file path=kernel/drv/vnic.conf group=sys
+file path=kernel/drv/wc group=sys
+file path=kernel/drv/wc.conf group=sys
+file path=kernel/exec/elfexec group=sys mode=0755
+file path=kernel/exec/intpexec group=sys mode=0755
+file path=kernel/fs/autofs group=sys mode=0755
+file path=kernel/fs/bootfs group=sys mode=0755
+file path=kernel/fs/ctfs group=sys mode=0755
+file path=kernel/fs/dcfs group=sys mode=0755
+file path=kernel/fs/dev group=sys mode=0755
+file path=kernel/fs/devfs group=sys mode=0755
+file path=kernel/fs/fdfs group=sys mode=0755
+file path=kernel/fs/fifofs group=sys mode=0755
+file path=kernel/fs/hsfs group=sys mode=0755
+file path=kernel/fs/lofs group=sys mode=0755
+file path=kernel/fs/mntfs group=sys mode=0755
+file path=kernel/fs/namefs group=sys mode=0755
+file path=kernel/fs/objfs group=sys mode=0755
+file path=kernel/fs/pcfs group=sys mode=0755
+file path=kernel/fs/procfs group=sys mode=0755
+file path=kernel/fs/sharefs group=sys mode=0755
+file path=kernel/fs/sockfs group=sys mode=0755
+file path=kernel/fs/specfs group=sys mode=0755
+file path=kernel/fs/tmpfs group=sys mode=0755
+file path=kernel/fs/ufs group=sys mode=0755
+file path=kernel/genunix group=sys mode=0755
+file path=kernel/ipp/ipgpc group=sys mode=0755
+file path=kernel/kiconv/kiconv_emea group=sys mode=0755
+file path=kernel/kiconv/kiconv_ja group=sys mode=0755
+file path=kernel/kiconv/kiconv_ko group=sys mode=0755
+file path=kernel/kiconv/kiconv_sc group=sys mode=0755
+file path=kernel/kiconv/kiconv_tc group=sys mode=0755
+file path=kernel/mac/mac_6to4 group=sys mode=0755
+file path=kernel/mac/mac_ether group=sys mode=0755
+file path=kernel/mac/mac_ib group=sys mode=0755
+file path=kernel/mac/mac_ipv4 group=sys mode=0755
+file path=kernel/mac/mac_ipv6 group=sys mode=0755
+file path=kernel/mac/mac_wifi group=sys mode=0755
+file path=kernel/misc/acpica group=sys mode=0755
+file path=kernel/misc/bignum group=sys mode=0755
+file path=kernel/misc/bootdev group=sys mode=0755
+file path=kernel/misc/busra group=sys mode=0755
+file path=kernel/misc/cmlb group=sys mode=0755
+file path=kernel/misc/consconfig group=sys mode=0755
+file path=kernel/misc/ctf group=sys mode=0755
+file path=kernel/misc/dls group=sys mode=0755
+file path=kernel/misc/fssnap_if group=sys mode=0755
+file path=kernel/misc/gld group=sys mode=0755
+file path=kernel/misc/hook group=sys mode=0755
+file path=kernel/misc/hpcsvc group=sys mode=0755
+file path=kernel/misc/idmap group=sys mode=0755
+file path=kernel/misc/iommulib group=sys mode=0755
+file path=kernel/misc/ipc group=sys mode=0755
+file path=kernel/misc/kbtrans group=sys mode=0755
+file path=kernel/misc/kcf group=sys mode=0755
+file path=kernel/misc/kmdbmod group=sys mode=0755
+file path=kernel/misc/ksocket group=sys mode=0755
+file path=kernel/misc/mac group=sys mode=0755
+file path=kernel/misc/mii group=sys mode=0755
+file path=kernel/misc/net80211 group=sys mode=0755
+file path=kernel/misc/neti group=sys mode=0755
+file path=kernel/misc/pci_autoconfig group=sys mode=0755
+file path=kernel/misc/pcicfg group=sys mode=0755
+file path=kernel/misc/pcie group=sys mode=0755
+file path=kernel/misc/pcihp group=sys mode=0755
+file path=kernel/misc/rpcsec group=sys mode=0755
+file path=kernel/misc/sata group=sys mode=0755
+file path=kernel/misc/scsi group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_asym_sun group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_sym group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_sym_hds group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_tape group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_tpgs group=sys mode=0755
+file path=kernel/misc/scsi_vhci/scsi_vhci_f_tpgs_tape group=sys mode=0755
+file path=kernel/misc/strplumb group=sys mode=0755
+file path=kernel/misc/tem group=sys mode=0755
+file path=kernel/misc/tlimod group=sys mode=0755
+file path=kernel/sched/FX group=sys mode=0755
+file path=kernel/sched/FX_DPTBL group=sys mode=0755
+file path=kernel/sched/IA group=sys mode=0755
+file path=kernel/sched/RT group=sys mode=0755
+file path=kernel/sched/RT_DPTBL group=sys mode=0755
+file path=kernel/sched/SDC group=sys mode=0755
+file path=kernel/sched/TS group=sys mode=0755
+file path=kernel/sched/TS_DPTBL group=sys mode=0755
+file path=kernel/socketmod/datafilt group=sys mode=0755
+file path=kernel/socketmod/httpfilt group=sys mode=0755
+file path=kernel/socketmod/socksctp group=sys mode=0755
+file path=kernel/socketmod/trill group=sys mode=0755
+file path=kernel/strmod/bufmod group=sys mode=0755
+file path=kernel/strmod/connld group=sys mode=0755
+file path=kernel/strmod/dedump group=sys mode=0755
+file path=kernel/strmod/drcompat group=sys mode=0755
+file path=kernel/strmod/ldterm group=sys mode=0755
+file path=kernel/strmod/pckt group=sys mode=0755
+file path=kernel/strmod/pfmod group=sys mode=0755
+file path=kernel/strmod/pipemod group=sys mode=0755
+file path=kernel/strmod/ptem group=sys mode=0755
+file path=kernel/strmod/redirmod group=sys mode=0755
+file path=kernel/strmod/rpcmod group=sys mode=0755
+file path=kernel/strmod/timod group=sys mode=0755
+file path=kernel/strmod/tirdwr group=sys mode=0755
+file path=kernel/strmod/ttcompat group=sys mode=0755
+file path=kernel/sys/doorfs group=sys mode=0755
+file path=kernel/sys/inst_sync group=sys mode=0755
+file path=kernel/sys/kaio group=sys mode=0755
+file path=kernel/sys/msgsys group=sys mode=0755
+file path=kernel/sys/pipe group=sys mode=0755
+file path=kernel/sys/portfs group=sys mode=0755
+file path=kernel/sys/pset group=sys mode=0755
+file path=kernel/sys/semsys group=sys mode=0755
+file path=kernel/sys/shmsys group=sys mode=0755
+file path=lib/svc/manifest/system/dumpadm.xml group=sys mode=0444
+file path=lib/svc/manifest/system/intrd.xml group=sys mode=0444
+file path=lib/svc/manifest/system/scheduler.xml group=sys mode=0444
+file path=lib/svc/manifest/system/sysevent.xml group=sys mode=0444
+file path=lib/svc/method/svc-dumpadm mode=0555
+file path=lib/svc/method/svc-intrd mode=0555
+file path=lib/svc/method/svc-scheduler mode=0555
+file path=lib/svc/method/svc-syseventd mode=0555
+file path=usr/kernel/drv/dump group=sys
+file path=usr/kernel/drv/dump.conf group=sys
+file path=usr/kernel/drv/eventfd group=sys
+file path=usr/kernel/drv/eventfd.conf group=sys
+file path=usr/kernel/drv/fssnap group=sys
+file path=usr/kernel/drv/fssnap.conf group=sys
+file path=usr/kernel/drv/kstat group=sys
+file path=usr/kernel/drv/kstat.conf group=sys
+file path=usr/kernel/drv/ksyms group=sys
+file path=usr/kernel/drv/ksyms.conf group=sys
+file path=usr/kernel/drv/logindmux group=sys
+file path=usr/kernel/drv/logindmux.conf group=sys
+file path=usr/kernel/drv/ptm group=sys
+file path=usr/kernel/drv/ptm.conf group=sys
+file path=usr/kernel/drv/pts group=sys
+file path=usr/kernel/drv/pts.conf group=sys
+file path=usr/kernel/drv/signalfd group=sys
+file path=usr/kernel/drv/signalfd.conf group=sys
+file path=usr/kernel/drv/timerfd group=sys
+file path=usr/kernel/drv/timerfd.conf group=sys
+file path=usr/kernel/exec/javaexec group=sys mode=0755
+file path=usr/kernel/strmod/cryptmod group=sys mode=0755
+file path=usr/kernel/strmod/rlmod group=sys mode=0755
+file path=usr/kernel/strmod/telmod group=sys mode=0755
+file path=usr/kernel/sys/acctctl group=sys mode=0755
+file path=usr/kernel/sys/exacctsys group=sys mode=0755
+file path=usr/kernel/sys/sysacct group=sys mode=0755
+# On SPARC driver/bscv is Serverblade1 specific, and in system/kernel/platform
+# We keep the manual page generic
+file path=usr/share/man/man7d/smbios.7d
+# Sadly vuid mouse support is in different packages on different platforms
+# While kstat(7D) is in SUNWcs, the structures are general
+hardlink path=kernel/misc/edonr target=../../kernel/crypto/edonr
+hardlink path=kernel/misc/md5 target=../../kernel/crypto/md5
+hardlink path=kernel/misc/sha1 target=../../kernel/crypto/sha1
+hardlink path=kernel/misc/sha2 target=../../kernel/crypto/sha2
+hardlink path=kernel/misc/skein target=../../kernel/crypto/skein
+hardlink path=kernel/socketmod/icmp target=../../kernel/drv/icmp
+hardlink path=kernel/socketmod/rts target=../../kernel/drv/rts
+hardlink path=kernel/socketmod/tcp target=../../kernel/drv/tcp
+hardlink path=kernel/socketmod/udp target=../../kernel/drv/udp
+hardlink path=kernel/strmod/arp target=../../kernel/drv/arp
+hardlink path=kernel/strmod/icmp target=../../kernel/drv/icmp
+hardlink path=kernel/strmod/ip target=../../kernel/drv/ip
+hardlink path=kernel/strmod/ipsecah target=../../kernel/drv/ipsecah
+hardlink path=kernel/strmod/ipsecesp target=../../kernel/drv/ipsecesp
+hardlink path=kernel/strmod/keysock target=../../kernel/drv/keysock
+hardlink path=kernel/strmod/tcp target=../../kernel/drv/tcp
+hardlink path=kernel/strmod/udp target=../../kernel/drv/udp
+hardlink path=kernel/sys/autofs target=../../kernel/fs/autofs
+hardlink path=kernel/sys/rpcmod target=../../kernel/strmod/rpcmod
+license cr_Sun license=cr_Sun
+license include/sys/THIRDPARTYLICENSE.firmload \
+    license=include/sys/THIRDPARTYLICENSE.firmload
+license include/sys/THIRDPARTYLICENSE.icu \
+    license=include/sys/THIRDPARTYLICENSE.icu
+license include/sys/THIRDPARTYLICENSE.unicode \
+    license=include/sys/THIRDPARTYLICENSE.unicode
+license kernel/net/ip/THIRDPARTYLICENSE.rts \
+    license=kernel/net/ip/THIRDPARTYLICENSE.rts
+license kernel/net/tcp/THIRDPARTYLICENSE \
+    license=kernel/net/tcp/THIRDPARTYLICENSE
+license lic_CDDL license=lic_CDDL
+license usr/src/cmd/mdb/common/libstand/THIRDPARTYLICENSE \
+    license=usr/src/cmd/mdb/common/libstand/THIRDPARTYLICENSE
+license usr/src/common/bzip2/LICENSE license=usr/src/common/bzip2/LICENSE
+license usr/src/common/crypto/THIRDPARTYLICENSE.cryptogams \
+    license=usr/src/common/crypto/THIRDPARTYLICENSE.cryptogams
+license usr/src/common/crypto/aes/amd64/THIRDPARTYLICENSE.gladman \
+    license=usr/src/common/crypto/aes/amd64/THIRDPARTYLICENSE.gladman
+license usr/src/common/crypto/aes/amd64/THIRDPARTYLICENSE.openssl \
+    license=usr/src/common/crypto/aes/amd64/THIRDPARTYLICENSE.openssl
+license usr/src/common/crypto/ecc/THIRDPARTYLICENSE \
+    license=usr/src/common/crypto/ecc/THIRDPARTYLICENSE
+license usr/src/common/crypto/md5/amd64/THIRDPARTYLICENSE \
+    license=usr/src/common/crypto/md5/amd64/THIRDPARTYLICENSE
+license usr/src/common/mpi/THIRDPARTYLICENSE \
+    license=usr/src/common/mpi/THIRDPARTYLICENSE
+license usr/src/uts/common/io/THIRDPARTYLICENSE.etheraddr \
+    license=usr/src/uts/common/io/THIRDPARTYLICENSE.etheraddr
+license usr/src/uts/intel/io/acpica/THIRDPARTYLICENSE \
+    license=usr/src/uts/intel/io/acpica/THIRDPARTYLICENSE
+link path=boot/solaris/bin/root_archive target=../../../usr/sbin/root_archive
+link path=dev/dld target=../devices/pseudo/dld@0:ctl
+link path=dev/stderr target=./fd/2
+link path=dev/stdin target=./fd/0
+link path=dev/stdout target=./fd/1
+link path=kernel/misc/des target=../../kernel/crypto/des

@@ -1,0 +1,104 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2012 Nexenta Systems, Inc. All rights reserved.
+#
+
+set name=pkg.fmri value=pkg:/diagnostic/cpu-counters@$(PKGVERS)
+set name=pkg.description \
+    value="CPU Performance Counter libraries and utilities"
+set name=pkg.summary value="CPU Performance Counter libraries and utilities"
+set name=info.classification value=org.opensolaris.category.2008:System/Core
+set name=variant.arch value=$(ARCH)
+dir path=usr group=sys
+dir path=usr/bin
+dir path=usr/bin/$(ARCH32)
+dir path=usr/bin/$(ARCH64)
+dir path=usr/include
+dir path=usr/include/sys
+dir path=usr/kernel group=sys
+dir path=usr/kernel/pcbe group=sys
+dir path=usr/lib
+dir path=usr/lib/$(ARCH32)
+dir path=usr/sbin
+dir path=usr/share/man/man1
+dir path=usr/share/man/man3cpc
+dir path=usr/share/man/man3lib
+dir path=usr/share/man/man8
+file path=usr/bin/$(ARCH32)/cputrack mode=0555
+file path=usr/bin/$(ARCH64)/cputrack mode=0555
+file path=usr/include/libcpc.h
+file path=usr/include/libpctx.h
+file path=usr/kernel/pcbe/pcbe.AuthenticAMD group=sys mode=0755
+file path=usr/kernel/pcbe/pcbe.GenuineIntel.15 group=sys mode=0755
+file path=usr/kernel/pcbe/pcbe.GenuineIntel.6.15 group=sys mode=0755
+file path=usr/lib/$(ARCH32)/libcpc.so.1
+file path=usr/lib/$(ARCH32)/libpctx.so.1
+file path=usr/lib/libcpc.so.1
+file path=usr/lib/libpctx.so.1
+file path=usr/sbin/cpustat mode=0555
+file path=usr/share/man/man1/cputrack.1
+file path=usr/share/man/man3cpc/cpc.3cpc
+file path=usr/share/man/man3cpc/cpc_access.3cpc
+file path=usr/share/man/man3cpc/cpc_bind_curlwp.3cpc
+file path=usr/share/man/man3cpc/cpc_bind_event.3cpc
+file path=usr/share/man/man3cpc/cpc_buf_create.3cpc
+file path=usr/share/man/man3cpc/cpc_count_usr_events.3cpc
+file path=usr/share/man/man3cpc/cpc_enable.3cpc
+file path=usr/share/man/man3cpc/cpc_event.3cpc
+file path=usr/share/man/man3cpc/cpc_event_diff.3cpc
+file path=usr/share/man/man3cpc/cpc_getcpuver.3cpc
+file path=usr/share/man/man3cpc/cpc_npic.3cpc
+file path=usr/share/man/man3cpc/cpc_open.3cpc
+file path=usr/share/man/man3cpc/cpc_pctx_bind_event.3cpc
+file path=usr/share/man/man3cpc/cpc_set_create.3cpc
+file path=usr/share/man/man3cpc/cpc_seterrfn.3cpc
+file path=usr/share/man/man3cpc/cpc_seterrhndlr.3cpc
+file path=usr/share/man/man3cpc/cpc_shared_open.3cpc
+file path=usr/share/man/man3cpc/cpc_strtoevent.3cpc
+file path=usr/share/man/man3cpc/cpc_version.3cpc
+file path=usr/share/man/man3cpc/generic_events.3cpc
+file path=usr/share/man/man3cpc/pctx_capture.3cpc
+file path=usr/share/man/man3cpc/pctx_set_events.3cpc
+file path=usr/share/man/man3lib/libcpc.3lib
+file path=usr/share/man/man3lib/libpctx.3lib
+file path=usr/share/man/man8/cpustat.8
+hardlink path=usr/bin/cputrack target=../lib/isaexec
+license cr_Sun license=cr_Sun
+license lic_CDDL license=lic_CDDL
+license usr/src/uts/intel/pcbe/THIRDPARTYLICENSE \
+    license=usr/src/uts/intel/pcbe/THIRDPARTYLICENSE
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.23 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.26 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.28 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.29 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.30 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.31 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.37 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.44 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.46 target=pcbe.GenuineIntel.6.15
+link path=usr/kernel/pcbe/pcbe.GenuineIntel.6.47 target=pcbe.GenuineIntel.6.15
+link path=usr/lib/$(ARCH32)/libcpc.so target=./libcpc.so.1
+link path=usr/lib/$(ARCH32)/libpctx.so target=./libpctx.so.1
+link path=usr/lib/libcpc.so target=./libcpc.so.1
+link path=usr/lib/libpctx.so target=./libpctx.so.1

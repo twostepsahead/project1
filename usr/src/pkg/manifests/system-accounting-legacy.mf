@@ -1,0 +1,2 @@
+set name=pkg.fmri value=pkg:/system/accounting/legacy@$(PKGVERS)
+set name=pkg.obsolete value=true

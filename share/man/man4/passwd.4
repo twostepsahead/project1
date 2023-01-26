@@ -1,0 +1,219 @@
+'\" te
+.\" Copyright (c) 2013 Gary Mills
+.\" Copyright (c) 2004, Sun Microsystems, Inc. All Rights Reserved.
+.\" Copyright 1989 AT&T
+.\" The contents of this file are subject to the terms of the Common Development and Distribution License (the "License").  You may not use this file except in compliance with the License.
+.\" You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE or http://www.opensolaris.org/os/licensing.  See the License for the specific language governing permissions and limitations under the License.
+.\" When distributing Covered Code, include this CDDL HEADER in each file and include the License file at usr/src/OPENSOLARIS.LICENSE.  If applicable, add the following below this CDDL HEADER, with the fields enclosed by brackets "[]" replaced with your own identifying information: Portions Copyright [yyyy] [name of copyright owner]
+.TH PASSWD 4 "Feb 25, 2017"
+.SH NAME
+passwd \- password file
+.SH SYNOPSIS
+.LP
+.nf
+\fB/etc/passwd\fR
+.fi
+
+.SH DESCRIPTION
+.LP
+The file \fB/etc/passwd\fR is a local source of information about users'
+accounts. The password file can be used in conjunction with other naming
+sources, such as the \fBNIS\fR maps \fBpasswd.byname\fR and \fBpasswd.bygid\fR,
+or password data stored on an LDAP
+server. Programs use the \fBgetpwnam\fR(3C) routines to access this
+information.
+.sp
+.LP
+Each \fBpasswd\fR entry is a single line of the form:
+.sp
+.in +2
+.nf
+\fIusername\fR\fB:\fR\fIpassword\fR\fB:\fR\fIuid\fR\fB:\fR
+\fIgid\fR\fB:\fR\fIgcos-field\fR\fB:\fR\fIhome-dir\fR\fB:\fR
+\fIlogin-shell\fR
+.fi
+.in -2
+.sp
+
+.sp
+.LP
+where
+.sp
+.ne 2
+.na
+\fB\fIusername\fR\fR
+.ad
+.RS 15n
+is the user's login name.
+.sp
+The login (\fBlogin\fR) and role (\fBrole\fR) fields accept a string of no more
+than 32 bytes consisting of characters from the set of alphabetic
+characters, numeric characters, period (\fB\&.\fR), underscore (\fB_\fR), and
+hyphen (\fB-\fR). The first character should be alphabetic and the field should
+contain at least one lower case alphabetic character. A warning message is
+displayed if these restrictions are not met.
+.sp
+The \fBlogin\fR and \fBrole\fR fields must contain at least one character and
+must not contain a colon (\fB:\fR) or a newline (\fB\en\fR).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIpassword\fR\fR
+.ad
+.RS 15n
+is an empty field or 'x'. The encrypted password for the user is in the
+corresponding entry in the \fB/etc/shadow\fR file.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIuid\fR\fR
+.ad
+.RS 15n
+is the user's unique numerical \fBID\fR for the system.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIgid\fR\fR
+.ad
+.RS 15n
+is the unique numerical \fBID\fR of the group that the user belongs to.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIgcos-field\fR\fR
+.ad
+.RS 15n
+is the user's real name, along with information to pass along in a mail-message
+heading. (It is called the gcos-field for historical reasons.) An ``\fB&\fR\&''
+(ampersand) in this field stands for the login name (in cases where the login
+name appears in a user's real name).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIhome-dir\fR\fR
+.ad
+.RS 15n
+is the pathname to the directory in which the user is initially positioned upon
+logging in.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fIlogin-shell\fR\fR
+.ad
+.RS 15n
+is the user's initial shell program. If this field is empty, the default shell
+is \fB/usr/bin/sh\fR.
+.RE
+
+.sp
+.LP
+The maximum value of the \fIuid\fR and \fIgid\fR fields is \fB2147483647\fR. To
+maximize interoperability and compatibility, administrators are recommended to
+assign users a range of \fBUID\fRs and \fBGID\fRs below \fB60000\fR where
+possible. (\fBUID\fRs from \fB0\fR-\fB99\fR inclusive are reserved by the
+operating system vendor for use in future applications. Their use by end system
+users or vendors of layered products is not supported and may cause security
+related issues with future applications.)
+.sp
+.LP
+The password file is an \fBASCII\fR file that resides in the \fB/etc\fR
+directory. Because the encrypted passwords on a secure system are always kept
+in the \fBshadow\fR file, \fB/etc/passwd\fR has general read permission on all
+systems and can be used by routines that map between numerical user \fBID\fRs
+and user names.
+.sp
+.LP
+Blank lines are treated as malformed entries in the \fBpasswd\fR file and cause
+consumers of the file , such as \fBgetpwnam\fR(3C), to fail.
+.sp
+.LP
+Appropriate precautions must be taken to lock the \fB/etc/passwd\fR file
+against simultaneous changes if it is to be edited with a text editor;
+\fBvipw\fR(1B) does the necessary locking.
+.SH EXAMPLES
+.LP
+\fBExample 1 \fRSample \fBpasswd\fR File
+.sp
+.LP
+The following is a sample \fBpasswd\fR file:
+
+.sp
+.in +2
+.nf
+root:x:0:1:Super-User:/:/bin/sh
+fred:6k/7KCFRPNVXg:508:10:& Fredericks:/usr2/fred:/bin/csh
+.fi
+.in -2
+.sp
+
+.sp
+.LP
+and the sample password entry from \fBnsswitch.conf\fR:
+
+.sp
+.in +2
+.nf
+passwd: files ldap
+.fi
+.in -2
+.sp
+
+.sp
+.LP
+In this example, there are specific entries for users \fBroot\fR and \fBfred\fR
+to assure that they can login even when the system is running single-user. In
+addition, anyone whose password information is stored on an LDAP server will be
+able to login with their usual password, shell, and home directory.
+.SH FILES
+.ne 2
+.na
+\fB\fB/etc/nsswitch.conf\fR\fR
+.ad
+.RS 22n
+
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/passwd\fR\fR
+.ad
+.RS 22n
+
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/shadow\fR\fR
+.ad
+.RS 22n
+
+.RE
+
+.SH SEE ALSO
+.LP
+\fBchgrp\fR(1), \fBchown\fR(1), \fBfinger\fR(1), \fBgroups\fR(1),
+\fBlogin\fR(1), \fBnewgrp\fR(1), \fBpasswd\fR(1),
+\fBsh\fR(1), \fBsort\fR(1), \fBdomainname\fR(8), \fBgetent\fR(8),
+\fBpassmgmt\fR(8), \fBpwck\fR(8),
+\fBsu\fR(8), \fBuseradd\fR(8), \fBuserdel\fR(8), \fBusermod\fR(8),
+\fBa64l\fR(3C), \fBcrypt\fR(3C), \fBgetpw\fR(3C), \fBgetpwnam\fR(3C),
+\fBgetspnam\fR(3C), \fBputpwent\fR(3C), \fBgroup\fR(4), \fBhosts.equiv\fR(4),
+\fBnsswitch.conf\fR(4), \fBshadow\fR(4), \fBenviron\fR(5),
+\fBunistd.h\fR(3HEAD)
+.sp
+.LP
+\fISystem Administration Guide: Basic Administration\fR

@@ -1,0 +1,108 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+#
+
+set name=pkg.fmri value=pkg:/developer/linker@$(PKGVERS)
+set name=pkg.description \
+    value="utilities for software development, including ld, ldd, od, and truss"
+set name=pkg.summary value="Programming Tools"
+set name=info.classification \
+    value=org.opensolaris.category.2008:Development/System
+set name=variant.arch value=$(ARCH)
+dir path=usr group=sys
+dir path=usr/bin
+dir path=usr/bin/$(ARCH32)
+dir path=usr/bin/$(ARCH64)
+dir path=usr/lib
+dir path=usr/lib/$(ARCH64)
+dir path=usr/lib/abi
+dir path=usr/lib/ld
+dir path=usr/lib/ld/$(ARCH64)
+dir path=usr/lib/link_audit
+dir path=usr/lib/link_audit/$(ARCH64)
+dir path=usr/libexec
+dir path=usr/libexec/$(ARCH32)
+dir path=usr/share/man
+dir path=usr/share/man/man1
+dir path=usr/share/man/man4
+file path=usr/bin/$(ARCH32)/gcore mode=0555
+file path=usr/bin/$(ARCH32)/plimit mode=0555
+file path=usr/bin/$(ARCH32)/strings mode=0555
+file path=usr/bin/$(ARCH32)/truss mode=0555
+file path=usr/bin/$(ARCH64)/elfwrap mode=0555
+file path=usr/bin/$(ARCH64)/gcore mode=0555
+file path=usr/bin/$(ARCH64)/ld.sun mode=0755
+file path=usr/bin/$(ARCH64)/ldd mode=0555
+file path=usr/bin/$(ARCH64)/plimit mode=0555
+file path=usr/bin/$(ARCH64)/pvs mode=0555
+file path=usr/bin/$(ARCH64)/strings mode=0555
+file path=usr/bin/$(ARCH64)/truss mode=0555
+file path=usr/bin/elfsign mode=0555
+file path=usr/bin/elfwrap mode=0555
+file path=usr/bin/exstr mode=0555
+file path=usr/bin/ld.sun mode=0755
+file path=usr/bin/ldd mode=0555
+file path=usr/bin/od mode=0555
+file path=usr/bin/pvs mode=0555
+file path=usr/bin/regcmp mode=0555
+file path=usr/lib/$(ARCH32)/libldstab.so.1
+file path=usr/lib/abi/spec2map mode=0755
+file path=usr/lib/abi/spec2trace mode=0755
+file path=usr/lib/ld/map.above4G mode=0444
+file path=usr/lib/ld/map.below4G mode=0444
+file path=usr/lib/ld/map.bssalign mode=0444
+file path=usr/lib/ld/map.default mode=0444
+file path=usr/lib/ld/map.execdata mode=0444
+file path=usr/lib/ld/map.execstack mode=0444
+file path=usr/lib/ld/map.filter mode=0444
+file path=usr/lib/ld/map.noexbss mode=0444
+file path=usr/lib/ld/map.pagealign mode=0444
+file path=usr/lib/libldstab.so.1
+file path=usr/lib/link_audit/$(ARCH32)/ldprof.so.1
+file path=usr/lib/link_audit/ldprof.so.1
+file path=usr/libexec/$(ARCH32)/lddstub mode=0555
+file path=usr/libexec/lddstub mode=0555
+file path=usr/share/man/man1/elfsign.1
+file path=usr/share/man/man1/elfwrap.1
+file path=usr/share/man/man1/exstr.1
+file path=usr/share/man/man1/gcore.1
+file path=usr/share/man/man1/ld.sun.1
+file path=usr/share/man/man1/ldd.1
+file path=usr/share/man/man1/od.1
+file path=usr/share/man/man1/plimit.1
+file path=usr/share/man/man1/pvs.1
+file path=usr/share/man/man1/regcmp.1
+file path=usr/share/man/man1/strings.1
+file path=usr/share/man/man1/truss.1
+file path=usr/share/man/man4/a.out.4
+hardlink path=usr/bin/gcore target=../../usr/lib/isaexec
+hardlink path=usr/bin/plimit target=../../usr/lib/isaexec
+hardlink path=usr/bin/strings target=../../usr/lib/isaexec
+hardlink path=usr/bin/truss target=../../usr/lib/isaexec
+license cr_ATT license=cr_ATT
+license cr_Sun license=cr_Sun
+license lic_CDDL license=lic_CDDL
+link path=usr/lib/ld/$(ARCH32)/map.above4G target=../map.above4G
+link path=usr/lib/ld/$(ARCH32)/map.below4G target=../map.below4G
+link path=usr/lib/ld/$(ARCH32)/map.default target=../map.default

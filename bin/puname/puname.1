@@ -1,0 +1,45 @@
+.\" Copyright 2017 Lauri Tirkkonen <lotheac@iki.fi>
+.\"
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd Jul 22, 2017
+.Dt PUNAME 1
+.Os
+.Sh NAME
+.Nm puname
+.Nd run a command with legacy uname
+.Sh SYNOPSIS
+.Nm
+.Ar command
+.Op args
+.Sh DESCRIPTION
+The
+.Nm
+utility runs
+.Ar command
+with legacy uname.
+.Xr uname 2
+will return the following values for the command and its child processes:
+.Pp
+.Bl -tag -width sysnameXXX -offset indent -compact
+.It Fa sysname
+SunOS
+.It Fa release
+5.11
+.It Fa version
+legacy-uname
+.El
+.Sh EXIT STATUS
+.Ex -std
+.Sh SEE ALSO
+.Xr uname 2

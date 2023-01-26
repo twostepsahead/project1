@@ -1,0 +1,82 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+#
+# Copyright (c) 2014 Racktop Systems.
+# Copyright 2015, OmniTI Computer Consulting, Inc. All rights reserved.
+# Copyright (c) 2018, Joyent, Inc.
+
+# Link against libc as per solaris specs
+$(PERLEXT):= LDLIBS += -lc
+$(PERLEXT64):= LDLIBS += -lc
+
+# Allow for undefined symbols satisfied by perl
+$(PERLEXT):= ZDEFS =
+$(PERLEXT64):= ZDEFS =
+
+$(ROOTPERLEXT) := FILEMODE = 0555
+$(ROOTPERLMOD) := FILEMODE = 0444
+$(ROOTPERLEXT64) := FILEMODE = 0555
+$(ROOTPERLMOD64) := FILEMODE = 0444
+
+# CFLAGS for perl, specifically.
+PCFLAGS= -DPERL_EUPXS_ALWAYS_EXPORT \
+	-DPERL_USE_SAFE_PUTENV
+PCFLAGS64=-DPERL_EUPXS_ALWAYS_EXPORT \
+	-DPERL_USE_SAFE_PUTENV
+
+SMATCH=off
+
+$(MACH) $(MACH64):
+	$(INS.dir)
+
+# Sorry about this...
+# BUILD.SO doesn't have distinct versions like COMPILE.c/COMPILE64.c does.
+# To that end - we're defining BUILD64.SO here.
+BUILD64.SO=       $(CC) $(CFLAGS64) -o $@ $(GSHARED) $(DYNFLAGS) \
+                $(PICS) $(EXTPICS) -L $(ROOTLIBDIR64) $(LDLIBS)
+
+$(PERLEXT): $(MACH)/$(MODULE).o
+	$(BUILD.SO) $(MACH)/$(MODULE).o
+
+$(PERLEXT64): $(MACH64)/$(MODULE).o
+	$(BUILD64.SO) $(MACH64)/$(MODULE).o
+
+# NOTE: With later version of Perl, we need to define PERL_EUPXS_ALWAYS_EXPORT
+# which is a backward-compatibility definition for the assumes-5.10 stuff here.
+$(MACH)/$(MODULE).o: $(MACH)/$(MODULE).c
+	$(COMPILE.c) $(PCFLAGS) $(C_PICFLAGS) -I$(PERLINCDIR) $< -o $@
+
+$(MACH64)/$(MODULE).o: $(MACH64)/$(MODULE).c
+	$(COMPILE64.c) $(PCFLAGS64) $(C_PICFLAGS) -I$(PERLINCDIR64) $< -o $@
+
+$(MACH)/$(MODULE).c: $(MACH) $(MODULE).xs 
+	ISALIST=$(MACH) $(XSUBPP) $(XSUBPPFLAGS) $(MODULE).xs >$@
+
+$(MACH64)/$(MODULE).c: $(MACH64) $(MODULE).xs
+	ISALIST=$(MACH64) $(XSUBPP) $(XSUBPPFLAGS) $(MODULE).xs >$@
+
+$(ROOTPERLMODDIR) $(ROOTPERLMODDIR64):
+	$(INS.dir)
+
+$(ROOTPERLMOD): $(ROOTPERLMODDIR) $(MODULE).pm
+	$(INS) -m $(FILEMODE) $(MODULE).pm $@
+
+$(ROOTPERLMOD64): $(ROOTPERLMODDIR64) $(MODULE).pm
+	$(INS) -m $(FILEMODE) $(MODULE).pm $@
+
+$(ROOTPERLEXTDIR) $(ROOTPERLEXTDIR64):
+	$(INS.dir)
+
+$(ROOTPERLEXT): $(ROOTPERLEXTDIR) $(MACH)/$(MODULE).so
+	$(INS) -m $(FILEMODE) $(MACH)/$(MODULE).so $@
+
+$(ROOTPERLEXT64): $(ROOTPERLEXTDIR64) $(MACH64)/$(MODULE).so
+	$(INS) -m $(FILEMODE) $(MACH64)/$(MODULE).so $@

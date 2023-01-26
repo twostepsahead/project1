@@ -1,0 +1,2 @@
+set name=pkg.fmri value=pkg:/security/bart@$(PKGVERS)
+set name=pkg.obsolete value=true

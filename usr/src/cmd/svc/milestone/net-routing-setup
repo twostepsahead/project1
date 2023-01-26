@@ -1,0 +1,122 @@
+#!/bin/sh
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+
+# This script configures IP routing.
+
+. /lib/svc/share/smf_include.sh
+
+#
+# In a shared-IP zone we need this service to be up, but all of the work
+# it tries to do is irrelevant (and will actually lead to the service 
+# failing if we try to do it), so just bail out. 
+# In the global zone and exclusive-IP zones we proceed.
+#
+smf_configure_ip || exit $SMF_EXIT_OK
+
+#
+# Configure default IPv4 routers using the local "/etc/defaultrouter"
+# configuration file.  The file can contain the hostnames or IP
+# addresses of one or more default routers.  If hostnames are used,
+# each hostname must also be listed in the local "/etc/hosts" file
+# because NIS is not running at the time that this script is
+# run.  Each router name or address is listed on a single line by
+# itself in the file.  Anything else on that line after the router's
+# name or address is ignored.  Lines that begin with "#" are
+# considered comments and ignored.
+#
+# The default routes listed in the "/etc/defaultrouter" file will
+# replace those added by the kernel during diskless booting.  An
+# empty "/etc/defaultrouter" file will cause the default route
+# added by the kernel to be deleted.
+#
+# Note that the default router file is ignored if we received routes
+# from a DHCP server.  Our policy is to always trust DHCP over local
+# administration.
+#
+smf_netstrategy
+
+if [ "$_INIT_NET_STRATEGY" = "dhcp" ] && \
+    [ -n "`/sbin/dhcpinfo Router`" ]; then
+	defrouters=`/sbin/dhcpinfo Router`
+elif [ -f /etc/defaultrouter ]; then
+	defrouters=`/usr/bin/grep -v \^\# /etc/defaultrouter | \
+	    /usr/bin/awk '{print $1}'`
+	if [ -n "$defrouters" ]; then
+		#
+		# We want the default router(s) listed in
+		# /etc/defaultrouter to replace the one added from the
+		# BOOTPARAMS WHOAMI response but we must avoid flushing
+		# the last route between the running system and its
+		# /usr file system.
+		#
+
+		# First, remember the original route.
+		shift $#
+		set -- `/usr/bin/netstat -rn -f inet | \
+		    /usr/bin/grep '^default'`
+		route_IP="$2"
+
+		#
+		# Next, add those from /etc/defaultrouter.  While doing
+		# this, if one of the routes we add is for the route
+		# previously added as a result of the BOOTPARAMS
+		# response, we will see a message of the form:
+		#       "add net default: gateway a.b.c.d: entry exists"
+		#
+		do_delete=yes
+		for router in $defrouters; do
+			route_added=`/usr/sbin/route -n add default \
+			    -gateway $router`
+			res=$?
+			set -- $route_added
+			[ $res -ne 0 -a "$5" = "$route_IP:" ] && do_delete=no
+		done
+
+		#
+		# Finally, delete the original default route unless it
+		# was also listed in the defaultrouter file.
+		#
+		if [ -n "$route_IP" -a $do_delete = yes ]; then
+			/usr/sbin/route -n delete default \
+			    -gateway $route_IP >/dev/null
+		fi
+	else
+		/usr/sbin/route -fn > /dev/null
+	fi
+else
+	defrouters=
+fi
+
+#
+# Read /etc/inet/static_routes and add each route.
+#
+if [ -f /etc/inet/static_routes ]; then
+	echo "Adding persistent routes:"
+	/usr/bin/egrep -v "^(#|$)" /etc/inet/static_routes | while read line; do
+		/usr/sbin/route add $line
+	done
+fi
+
+# Clear exit status.
+exit $SMF_EXIT_OK

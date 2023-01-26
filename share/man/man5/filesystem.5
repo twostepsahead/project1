@@ -1,0 +1,2003 @@
+.\"
+.\" The contents of this file are subject to the terms of the
+.\" Common Development and Distribution License (the "License").
+.\" You may not use this file except in compliance with the License.
+.\"
+.\" You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+.\" or http://www.opensolaris.org/os/licensing.
+.\" See the License for the specific language governing permissions
+.\" and limitations under the License.
+.\"
+.\" When distributing Covered Code, include this CDDL HEADER in each
+.\" file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+.\" If applicable, add the following below this CDDL HEADER, with the
+.\" fields enclosed by brackets "[]" replaced with your own identifying
+.\" information: Portions Copyright [yyyy] [name of copyright owner]
+.\"
+.\"
+.\" Copyright 1989 AT&T
+.\" Copyright (c) 2008, Sun Microsystems, Inc. All Rights Reserved.
+.\" Copyright 2016 Nexenta Systems, Inc.
+.\" Copyright 2018 Josef 'Jeff' Sipek <jeffpc@josefsipek.net>
+.\"
+.TH FILESYSTEM 5 "Jan 20, 2018"
+.SH NAME
+filesystem \- File system organization
+.SH SYNOPSIS
+.LP
+.nf
+/
+.fi
+
+.LP
+.nf
+/usr
+.fi
+
+.SH DESCRIPTION
+.LP
+The file system tree is organized for administrative convenience. Distinct
+areas within the file system tree are provided for files that are private to
+one machine, files that can be shared by multiple machines of a common
+platform, files that can be shared by all machines, and home directories. This
+organization allows sharable files to be stored on one machine but accessed by
+many machines using a remote file access mechanism such as \fBNFS\fR. Grouping
+together similar files makes the file system tree easier to upgrade and manage.
+.sp
+.LP
+The file system tree consists of a root file system and a collection of
+mountable file systems. The \fBmount\fR(2) program attaches mountable file
+systems to the file system tree at mount points (directory entries) in the root
+file system or other previously mounted file systems. Two file systems, \fB/\fR
+(the root) and \fB/usr\fR, must be mounted and \fB/var\fR must be accessible to
+have a functional system. The root file system is mounted automatically by the
+kernel at boot time; the \fB/usr\fR file system is mounted by the system
+start-up script, which is run as part of the booting process. \fB/var\fR can be
+mounted as its own file system or be part of \fB/usr\fR, as it is by default.
+.sp
+.LP
+The following descriptions make use of the terms \fBplatform\fR,
+\fBplatform-dependent\fR, \fBplatform-independent\fR, and
+\fBplatform-specific\fR. Platform refers to a machines Instruction Set
+Architecture or processor type, such as is returned by \fBuname\fR \fB-m\fR.
+\fBPlatform-dependent\fR refers to a file that is installed on all platforms
+and whose contents vary depending on the platform. Like a platform-dependent
+file, a \fBplatform-independent\fR file is installed on all platforms. However,
+the contents of the latter type remains the same on all platforms. An example
+of a platform-dependent file is compiled, executable program. An example of a
+platform-independent file is a standard configuration file, such as
+\fB/etc/hosts\fR. Unlike a platform-dependent or a platform-independent file,
+the \fBplatform-specific\fR file is installed only on a subset of supported
+platforms. Most platform-specific files are gathered under \fB/platform\fR and
+\fB/usr/platform\fR.
+.SS "Root File System"
+.LP
+The root file system contains files that are unique to each machine. It
+contains the following directories:
+.sp
+.ne 2
+.na
+\fB\fB/\fR\fR
+.ad
+.sp .6
+.RS 4n
+Root of the overall file system name space.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev\fR\fR
+.ad
+.sp .6
+.RS 4n
+The device name file system. See \fBdev\fR(7FS).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/cfg\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic links to physical \fBap_ids.\fR
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/cpu\fR\fR
+.ad
+.sp .6
+.RS 4n
+Provides configuration and capability information about the processor type
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/cua\fR\fR
+.ad
+.sp .6
+.RS 4n
+Device files for serial ports.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/dsk\fR\fR
+.ad
+.sp .6
+.RS 4n
+Block disk devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/dtrace\fR\fR
+.ad
+.sp .6
+.RS 4n
+Pseudo-devices used by the DTrace framework.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/dtrace/provider\fR\fR
+.ad
+.sp .6
+.RS 4n
+Pseudo-device drivers representing instrumentation providers for the DTrace
+framework.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/fbs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Frame buffer device files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/fd\fR\fR
+.ad
+.sp .6
+.RS 4n
+File descriptors.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/net\fR\fR
+.ad
+.sp .6
+.RS 4n
+Network data-link interface devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/printers\fR\fR
+.ad
+.sp .6
+.RS 4n
+USB printer device files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/pts\fR\fR
+.ad
+.sp .6
+.RS 4n
+Pseudo-terminal devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/rdsk\fR\fR
+.ad
+.sp .6
+.RS 4n
+Raw disk devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/rmt\fR\fR
+.ad
+.sp .6
+.RS 4n
+Raw tape devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/sad\fR\fR
+.ad
+.sp .6
+.RS 4n
+Entry points for the \fBSTREAMS\fR Administrative driver.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/sound\fR\fR
+.ad
+.sp .6
+.RS 4n
+Audio device and audio device control files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/swap\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default swap device.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/dev/term\fR\fR
+.ad
+.sp .6
+.RS 4n
+Terminal devices.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/devices\fR\fR
+.ad
+.sp .6
+.RS 4n
+The devices file system. See \fBdevfs\fR(7FS).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent administrative and configuration files and databases that
+are not shared among systems. \fB/etc\fR may be viewed as the directory that
+defines the machine's identity.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/X11\fR\fR
+.ad
+.sp .6
+.RS 4n
+Xorg Xserver (X11) configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/acct\fR\fR
+.ad
+.sp .6
+.RS 4n
+Process accounting system configuration information.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/cron.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Configuration information for \fBcron\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/dat\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains a list of interface adapters supported by uDAPL service providers.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/default\fR\fR
+.ad
+.sp .6
+.RS 4n
+Defaults information for various programs.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/devices\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains device-related data.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/dfs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Configuration information for shared file systems.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/dhcp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Dynamic Host Configuration Protocol (\fBDHCP\fR) configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/flash\fR\fR
+.ad
+.sp .6
+.RS 4n
+Flash Archive configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/fm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Fault manager configuration files. For more information, see \fBfmd\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/fonts\fR\fR
+.ad
+.sp .6
+.RS 4n
+Font configuration information.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/fs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Binaries organized by file system types for operations required before
+\fB/usr\fR is mounted.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/ftpd\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBftpd\fR configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/gss\fR\fR
+.ad
+.sp .6
+.RS 4n
+Generic Security Service (\fBGSS\fR) Application Program Interface
+configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/inet\fR\fR
+.ad
+.sp .6
+.RS 4n
+Configuration files for Internet services.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/init.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Shell scripts for transitioning between init states. The service management
+facility, \fBsmf\fR(5) is the preferred mechanism for managing services.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/krb5\fR\fR
+.ad
+.sp .6
+.RS 4n
+Kerberos configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/lib\fR\fR
+.ad
+.sp .6
+.RS 4n
+Shared libraries needed during booting.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/mail\fR\fR
+.ad
+.sp .6
+.RS 4n
+Mail subsystem configuration.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/net\fR\fR
+.ad
+.sp .6
+.RS 4n
+Configuration information for transport independent network services.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/nfs\fR\fR
+.ad
+.sp .6
+.RS 4n
+NFS server logging configuration file.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/ppp\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBPPP\fR configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rc0.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts for entering or leaving run level 0. See \fBinit\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rc1.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts for entering or leaving run level 1. See \fBinit\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rc2.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts for entering or leaving run level 2. See \fBinit\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rc3.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts for entering or leaving run level 3. See \fBinit\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rcS.d\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts for bringing the system up in single user mode.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/rcm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Directory for reconfiguration manager (RCM) custom scripts.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/saf\fR\fR
+.ad
+.sp .6
+.RS 4n
+Service Access Facility files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/sasl\fR\fR
+.ad
+.sp .6
+.RS 4n
+Simple Authentication and Security Layer (SASL) server configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/security\fR\fR
+.ad
+.sp .6
+.RS 4n
+System-delivered security configuration files (Audit, RBAC, crypto, Trusted
+Extensions).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/skel\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default profile scripts for new user accounts. See \fBuseradd\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/ssh\fR\fR
+.ad
+.sp .6
+.RS 4n
+Secure Shell configuration files. See \fBssh\fR(1)
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/svc\fR\fR
+.ad
+.sp .6
+.RS 4n
+SMF service repository.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/sysevent\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBsyseventd\fR configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/\fIsubsystem\fR\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent \fIsubsystem\fR configuration files that are not shared
+among systems.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/usb\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBUSB\fR configuration information.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/zfs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the zfs state file, \fBzpool.cache\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/etc/zones\fR\fR
+.ad
+.sp .6
+.RS 4n
+Zones configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/export\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default root of the shared file system tree.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/home\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default root of a subtree for user directories. Often managed by the
+automounter, see \fBautomount\fR(8) for more details.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/kernel\fR\fR
+.ad
+.sp .6
+.RS 4n
+Subtree of platform-dependent loadable kernel modules required as part of the
+boot process. It includes the generic part of the core kernel that is
+platform-independent, \fB/kernel/genunix\fR. See \fBkernel\fR(8)
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/kernel/drv\fR\fR
+.ad
+.sp .6
+.RS 4n
+Device drivers.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/kernel/dtrace\fR\fR
+.ad
+.sp .6
+.RS 4n
+Kernel modules representing components in the DTrace framework.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/kernel/genunix\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-independent kernel.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/lib/svc/manifest\fR\fR
+.ad
+.sp .6
+.RS 4n
+SMF method scripts.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/mnt\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default temporary mount point for file systems. This is an empty directory on
+which file systems can be temporarily mounted.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/net\fR\fR
+.ad
+.sp .6
+.RS 4n
+Temporary mount point for file systems that are mounted by the automounter.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/opt\fR\fR
+.ad
+.sp .6
+.RS 4n
+Root of a subtree for add-on application packages.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/platform\fR\fR
+.ad
+.sp .6
+.RS 4n
+Subtree of platform-specific objects which need to reside on the root
+filesystem. It contains a series of directories, one per supported platform.
+The semantics of the series of directories is equivalent to \fB/\fR (root).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/platform/\fR\fB`\fR\fBuname\fR \fB-m\fR\fB\fR\fB`\fR\fB/kernel\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-specific modules required for boot. These modules have semantics
+equivalent to \fB/kernel\fR. It includes the file \fBunix\fR, the core kernel.
+See \fBkernel\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/platform/\fR\fB`\fR\fBuname\fR
+\fB-m\fR\fB\fR\fB`\fR\fB/kernel/unix\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent kernel.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/proc\fR\fR
+.ad
+.sp .6
+.RS 4n
+Root of a subtree for the process file system. See \fBproc\fR(4).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/sbin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Essential executables used in the booting process and in manual system
+recovery. The full complement of utilities is available only after \fB/usr\fR
+is mounted.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/system\fR\fR
+.ad
+.sp .6
+.RS 4n
+Mount point for the contract (CTFS) and object (OBJFS) file systems. See
+\fBctfs\fR(7FS) and \fBobjfs\fR(7FS).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/tmp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Temporary files. Usually mounted as a memory based file system. See
+\fBtmpfs\fR(7FS).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr\fR\fR
+.ad
+.sp .6
+.RS 4n
+Mount point for the \fB/usr\fR file system. See description of \fB/usr\fR file
+system, below.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var\fR\fR
+.ad
+.sp .6
+.RS 4n
+Root of a subtree for varying files. Varying files are files that are unique to
+a machine but that can grow to an arbitrary (that is, variable) size. An
+example is a log file.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/audit\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default location for Audit log files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/cores\fR\fR
+.ad
+.sp .6
+.RS 4n
+Directory provided for global core files storage. See \fBcoreadm\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/crash\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default depository for kernel crash dumps. See \fBdumpadm\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/cron\fR\fR
+.ad
+.sp .6
+.RS 4n
+Log files for \fBcron\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/fm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Fault manager state files. For more information, see \fBfmd\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/inet\fR\fR
+.ad
+.sp .6
+.RS 4n
+IPv6 router state files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/krb5\fR\fR
+.ad
+.sp .6
+.RS 4n
+Database and log files for Kerberos.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/ld\fR\fR
+.ad
+.sp .6
+.RS 4n
+Configuration files for runtime linker. See \fBcrle\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/ldap\fR\fR
+.ad
+.sp .6
+.RS 4n
+LDAP client configuration files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/lib\fR\fR
+.ad
+.sp .6
+.RS 4n
+Directory for variable state information.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/log\fR\fR
+.ad
+.sp .6
+.RS 4n
+System log files and accounting files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/mail\fR\fR
+.ad
+.sp .6
+.RS 4n
+Directory where users' mail is kept.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/news\fR\fR
+.ad
+.sp .6
+.RS 4n
+Community service messages. This is not the same as USENET-style news.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/nfs\fR\fR
+.ad
+.sp .6
+.RS 4n
+NFS server log files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/ntp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Network Time Protocol (\fBNTP\fR) server state directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/opt\fR\fR
+.ad
+.sp .6
+.RS 4n
+Root of a subtree for varying files associated with optional software packages.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/preserve\fR\fR
+.ad
+.sp .6
+.RS 4n
+Backup files for \fBvi\fR(1) and \fBex\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/run\fR\fR
+.ad
+.sp .6
+.RS 4n
+Temporary files which are not needed across reboots. Only root may modify the
+contents of this directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/saf\fR\fR
+.ad
+.sp .6
+.RS 4n
+Service access facility logging and accounting files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/spool\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains directories for files used in printer spooling, mail delivery,
+\fBcron\fR(8), \fBat\fR(1), and so forth.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/spool/cron\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBcron\fR(8) and \fBat\fR(1) spooling files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/statmon\fR\fR
+.ad
+.sp .6
+.RS 4n
+Network status monitor files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/log/svc\fR\fR
+.ad
+.sp .6
+.RS 4n
+SMF log files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/svc/manifest\fR\fR
+.ad
+.sp .6
+.RS 4n
+SMF service manifests.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/svc/manifest/site\fR\fR
+.ad
+.sp .6
+.RS 4n
+Site-local SMF service manifests.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/tmp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Files that vary in size or presence during normal system operations. This
+directory is \fBnot\fR cleared during the boot operation.
+.sp
+It is possible to change the default behavior for \fB/var/tmp\fR to clear all
+of the files except editor temporary files by setting the \fBclean_vartmp\fR
+property value of the \fBrmtmpfiles\fR service. This is done with the following
+commands:
+.sp
+.in +2
+.nf
+# \fBsvccfg -s svc:/system/rmtmpfiles setprop \e\fR
+      \fBoptions/clean_vartmp = "true"\fR
+# \fBsvcadm refresh svc:/system/rmtmpfiles:default\fR
+.fi
+.in -2
+.sp
+
+The \fBsolaris.smf.value.rmtmpfiles\fR authorization is required to modify this
+property.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/var/yp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Databases used by \fBNIS\fR and \fBypbind\fR(8).
+.RE
+
+.SS "\fB/usr\fR File System"
+.LP
+Because it is desirable to keep the root file system small and not volatile, on
+disk-based systems larger file systems are often mounted on \fB/home\fR,
+\fB/opt\fR, \fB/usr\fR, and \fB/var\fR.
+.sp
+.LP
+The file system mounted on \fB/usr\fR contains platform-dependent and
+platform-independent sharable files. The subtree rooted at \fB/usr/share\fR
+contains platform-independent sharable files; the rest of the \fB/usr\fR tree
+contains platform-dependent files. By mounting a common remote file system, a
+group of machines with a common platform may share a single \fB/usr\fR file
+system. A single \fB/usr/share\fR file system can be shared by machines of any
+platform. A machine acting as a file server can share many different \fB/usr\fR
+file systems to support several different architectures and operating system
+releases. In such configuration, the clients would usually mount \fB/usr\fR
+read-only so that they do not accidentally change any shared files.
+.sp
+.LP
+The \fB/usr\fR file system contains the following subdirectories:
+.sp
+.ne 2
+.na
+\fB\fB/usr/X\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/usr/X11\fR directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/X11\fR\fR
+.ad
+.sp .6
+.RS 4n
+Xorg Xserver (X11) executables and documentation.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/bin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent, user-invoked executables. These are commands users expect
+to be run as part of their normal \fB$PATH\fR. For executables that are
+different on a 64-bit system than on a 32-bit system, a wrapper that selects
+the appropriate executable is placed here. See \fBisaexec\fR(3C).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/bin/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+x86 64-bit, platform-dependent, user-invoked executables. This directory should
+not be part of a user's \fB$PATH\fR. A wrapper in \fB/usr/bin\fR should invoke
+the executable in this directory. See \fBisaexec\fR(3C).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/bin/\fIsubsystem\fR\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent user-invoked executables that are associated with
+\fIsubsystem\fR. These are commands users expect to be run as part of their
+normal \fB$PATH\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/\fIsubsystem\fR/bin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent user-invoked executables that are associated with
+\fIsubsystem\fR. These are commands users expect to be run as part of their
+normal \fB$PATH\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/\fIsubsystem\fR/bin/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+x86 64-bit, platform-dependent, user-invoked executables. This directory should
+not be part of a user's \fB$PATH\fR. A wrapper in \fB/usr/bin\fR should invoke
+the executable in this directory. See \fBisaexec\fR(3C).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/games\fR\fR
+.ad
+.sp .6
+.RS 4n
+An empty directory, a remnant of the SunOS 4.0/4.1 software.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/include\fR\fR
+.ad
+.sp .6
+.RS 4n
+Include headers (for C programs).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/kernel\fR\fR
+.ad
+.sp .6
+.RS 4n
+Subtree of platform-dependent loadable kernel modules, not needed in the root
+filesystem.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent libraries, various databases, commands and daemons not
+invoked directly by a human user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/32\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to \fB/usr/lib\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/64\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the platform-dependent library directory (e.g.,
+\fB/usr/lib/amd64\fR).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/acct\fR\fR
+.ad
+.sp .6
+.RS 4n
+Accounting scripts and binaries. See \fBacct\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/adb\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBadb\fR accounting scripts.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent libraries, various databases, commands and daemons not
+invoked directly by a human user on 64-bit x86.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/autofs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the \fBautomountd\fR executable.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/cfgadm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains \fBcfgadm\fR hardware-specific driver plugins.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/class\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scheduling-class-specific directories containing executables for
+\fBpriocntl\fR(1) and \fBdispadmin\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/crypto\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the kernel-level cryptographic framework daemon (\fBkcfd\fR).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/devfsadm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains \fBdevfsadm\fR, the daemon version of \fBdevfsadm\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/dict\fR\fR
+.ad
+.sp .6
+.RS 4n
+Database files for \fBspell\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/dtrace\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains \fBdtrace\fR D source files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/fm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains \fBfmd\fR, the fault manager daemon and the fault manager library.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/font\fR\fR
+.ad
+.sp .6
+.RS 4n
+\fBtroff\fR(1) font description files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/fs\fR\fR
+.ad
+.sp .6
+.RS 4n
+File system type dependent modules; generally not intended to be invoked
+directly by the user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/gss\fR\fR
+.ad
+.sp .6
+.RS 4n
+Secure services-related libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/iconv\fR\fR
+.ad
+.sp .6
+.RS 4n
+Conversion tables for \fBiconv\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/inet\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains many network-related daemons and libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/ipf\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains \fBIPFILTER.LICENCE\fR and \fBipftest\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/ipqosconf\fR\fR
+.ad
+.sp .6
+.RS 4n
+IPQoS configuration utility.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/krb5\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the Kerberos database propagation program and libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/ld\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the map files for the \fBld\fR link editor.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/ldap\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains LDAP client configuration utilities.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/libp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Profiled libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/locale\fR\fR
+.ad
+.sp .6
+.RS 4n
+Localization databases.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/netsvc\fR\fR
+.ad
+.sp .6
+.RS 4n
+Internet network services.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/nfs\fR\fR
+.ad
+.sp .6
+.RS 4n
+Auxiliary NFS-related programs and daemons.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/pool\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the automated resource pools partitioning daemon (\fBpoold\fR) and
+associated libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/power\fR\fR
+.ad
+.sp .6
+.RS 4n
+Power management daemon, \fBpowerd\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/rcap\fR\fR
+.ad
+.sp .6
+.RS 4n
+Resource cap enforcement daemon, \fBrcapd\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/rcm\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the Reconfiguration and Coordination Manager daemon (\fBrcm_daemon\fR)
+and RCM scripts.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/refer\fR\fR
+.ad
+.sp .6
+.RS 4n
+Auxiliary programs for \fBrefer\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/rmmount\fR\fR
+.ad
+.sp .6
+.RS 4n
+Removable media mounter shared objects.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/sa\fR\fR
+.ad
+.sp .6
+.RS 4n
+Scripts and commands for the system activity report package. See \fBsar\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/saf\fR\fR
+.ad
+.sp .6
+.RS 4n
+Auxiliary programs and daemons related to the service access facility.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/sasl\fR\fR
+.ad
+.sp .6
+.RS 4n
+Simple Authentication and Security Layer (SASL) plug-in modules.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/secure\fR\fR
+.ad
+.sp .6
+.RS 4n
+Default trusted libraries.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/security\fR\fR
+.ad
+.sp .6
+.RS 4n
+Security plug-in modules.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/smedia\fR\fR
+.ad
+.sp .6
+.RS 4n
+Removable media device server daemon, \fBrpc.smserverd\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/spell\fR\fR
+.ad
+.sp .6
+.RS 4n
+Auxiliary programs and databases for \fBspell\fR(1).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/\fIsubsystem\fR\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent libraries, various databases, commands and daemons that are
+associated with \fIsubsystem\fR and that are not invoked directly by a human
+user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/\fIsubsystem\fR/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+x86 64-bit, platform-dependent libraries, various databases, commands and
+daemons that are associated with \fIsubsystem\fR and that are not invoked
+directly by a human user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/\fIsubsystem\fR/lib\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent libraries, various databases, commands and daemons not
+invoked directly by a human user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/\fIsubsystem\fR/lib/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+x86 64-bit, platform-dependent libraries, various databases, commands and
+daemons that are associated with \fIsubsystem\fR and that are not invoked
+directly by a human user.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/sysevent\fR\fR
+.ad
+.sp .6
+.RS 4n
+Contains the system event notification daemon (\fBsyseventd\fR) and the
+\fBsyseventd\fR loadable module (SLM) repository.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/lib/zones\fR\fR
+.ad
+.sp .6
+.RS 4n
+Zone administration daemon (\fBzoneamd\fR).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/mail\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/var/mail\fR directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/net/servers\fR\fR
+.ad
+.sp .6
+.RS 4n
+Entry points for foreign name service requests relayed using the network
+listener. See \fBlisten\fR(8).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/news\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/var/news\fR directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/old\fR\fR
+.ad
+.sp .6
+.RS 4n
+Programs that are being phased out.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/platform\fR\fR
+.ad
+.sp .6
+.RS 4n
+Subtree of platform-specific objects which does not need to reside on the root
+filesystem. It contains a series of directories, one per supported platform.
+The semantics of the series of directories is equivalent to \fB/platform\fR,
+except for subdirectories which do not provide utility under one or the other
+(for example, \fB/platform/include\fR is not needed).
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/platform/\fR\fB`\fR\fBuname\fR
+\fB-m\fR\fB\fR\fB`\fR\fB/include\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-specific system (\fBsys\fR, \fBvm\fR) header files with semantics
+equivalent to \fB/usr/include\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/platform/\fR\fB`\fR\fBuname\fR \fB-m\fR\fB\fR\fB`\fR\fB/lib\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-specific shared objects with semantics equivalent to \fB/usr/lib\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/platform/\fR\fB`\fR\fBuname\fR
+\fB-m\fR\fB\fR\fB`\fR\fB/lib/\fIsubsystem\fR/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+x86 64-bit, platform-specific daemon and shared objects.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/platform/\fR\fB`\fR\fBuname\fR \fB-m\fR\fB\fR\fB`\fR\fB/sbin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-specific system administration utilities with semantics equivalent to
+\fB/usr/sbin\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/preserve\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/var/preserve\fR directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/proc\fR\fR
+.ad
+.sp .6
+.RS 4n
+Former location of the \fBproc\fR(1) tools, now containing compatibility
+symbolic links to their new locations in \fB/usr/bin\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/sbin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent executables for system administration, expected to be run
+only by system administrators.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/sbin/amd64\fR\fR
+.ad
+.sp .6
+.RS 4n
+64-bit x86 versions of commands.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/sbin/\fIsubsystem\fR\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent executables for system administration, expected to be run
+only by system administrators, and associated with \fIsubsystem\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/\fIsubsystem\fR/sbin\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-dependent executables for system administration, expected to be run
+only by system administrators, and associated with \fIsubsystem\fR.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/share\fR\fR
+.ad
+.sp .6
+.RS 4n
+Platform-independent sharable files.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/spool\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/var/spool\fR directory.
+.RE
+
+.sp
+.ne 2
+.na
+\fB\fB/usr/tmp\fR\fR
+.ad
+.sp .6
+.RS 4n
+Symbolic link to the \fB/var/tmp\fR directory.
+.RE
+
+.SH SEE ALSO
+.LP
+\fBat\fR(1), \fBex\fR(1), \fBiconv\fR(1),
+\fBisainfo\fR(1), \fBmail\fR(1), \fBmailx\fR(1), \fBnroff\fR(1),
+\fBpriocntl\fR(1), \fBrefer\fR(1), \fBsar\fR(1), \fBsh\fR(1), \fBspell\fR(1),
+\fBsvcs\fR(1), \fBtroff\fR(1), \fBuname\fR(1),
+\fBacct\fR(8), \fBcron\fR(8), \fBdispadmin\fR(8), \fBdladm\fR(8),
+\fBfmd\fR(8), \fBfsck\fR(8), \fBinit\fR(8), \fBkernel\fR(8),
+\fBmknod\fR(8), \fBmount\fR(8), \fBsvcadm\fR(8), \fBsvccfg\fR(8),
+\fBuseradd\fR(8), \fBypbind\fR(8), \fBmount\fR(2), \fBIntro\fR(4),
+\fBproc\fR(4), \fBterminfo\fR(4), \fBsmf\fR(5), \fBctfs\fR(7FS),
+\fBdev\fR(7FS), \fBdevfs\fR(7FS), \fBctfs\fR(7FS), \fBobjfs\fR(7FS),
+\fBtmpfs\fR(7FS)

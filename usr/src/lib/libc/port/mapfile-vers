@@ -1,0 +1,3984 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2018 Nexenta Systems, Inc.
+# Copyright (c) 2012 by Delphix. All rights reserved.
+# Copyright 2018 Joyent, Inc.
+# Copyright (c) 2013, OmniTI Computer Consulting, Inc. All rights reserved.
+# Copyright (c) 2013 Gary Mills
+# Copyright 2014 Garrett D'Amore <garrett@damore.org>
+#
+
+#
+# MAPFILE HEADER START
+#
+# WARNING:  STOP NOW.  DO NOT MODIFY THIS FILE.
+# Object versioning must comply with the rules detailed in
+#
+#	usr/src/lib/README.mapfiles
+#
+# You should not be making modifications here until you've read the most current
+# copy of that file. If you need help, contact a gatekeeper for guidance.
+#
+# MAPFILE HEADER END
+#
+
+$mapfile_version 2
+
+#
+# All function names added to this or any other libc mapfile
+# must be placed under the 'protected:' designation.
+# The 'global:' designation is used *only* for data
+# items and for the members of the malloc() family.
+#
+
+# Mnemonic conditional input identifiers:
+#
+# - amd64, i386, sparc32, sparcv9: Correspond to ISA subdirectories used to
+#	hold per-platform code. Note however that we use 'sparc32' instead of
+#	'sparc'. Since '_sparc' is predefined to apply to, all sparc platforms,
+#	naming the 32-bit version 'sparc' would be too likely to cause errors.
+#
+$if _sparc && _ELF32
+$add sparc32
+$endif
+$if _sparc && _ELF64
+$add sparcv9
+$endif
+$if _x86 && _ELF32
+$add i386
+$endif
+$if _x86 && _ELF64
+$add amd64
+$endif
+
+SYMBOL_VERSION ILLUMOS_0.27 {	# memset_s(3C) and set_constraint_handler_s(3C)
+    protected:
+	abort_handler_s;
+	ignore_handler_s;
+	memset_s;
+	set_constraint_handler_s;
+} ILLUMOS_0.26;
+
+SYMBOL_VERSION ILLUMOS_0.26 {	# fts(3) LFS
+} ILLUMOS_0.22;
+
+SYMBOL_VERSION ILLUMOS_0.22 {	# endian(3C)
+    protected:
+	htobe16;
+	htobe32;
+	htobe64;
+	htole16;
+	htole32;
+	htole64;
+	betoh16;
+	letoh16;
+	be16toh;
+	le16toh;
+	betoh32;
+	letoh32;
+	be32toh;
+	le32toh;
+	betoh64;
+	letoh64;
+	be64toh;
+	le64toh;
+} ILLUMOS_0.21;
+
+SYMBOL_VERSION ILLUMOS_0.21 {
+    protected:
+	pthread_attr_get_np;
+} ILLUMOS_0.20;
+
+SYMBOL_VERSION ILLUMOS_0.20 {	# C11
+    protected:
+	aligned_alloc;
+	at_quick_exit;
+	call_once;
+	cnd_broadcast;
+	cnd_destroy;
+	cnd_init;
+	cnd_signal;
+	cnd_timedwait;
+	cnd_wait;
+	mtx_destroy;
+	mtx_init;
+	mtx_lock;
+	mtx_timedlock;
+	mtx_trylock;
+	mtx_unlock;
+	quick_exit;
+	thrd_create;
+	thrd_current;
+	thrd_detach;
+	thrd_equal;
+	thrd_exit;
+	thrd_join;
+	thrd_sleep;
+	thrd_yield;
+	timespec_get;
+	tss_create;
+	tss_delete;
+	tss_get;
+	tss_set;
+} ILLUMOS_0.19;
+
+SYMBOL_VERSION ILLUMOS_0.19 {	# flock
+    protected:
+	flock;
+} ILLUMOS_0.18;
+
+SYMBOL_VERSION ILLUMOS_0.18 {	# signalfd
+    protected:
+	signalfd;
+} ILLUMOS_0.17;
+
+SYMBOL_VERSION ILLUMOS_0.17 {	# glob(3C) LFS
+    protected:
+	_glob_ext64 { FLAGS = NODYNSORT };
+	_globfree_ext64 { FLAGS = NODYNSORT };
+} ILLUMOS_0.16;
+
+SYMBOL_VERSION ILLUMOS_0.16 {	# timerfd
+    protected:
+	timerfd_create;
+	timerfd_gettime;
+	timerfd_settime;
+} ILLUMOS_0.15;
+
+SYMBOL_VERSION ILLUMOS_0.15 {	# epoll(3C)
+    protected:
+	epoll_create;
+	epoll_create1;
+	epoll_ctl;
+	epoll_wait;
+	epoll_pwait;
+} ILLUMOS_0.14;
+
+SYMBOL_VERSION ILLUMOS_0.14 {	# strerror_l
+    protected:
+	strerror_l;
+} ILLUMOS_0.13;
+
+SYMBOL_VERSION ILLUMOS_0.13 {	# eventfd
+    protected:
+	eventfd;
+	eventfd_read;
+	eventfd_write;
+} ILLUMOS_0.12;
+
+SYMBOL_VERSION ILLUMOS_0.12 {	# arc4random and friends
+    protected:
+	arc4random;
+	arc4random_buf;
+	arc4random_uniform;
+	explicit_bzero;
+	getentropy;
+} ILLUMOS_0.11;
+
+SYMBOL_VERSION ILLUMOS_0.11 {	# Illumos additions
+    protected:
+	iswxdigit_l;
+	isxdigit_l;
+} ILLUMOS_0.10;
+
+SYMBOL_VERSION ILLUMOS_0.10 {	# Illumos additions
+    protected:
+	preadv;
+	pwritev;
+	preadv64 { FLAGS = NODYNSORT };
+	pwritev64 { FLAGS = NODYNSORT };
+} ILLUMOS_0.9;
+
+SYMBOL_VERSION ILLUMOS_0.9 {
+    protected:
+	wcsnrtombs;
+	wcsnrtombs_l;
+} ILLUMOS_0.8;
+
+SYMBOL_VERSION ILLUMOS_0.8 {	# POSIX 2008 newlocale and friends
+    protected:
+	__global_locale;
+	__mb_cur_max;
+	__mb_cur_max_l;
+	btowc_l;
+	duplocale;
+	fgetwc_l;
+	freelocale;
+	getwc_l;
+	isalnum_l;
+	isalpha_l;
+	isblank_l;
+	iscntrl_l;
+	isdigit_l;
+	isgraph_l;
+	islower_l;
+	isprint_l;
+	ispunct_l;
+	isspace_l;
+	isupper_l;
+	iswideogram;
+	iswideogram_l;
+	iswnumber;
+	iswnumber_l;
+	iswhexnumber;
+	iswhexnumber_l;
+	iswphonogram;
+	iswphonogram_l;
+	iswspecial;
+	iswspecial_l;
+	iswalnum_l;
+	iswalpha_l;
+	iswblank_l;
+	iswcntrl_l;
+	iswctype_l;
+	iswdigit_l;
+	iswgraph_l;
+	iswlower_l;
+	iswprint_l;
+	iswpunct_l;
+	iswspace_l;
+	iswupper_l;
+	mblen_l;
+	mbrlen_l;
+	mbsinit_l;
+	mbsnrtowcs;
+	mbsnrtowcs_l;
+	mbsrtowcs_l;
+	mbstowcs_l;
+	mbtowc_l;
+	newlocale;
+	nl_langinfo_l;
+	strcasecmp_l;
+	strcasestr_l;
+	strcoll_l;
+	strfmon_l;
+	strftime_l;
+	strncasecmp_l;
+	strptime_l;
+	strxfrm_l;
+	tolower_l;
+	toupper_l;
+	towlower_l;
+	towupper_l;
+	towctrans_l;
+	uselocale;
+	wcrtomb_l;
+	wcscasecmp_l;
+	wcscoll_l;
+	wcsncasecmp_l;
+	wcsrtombs_l;
+	wcstombs_l;
+	wcswidth_l;
+	wcsxfrm_l;
+	wctob_l;
+	wctomb_l;
+	wctrans_l;
+	wctype_l;
+	wcwidth_l;
+} ILLUMOS_0.7;
+
+SYMBOL_VERSION ILLUMOS_0.7 {	# Illumos additions
+    protected:
+	_glob_ext { FLAGS = NODYNSORT };
+	_globfree_ext { FLAGS = NODYNSORT };
+} ILLUMOS_0.6;
+
+SYMBOL_VERSION ILLUMOS_0.6 {	# Illumos additions
+    protected:
+	getloginx { FLAGS = NODYNSORT };
+	getloginx_r { FLAGS = NODYNSORT };
+	__posix_getloginx_r { FLAGS = NODYNSORT };
+} ILLUMOS_0.5;
+
+SYMBOL_VERSION ILLUMOS_0.5 {	# common C++ ABI exit handlers
+    protected:
+	__cxa_atexit;
+	__cxa_finalize;
+} ILLUMOS_0.4;
+
+SYMBOL_VERSION ILLUMOS_0.4 {	# Illumos additions
+    protected:
+        pipe2;
+        dup3;
+        mkostemp;
+        mkostemps;
+        mkostemp64 { FLAGS = NODYNSORT };
+        mkostemps64 { FLAGS = NODYNSORT };
+} ILLUMOS_0.3;
+
+SYMBOL_VERSION ILLUMOS_0.3 {	# Illumos additions
+    protected:
+        assfail3;
+} ILLUMOS_0.2;
+
+SYMBOL_VERSION ILLUMOS_0.2 {	# Illumos additions
+    protected:
+        posix_spawn_pipe_np;
+} ILLUMOS_0.1;
+
+SYMBOL_VERSION ILLUMOS_0.1 {	# Illumos additions
+    protected:
+        timegm;
+} SUNW_1.23;
+
+SYMBOL_VERSION SUNW_1.23 {	# SunOS 5.11 (Solaris 11)
+    global:
+	_nl_domain_bindings;
+	_nl_msg_cat_cntr;
+
+$if _ELF32
+	dl_iterate_phdr	{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+$elif sparcv9
+	dl_iterate_phdr	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+$elif amd64
+	dl_iterate_phdr	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+$else
+$error unknown platform
+$endif
+
+    protected:
+
+$if sparc32
+	__align_cpy_1;
+$endif
+
+	addrtosymstr;
+	aiocancel;
+	aio_cancel;
+	aio_error;
+	aio_fsync;
+	aio_read;
+	aioread;
+	aio_return;
+	aio_suspend;
+	aio_waitn;
+	aio_write;
+	aiowrite;
+	aiowait;
+	asprintf;
+	assfail;
+	backtrace;
+	backtrace_symbols;
+	backtrace_symbols_fd;
+	canonicalize_file_name;
+	clearenv;
+	clock_getres;
+	clock_gettime;
+	clock_nanosleep;
+	clock_settime;
+	daemon;
+	dirfd;
+	door_bind;
+	door_call;
+	door_create;
+	door_cred;
+	door_getparam;
+	door_info;
+	door_return;
+	door_revoke;
+	door_server_create;
+	door_setparam;
+	door_ucred;
+	door_unbind;
+	door_xcreate;
+	err;
+	errx;
+	faccessat;
+	fchmodat;
+	fcloseall;
+	fdatasync;
+	ffsl;
+	ffsll;
+	fgetattr;
+	fls;
+	flsl;
+	flsll;
+	forkallx;
+	forkx;
+	fsetattr;
+	getattrat;
+	getdelim;
+	getline;
+	get_nprocs;
+	get_nprocs_conf;
+	getprogname;
+	htonl;
+	htonll;
+	htons;
+	linkat;
+	lio_listio;
+	memmem;
+	mkdirat;
+	mkdtemp;
+	mkfifoat;
+	mknodat;
+	mkstemps;
+	mmapobj;
+	mq_close;
+	mq_getattr;
+	mq_notify;
+	mq_open;
+	mq_receive;
+	mq_reltimedreceive_np;
+	mq_reltimedsend_np;
+	mq_send;
+	mq_setattr;
+	mq_timedreceive;
+	mq_timedsend;
+	mq_unlink;
+	nanosleep;
+	ntohl;
+	ntohll;
+	ntohs;
+	posix_fadvise;
+	posix_fallocate;
+	posix_madvise;
+	posix_memalign;
+	posix_spawn_file_actions_addclosefrom_np;
+	posix_spawnattr_getsigignore_np;
+	posix_spawnattr_setsigignore_np;
+	ppoll;
+	priv_basicset;
+	pthread_key_create_once_np;
+	pthread_mutexattr_getrobust;
+	pthread_mutexattr_setrobust;
+	pthread_mutex_consistent;
+	readlinkat;
+	sched_getparam;
+	sched_get_priority_max;
+	sched_get_priority_min;
+	sched_getscheduler;
+	sched_rr_get_interval;
+	sched_setparam;
+	sched_setscheduler;
+	sched_yield;
+	sem_close;
+	sem_destroy;
+	sem_getvalue;
+	sem_init;
+	sem_open;
+	sem_post;
+	sem_reltimedwait_np;
+	sem_timedwait;
+	sem_trywait;
+	sem_unlink;
+	sem_wait;
+	setattrat;
+	setprogname;
+	_sharefs;
+	shm_open;
+	shm_unlink;
+	sigqueue;
+	sigtimedwait;
+	sigwaitinfo;
+	smt_pause;
+	stpcpy;
+	stpncpy;
+	strcasestr;
+	strchrnul;
+	strndup;
+	strnlen;
+	strnstr;
+	strsep;
+	symlinkat;
+	thr_keycreate_once;
+	timer_create;
+	timer_delete;
+	timer_getoverrun;
+	timer_gettime;
+	timer_settime;
+	u8_strcmp;
+	u8_validate;
+	uconv_u16tou32;
+	uconv_u16tou8;
+	uconv_u32tou16;
+	uconv_u32tou8;
+	uconv_u8tou16;
+	uconv_u8tou32;
+	vasprintf;
+	verr;
+	verrx;
+	vforkx;
+	vwarn;
+	vwarnx;
+	warn;
+	warnx;
+	wcpcpy;
+	wcpncpy;
+	wcscasecmp;
+	wcsdup;
+	wcsncasecmp;
+	wcsnlen;
+
+	aio_cancel64 { FLAGS = NODYNSORT };
+	aio_error64 { FLAGS = NODYNSORT };
+	aio_fsync64 { FLAGS = NODYNSORT };
+	aio_read64 { FLAGS = NODYNSORT };
+	aioread64 { FLAGS = NODYNSORT };
+	aio_return64 { FLAGS = NODYNSORT };
+	aio_suspend64 { FLAGS = NODYNSORT };
+	aio_waitn64 { FLAGS = NODYNSORT };
+	aio_write64 { FLAGS = NODYNSORT };
+	aiowrite64 { FLAGS = NODYNSORT };
+	lio_listio64 { FLAGS = NODYNSORT };
+	mkstemps64 { FLAGS = NODYNSORT };
+	posix_fadvise64 { FLAGS = NODYNSORT };
+	posix_fallocate64 { FLAGS = NODYNSORT };
+} SUNW_1.22.7;
+
+SYMBOL_VERSION SUNW_1.22.7 {   # s10u10 - SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	SUNW_1.22.7;
+} SUNW_1.22.6;
+
+SYMBOL_VERSION SUNW_1.22.6 {	# s10u9 - SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	futimens;
+	utimensat;
+} SUNW_1.22.5;
+
+SYMBOL_VERSION SUNW_1.22.5 {	# s10u8 - SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	getpagesizes2;
+} SUNW_1.22.4;
+
+SYMBOL_VERSION SUNW_1.22.4 {	# s10u7 - SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	SUNW_1.22.4;
+} SUNW_1.22.3;
+
+SYMBOL_VERSION SUNW_1.22.3 {	# SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	mutex_consistent;
+	u8_textprep_str;
+	uucopy;
+	uucopystr;
+} SUNW_1.22.2;
+
+SYMBOL_VERSION SUNW_1.22.2 {	# SunOS 5.10 (Solaris 10) patch additions
+} SUNW_1.22.1;
+
+SYMBOL_VERSION SUNW_1.22.1 {	# SunOS 5.10 (Solaris 10) patch additions
+    protected:
+	atomic_add_8;
+	atomic_add_8_nv;
+	atomic_add_char		{ FLAGS = NODYNSORT };
+	atomic_add_char_nv	{ FLAGS = NODYNSORT };
+	atomic_add_int		{ FLAGS = NODYNSORT };
+	atomic_add_int_nv	{ FLAGS = NODYNSORT };
+	atomic_add_ptr		{ FLAGS = NODYNSORT };
+	atomic_add_ptr_nv	{ FLAGS = NODYNSORT };
+	atomic_add_short	{ FLAGS = NODYNSORT };
+	atomic_add_short_nv	{ FLAGS = NODYNSORT };
+	atomic_and_16;
+	atomic_and_16_nv;
+	atomic_and_32_nv;
+	atomic_and_64;
+	atomic_and_64_nv;
+	atomic_and_8;
+	atomic_and_8_nv;
+	atomic_and_uchar	{ FLAGS = NODYNSORT };
+	atomic_and_uchar_nv	{ FLAGS = NODYNSORT };
+	atomic_and_uint_nv	{ FLAGS = NODYNSORT };
+	atomic_and_ulong	{ FLAGS = NODYNSORT };
+	atomic_and_ulong_nv	{ FLAGS = NODYNSORT };
+	atomic_and_ushort	{ FLAGS = NODYNSORT };
+	atomic_and_ushort_nv	{ FLAGS = NODYNSORT };
+	atomic_cas_16;
+	atomic_cas_32;
+	atomic_cas_64;
+	atomic_cas_8;
+	atomic_cas_ptr		{ FLAGS = NODYNSORT };
+	atomic_cas_uchar	{ FLAGS = NODYNSORT };
+	atomic_cas_uint		{ FLAGS = NODYNSORT };
+	atomic_cas_ulong	{ FLAGS = NODYNSORT };
+	atomic_cas_ushort	{ FLAGS = NODYNSORT };
+	atomic_clear_long_excl	{ FLAGS = NODYNSORT };
+	atomic_dec_16;
+	atomic_dec_16_nv;
+	atomic_dec_32;
+	atomic_dec_32_nv;
+	atomic_dec_64;
+	atomic_dec_64_nv;
+	atomic_dec_8;
+	atomic_dec_8_nv;
+	atomic_dec_uchar	{ FLAGS = NODYNSORT };
+	atomic_dec_uchar_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_uint		{ FLAGS = NODYNSORT };
+	atomic_dec_uint_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_ulong	{ FLAGS = NODYNSORT };
+	atomic_dec_ulong_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_ushort	{ FLAGS = NODYNSORT };
+	atomic_dec_ushort_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_16;
+	atomic_inc_16_nv;
+	atomic_inc_32;
+	atomic_inc_32_nv;
+	atomic_inc_64;
+	atomic_inc_64_nv;
+	atomic_inc_8;
+	atomic_inc_8_nv;
+	atomic_inc_uchar	{ FLAGS = NODYNSORT };
+	atomic_inc_uchar_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_uint		{ FLAGS = NODYNSORT };
+	atomic_inc_uint_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_ulong	{ FLAGS = NODYNSORT };
+	atomic_inc_ulong_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_ushort	{ FLAGS = NODYNSORT };
+	atomic_inc_ushort_nv	{ FLAGS = NODYNSORT };
+	atomic_or_16;
+	atomic_or_16_nv;
+	atomic_or_32_nv;
+	atomic_or_64;
+	atomic_or_64_nv;
+	atomic_or_8;
+	atomic_or_8_nv;
+	atomic_or_uchar		{ FLAGS = NODYNSORT };
+	atomic_or_uchar_nv	{ FLAGS = NODYNSORT };
+	atomic_or_uint_nv	{ FLAGS = NODYNSORT };
+	atomic_or_ulong		{ FLAGS = NODYNSORT };
+	atomic_or_ulong_nv	{ FLAGS = NODYNSORT };
+	atomic_or_ushort	{ FLAGS = NODYNSORT };
+	atomic_or_ushort_nv	{ FLAGS = NODYNSORT };
+	atomic_set_long_excl	{ FLAGS = NODYNSORT };
+	atomic_swap_16;
+	atomic_swap_32;
+	atomic_swap_64;
+	atomic_swap_8;
+	atomic_swap_ptr		{ FLAGS = NODYNSORT };
+	atomic_swap_uchar	{ FLAGS = NODYNSORT };
+	atomic_swap_uint	{ FLAGS = NODYNSORT };
+	atomic_swap_ulong	{ FLAGS = NODYNSORT };
+	atomic_swap_ushort	{ FLAGS = NODYNSORT };
+	membar_consumer;
+	membar_enter;
+	membar_exit;
+	membar_producer;
+
+$if _ELF32
+	enable_extended_FILE_stdio;
+$endif
+
+$if i386
+	# Note: atomic_[and,dec,inc,or]_64_nv are also defined above. Here,
+	# we add the NODYNSORT attribute to them. On this platform, they are
+	# aliases for the non-_nv versions. If that is changed, these lines
+	# should be removed.
+	atomic_and_64_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_64_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_64_nv	{ FLAGS = NODYNSORT };
+	atomic_or_64_nv		{ FLAGS = NODYNSORT };
+$endif
+$if _sparc
+	# Note: atomic_OP_WIDTH_nv symbols are also defined above. Here,
+	# we add the NODYNSORT attribute to them. On this platform, they are
+	# aliases for the non-_nv versions. If that is changed, these lines
+	# should be removed.
+	atomic_add_8_nv		{ FLAGS = NODYNSORT };
+	atomic_and_8_nv		{ FLAGS = NODYNSORT };
+	atomic_and_16_nv	{ FLAGS = NODYNSORT };
+	atomic_and_32_nv	{ FLAGS = NODYNSORT };
+	atomic_and_64_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_8_nv		{ FLAGS = NODYNSORT };
+	atomic_dec_16_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_32_nv	{ FLAGS = NODYNSORT };
+	atomic_dec_64_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_8_nv		{ FLAGS = NODYNSORT };
+	atomic_inc_16_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_32_nv	{ FLAGS = NODYNSORT };
+	atomic_inc_64_nv	{ FLAGS = NODYNSORT };
+	atomic_or_8_nv		{ FLAGS = NODYNSORT };
+	atomic_or_16_nv		{ FLAGS = NODYNSORT };
+	atomic_or_32_nv		{ FLAGS = NODYNSORT };
+	atomic_or_64_nv		{ FLAGS = NODYNSORT };
+$endif
+} SUNW_1.22;
+
+SYMBOL_VERSION SUNW_1.22 {	# SunOS 5.10 (Solaris 10)
+    global:
+$if _ELF32
+	dladdr		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dladdr1		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlclose		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dldump		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlerror		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlinfo		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlmopen		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlopen		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	dlsym		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+$elif sparcv9
+	dladdr		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dladdr1		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlclose		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dldump		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlerror		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlinfo		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlmopen		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlopen		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	dlsym		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+$elif amd64
+	dladdr		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dladdr1		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlamd64getunwind { TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlclose		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dldump		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlerror		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlinfo		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlmopen		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlopen		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	dlsym		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+$else
+$error unknown platform
+$endif
+
+    protected:
+	alphasort;
+	atomic_add_16;
+	atomic_add_16_nv;
+	atomic_add_32;
+	atomic_add_32_nv;
+	atomic_add_64;
+	atomic_add_64_nv;
+	atomic_add_long		{ FLAGS = NODYNSORT };
+	atomic_add_long_nv	{ FLAGS = NODYNSORT };
+	atomic_and_32;
+	atomic_and_uint		{ FLAGS = NODYNSORT };
+	atomic_or_32;
+	atomic_or_uint		{ FLAGS = NODYNSORT };
+	_Exit;
+	getisax;
+	_getisax;
+	getopt_clip;
+	_getopt_clip;
+	getopt_long;
+	_getopt_long;
+	getopt_long_only;
+	_getopt_long_only;
+	getpeerucred;
+	_getpeerucred;
+	getpflags;
+	_getpflags;
+	getppriv;
+	_getppriv;
+	getprivimplinfo;
+	_getprivimplinfo;
+	getzoneid;
+	getzoneidbyname;
+	getzonenamebyid;
+	imaxabs;
+	imaxdiv;
+	isblank;
+	iswblank;
+	port_alert;
+	port_associate;
+	port_create;
+	port_dissociate;
+	port_get;
+	port_getn;
+	port_send;
+	port_sendn;
+	posix_openpt;
+	posix_spawn;
+	posix_spawnattr_destroy;
+	posix_spawnattr_getflags;
+	posix_spawnattr_getpgroup;
+	posix_spawnattr_getschedparam;
+	posix_spawnattr_getschedpolicy;
+	posix_spawnattr_getsigdefault;
+	posix_spawnattr_getsigmask;
+	posix_spawnattr_init;
+	posix_spawnattr_setflags;
+	posix_spawnattr_setpgroup;
+	posix_spawnattr_setschedparam;
+	posix_spawnattr_setschedpolicy;
+	posix_spawnattr_setsigdefault;
+	posix_spawnattr_setsigmask;
+	posix_spawn_file_actions_addclose;
+	posix_spawn_file_actions_adddup2;
+	posix_spawn_file_actions_addopen;
+	posix_spawn_file_actions_destroy;
+	posix_spawn_file_actions_init;
+	posix_spawnp;
+	priv_addset;
+	_priv_addset;
+	priv_allocset;
+	_priv_allocset;
+	priv_copyset;
+	_priv_copyset;
+	priv_delset;
+	_priv_delset;
+	priv_emptyset;
+	_priv_emptyset;
+	priv_fillset;
+	_priv_fillset;
+	__priv_free_info;
+	priv_freeset;
+	_priv_freeset;
+	priv_getbyname;
+	_priv_getbyname;
+	__priv_getbyname;
+	priv_getbynum;
+	_priv_getbynum;
+	__priv_getbynum;
+	__priv_getdata;
+	priv_getsetbyname;
+	_priv_getsetbyname;
+	__priv_getsetbyname;
+	priv_getsetbynum;
+	_priv_getsetbynum;
+	__priv_getsetbynum;
+	priv_gettext;
+	_priv_gettext;
+	priv_ineffect;
+	_priv_ineffect;
+	priv_intersect;
+	_priv_intersect;
+	priv_inverse;
+	_priv_inverse;
+	priv_isemptyset;
+	_priv_isemptyset;
+	priv_isequalset;
+	_priv_isequalset;
+	priv_isfullset;
+	_priv_isfullset;
+	priv_ismember;
+	_priv_ismember;
+	priv_issubset;
+	_priv_issubset;
+	__priv_parse_info;
+	priv_set;
+	_priv_set;
+	priv_set_to_str;
+	_priv_set_to_str;
+	__priv_set_to_str;
+	priv_str_to_set;
+	_priv_str_to_set;
+	priv_union;
+	_priv_union;
+	pselect;
+	pthread_attr_getstack;
+	pthread_attr_setstack;
+	pthread_barrierattr_destroy;
+	pthread_barrierattr_getpshared;
+	pthread_barrierattr_init;
+	pthread_barrierattr_setpshared;
+	pthread_barrier_destroy;
+	pthread_barrier_init;
+	pthread_barrier_wait;
+	pthread_condattr_getclock;
+	pthread_condattr_setclock;
+	pthread_mutexattr_getrobust_np	{ FLAGS = NODYNSORT };
+	pthread_mutexattr_setrobust_np	{ FLAGS = NODYNSORT };
+	pthread_mutex_consistent_np	{ FLAGS = NODYNSORT };
+	pthread_mutex_reltimedlock_np;
+	pthread_mutex_timedlock;
+	pthread_rwlock_reltimedrdlock_np;
+	pthread_rwlock_reltimedwrlock_np;
+	pthread_rwlock_timedrdlock;
+	pthread_rwlock_timedwrlock;
+	pthread_setschedprio;
+	pthread_spin_destroy;
+	pthread_spin_init;
+	pthread_spin_lock;
+	pthread_spin_trylock;
+	pthread_spin_unlock;
+	rctlblk_set_recipient_pid;
+	scandir;
+	schedctl_exit;
+	schedctl_init;
+	schedctl_lookup;
+	sema_reltimedwait;
+	sema_timedwait;
+	setenv;
+	setpflags;
+	_setpflags;
+	setppriv;
+	_setppriv;
+	strerror_r;
+	strtof;
+	strtoimax;
+	strtold;
+	strtoumax;
+	ucred_free;
+	_ucred_free;
+	ucred_get;
+	_ucred_get;
+	ucred_getegid;
+	_ucred_getegid;
+	ucred_geteuid;
+	_ucred_geteuid;
+	ucred_getgroups;
+	_ucred_getgroups;
+	ucred_getpflags;
+	_ucred_getpflags;
+	ucred_getpid;
+	_ucred_getpid;
+	ucred_getprivset;
+	_ucred_getprivset;
+	ucred_getprojid;
+	_ucred_getprojid;
+	ucred_getrgid;
+	_ucred_getrgid;
+	ucred_getruid;
+	_ucred_getruid;
+	ucred_getsgid;
+	_ucred_getsgid;
+	ucred_getsuid;
+	_ucred_getsuid;
+	ucred_getzoneid;
+	_ucred_getzoneid;
+	ucred_size;
+	_ucred_size;
+	unsetenv;
+	wcstof;
+	wcstoimax;
+	wcstold;
+	wcstoll;
+	wcstoull;
+	wcstoumax;
+
+	alphasort64 { FLAGS = NODYNSORT };
+	pselect_large_fdset { FLAGS = NODYNSORT };
+	scandir64 { FLAGS = NODYNSORT };
+
+$if _ELF64
+	walkcontext;
+$endif
+
+$if _sparc
+	# Note: atomic_add_[16,32,64]_nv are also defined above. Here, we add
+	# the NODYNSORT attribute to them. On this platform, they are aliases
+	# for the non-_nv versions. If that is changed, these lines should be
+	# removed.
+	atomic_add_16_nv	{ FLAGS = NODYNSORT };
+	atomic_add_32_nv	{ FLAGS = NODYNSORT };
+	atomic_add_64_nv	{ FLAGS = NODYNSORT };
+$endif
+
+$if i386
+	# Note: atomic_add_64_nv is also defined above. Here, we add the
+	# NODYNSORT attribute to it. On this platform, it is an aliases for
+	# atomic_add_64. If that is changed, this line should be removed.
+	atomic_add_64_nv 	{ FLAGS = NODYNSORT };
+$endif
+
+$if amd64
+	# Exception unwind APIs required by the amd64 ABI
+	_SUNW_Unwind_DeleteException;
+	_SUNW_Unwind_ForcedUnwind;
+	_SUNW_Unwind_GetCFA;
+	_SUNW_Unwind_GetGR;
+	_SUNW_Unwind_GetIP;
+	_SUNW_Unwind_GetLanguageSpecificData;
+	_SUNW_Unwind_GetRegionStart;
+	_SUNW_Unwind_RaiseException;
+	_SUNW_Unwind_Resume;
+	_SUNW_Unwind_SetGR;
+	_SUNW_Unwind_SetIP;
+	_UA_CLEANUP_PHASE;
+	_UA_FORCE_UNWIND;
+	_UA_HANDLER_FRAME;
+	_UA_SEARCH_PHASE;
+	_Unwind_DeleteException;
+	_Unwind_ForcedUnwind;
+	_Unwind_GetCFA;
+	_Unwind_GetGR;
+	_Unwind_GetIP;
+	_Unwind_GetLanguageSpecificData;
+	_Unwind_GetRegionStart;
+	_Unwind_RaiseException;
+	_Unwind_Resume;
+	_Unwind_SetGR;
+	_Unwind_SetIP;
+$endif
+} SUNW_1.21.3;
+
+SYMBOL_VERSION SUNW_1.21.3 {	# SunOS 5.9 (Solaris 9) patch additions
+    protected:
+	forkall;
+} SUNW_1.21.2;
+
+SYMBOL_VERSION SUNW_1.21.2 {	# SunOS 5.9 (Solaris 9) patch additions
+    protected:
+	getustack;
+	_getustack;
+	setustack;
+	_setustack;
+	stack_getbounds;
+	_stack_getbounds;
+	_stack_grow;
+	stack_inbounds;
+	_stack_inbounds;
+	stack_setbounds;
+	_stack_setbounds;
+	stack_violation;
+	_stack_violation;
+
+$if _sparc
+	__makecontext_v2;
+	___makecontext_v2;
+$endif
+} SUNW_1.21.1;
+
+SYMBOL_VERSION SUNW_1.21.1 {	# SunOS 5.9 (Solaris 9) patch additions
+    protected:
+	crypt_gensalt;
+} SUNW_1.21;
+
+SYMBOL_VERSION SUNW_1.21 {	# SunOS 5.9 (Solaris 9)
+    protected:
+	attropen;
+	bind_textdomain_codeset;
+	closefrom;
+	_closefrom;
+	cond_reltimedwait;
+	dcngettext;
+	dngettext;
+	fchownat;
+	_fchownat;
+	fdopendir;
+	_fdopendir;
+	fdwalk;
+	_fdwalk;
+	fstatat;
+$if _ELF32
+	fstatat_new		{ FLAGS = NODYNSORT };
+	fstat_new		{ FLAGS = NODYNSORT };
+	lstat_new		{ FLAGS = NODYNSORT };
+	stat_new		{ FLAGS = NODYNSORT };
+$endif
+	futimesat;
+	_futimesat;
+	getcpuid;
+	_getcpuid;
+	gethomelgroup;
+	_gethomelgroup		{ FLAGS = NODYNSORT };
+	getpagesizes;
+	getrctl;
+	_getrctl;
+	issetugid;
+	_issetugid;
+	_lwp_cond_reltimedwait;
+	meminfo;
+	_meminfo;
+	ngettext;
+	openat;
+	printstack;
+	priocntl;
+	priocntlset;
+	pset_getattr;
+	pset_getloadavg;
+	pset_list;
+	pset_setattr;
+	pthread_cond_reltimedwait_np;
+	rctlblk_get_enforced_value;
+	rctlblk_get_firing_time;
+	rctlblk_get_global_action;
+	rctlblk_get_global_flags;
+	rctlblk_get_local_action;
+	rctlblk_get_local_flags;
+	rctlblk_get_privilege;
+	rctlblk_get_recipient_pid;
+	rctlblk_get_value;
+	rctlblk_set_local_action;
+	rctlblk_set_local_flags;
+	rctlblk_set_privilege;
+	rctlblk_set_value;
+	rctlblk_size;
+	rctl_walk;
+	renameat;
+	setrctl;
+	_setrctl;
+	unlinkat;
+	_unlinkat;
+	vfscanf;
+	_vfscanf;
+	vfwscanf;
+	vscanf;
+	_vscanf;
+	vsscanf;
+	_vsscanf;
+	vswscanf;
+	vwscanf;
+
+$if _ELF32
+	walkcontext;
+$endif
+
+	attropen64 { FLAGS = NODYNSORT };
+	openat64 { FLAGS = NODYNSORT };
+} SUNW_1.20.4;
+
+SYMBOL_VERSION SUNW_1.20.4 {	# SunOS 5.8 (Solaris 8) patch additions
+    protected:
+	semtimedop;
+	_semtimedop;
+} SUNW_1.20.1;
+
+SYMBOL_VERSION SUNW_1.20.1 {	# SunOS 5.8 (Solaris 8) patch additions
+    protected:
+	getacct;
+	_getacct;
+	getprojid;
+	_getprojid;
+	gettaskid;
+	_gettaskid;
+	msgids;
+	_msgids;
+	msgsnap;
+	_msgsnap;
+	putacct;
+	_putacct;
+	semids;
+	_semids;
+	settaskid;
+	_settaskid;
+	shmids;
+	_shmids;
+	wracct;
+	_wracct;
+} SUNW_1.20;
+
+SYMBOL_VERSION SUNW_1.20 {	# SunOS 5.8 (Solaris 8)
+    protected:
+	getextmntent;
+	resetmnttab;
+} SUNW_1.19;
+
+SYMBOL_VERSION SUNW_1.19 {
+    protected:
+	strlcat;
+	strlcpy;
+	umount2;
+	_umount2;
+} SUNW_1.18.1;
+
+SYMBOL_VERSION SUNW_1.18.1 {
+    protected:
+	__fsetlocking;
+} SUNW_1.18;
+
+SYMBOL_VERSION SUNW_1.18 {	# SunOS 5.7 (Solaris 7)
+    protected:
+	btowc;
+	__fbufsize;
+	__fseterr;
+	__freadahead;
+	__flbf;
+	_flushlbf;
+	__fpending;
+	__fpurge;
+	__freadable;
+	__freading;
+	fwide;
+	fwprintf;
+	__fwritable;
+	__fwriting;
+	fwscanf;
+	getloadavg;
+	isaexec;
+	mbrlen;
+	mbrtowc;
+	mbsinit;
+	mbsrtowcs;
+	pcsample;
+	pthread_attr_getguardsize;
+	pthread_attr_setguardsize;
+	pthread_getconcurrency;
+	pthread_mutexattr_gettype;
+	pthread_mutexattr_settype;
+	pthread_rwlockattr_destroy;
+	pthread_rwlockattr_getpshared;
+	pthread_rwlockattr_init;
+	pthread_rwlockattr_setpshared;
+	pthread_rwlock_destroy;
+	pthread_rwlock_init;
+	pthread_rwlock_rdlock;
+	pthread_rwlock_tryrdlock;
+	pthread_rwlock_trywrlock;
+	pthread_rwlock_unlock;
+	pthread_rwlock_wrlock;
+	pthread_setconcurrency;
+	swprintf;
+	swscanf;
+	__sysconf_xpg5;
+	vfwprintf;
+	vswprintf;
+	vwprintf;
+	wcrtomb;
+	wcsrtombs;
+	wcsstr;
+	wctob;
+	wmemchr;
+	wmemcmp;
+	wmemcpy;
+	wmemmove;
+	wmemset;
+	wprintf;
+	wscanf;
+
+$if _ELF32
+	select_large_fdset;
+$endif
+} SUNW_1.17;
+
+# The empty versions SUNW_1.2 through SUNW_1.17 must be preserved because
+# applications built on Solaris 2.6 Beta (when they did contain symbols)
+# may depend on them.  All symbol content for SunOS 5.6 is now in SUNW_1.1
+
+SYMBOL_VERSION SUNW_1.17 {
+    protected:
+	SUNW_1.17;
+} SUNW_1.16;
+
+SYMBOL_VERSION SUNW_1.16 {
+    protected:
+	SUNW_1.16;
+} SUNW_1.15;
+
+SYMBOL_VERSION SUNW_1.15 {
+    protected:
+	SUNW_1.15;
+} SUNW_1.14;
+
+SYMBOL_VERSION SUNW_1.14 {
+    protected:
+	SUNW_1.14;
+} SUNW_1.13;
+
+SYMBOL_VERSION SUNW_1.13 {
+    protected:
+	SUNW_1.13;
+} SUNW_1.12;
+
+SYMBOL_VERSION SUNW_1.12 {
+    protected:
+	SUNW_1.12;
+} SUNW_1.11;
+
+SYMBOL_VERSION SUNW_1.11 {
+    protected:
+	SUNW_1.11;
+} SUNW_1.10;
+
+SYMBOL_VERSION SUNW_1.10 {
+    protected:
+	SUNW_1.10;
+} SUNW_1.9;
+
+SYMBOL_VERSION SUNW_1.9 {
+    protected:
+	SUNW_1.9;
+} SUNW_1.8;
+
+SYMBOL_VERSION SUNW_1.8 {
+    protected:
+	SUNW_1.8;
+} SUNW_1.7;
+
+SYMBOL_VERSION SUNW_1.7 {
+    protected:
+	SUNW_1.7;
+} SUNW_1.6;
+
+SYMBOL_VERSION SUNW_1.6 {
+    protected:
+	SUNW_1.6;
+} SUNW_1.5;
+
+SYMBOL_VERSION SUNW_1.5 {
+    protected:
+	SUNW_1.5;
+} SUNW_1.4;
+
+SYMBOL_VERSION SUNW_1.4 {
+    protected:
+	SUNW_1.4;
+} SUNW_1.3;
+
+SYMBOL_VERSION SUNW_1.3 {
+    protected:
+	SUNW_1.3;
+} SUNW_1.2;
+
+SYMBOL_VERSION SUNW_1.2 {
+    protected:
+	SUNW_1.2;
+} SUNW_1.1;
+
+SYMBOL_VERSION SUNW_1.1 {	# SunOS 5.6 (Solaris 2.6)
+    global:
+	__loc1;
+    protected:
+	basename;
+	bindtextdomain;
+	bsd_signal;
+	dbm_clearerr;
+	dbm_error;
+	dcgettext;
+	dgettext;
+	directio;
+	dirname;
+	endusershell;
+	_exithandle;
+	fgetwc;
+	fgetws;
+	fpgetround;
+	fpsetround;
+	fputwc;
+	fputws;
+	fseeko;
+	ftello;
+	ftrylockfile;
+	getexecname;
+	_getexecname;
+	getpassphrase;
+	gettext;
+	getusershell;
+	getwc;
+	getwchar;
+	getws;
+	isenglish;
+	isideogram;
+	isnumber;
+	isphonogram;
+	isspecial;
+	iswalnum;
+	iswalpha;
+	iswcntrl;
+	iswctype;
+	iswdigit;
+	iswgraph;
+	iswlower;
+	iswprint;
+	iswpunct;
+	iswspace;
+	iswupper;
+	iswxdigit;
+	____loc1;
+	_longjmp;
+	_lwp_sema_trywait;
+	ntp_adjtime;
+	_ntp_adjtime;
+	ntp_gettime;
+	_ntp_gettime;
+	__posix_asctime_r;
+	__posix_ctime_r;
+	__posix_getgrgid_r;
+	__posix_getgrnam_r;
+	__posix_getlogin_r;
+	__posix_getpwnam_r;
+	__posix_getpwuid_r;
+	__posix_sigwait;
+	__posix_ttyname_r;
+	pset_assign;
+	pset_bind;
+	pset_create;
+	pset_destroy;
+	pset_info;
+	pthread_atfork;
+	pthread_attr_destroy;
+	pthread_attr_getdetachstate;
+	pthread_attr_getinheritsched;
+	pthread_attr_getschedparam;
+	pthread_attr_getschedpolicy;
+	pthread_attr_getscope;
+	pthread_attr_getstackaddr;
+	pthread_attr_getstacksize;
+	pthread_attr_init;
+	pthread_attr_setdetachstate;
+	pthread_attr_setinheritsched;
+	pthread_attr_setschedparam;
+	pthread_attr_setschedpolicy;
+	pthread_attr_setscope;
+	pthread_attr_setstackaddr;
+	pthread_attr_setstacksize;
+	pthread_cancel;
+	__pthread_cleanup_pop;
+	__pthread_cleanup_push;
+	pthread_create;
+	pthread_detach;
+	pthread_equal;
+	pthread_exit;
+	pthread_getschedparam;
+	pthread_getspecific;
+	pthread_join;
+	pthread_key_create;
+	pthread_key_delete;
+	pthread_kill;
+	pthread_once;
+	pthread_self;
+	pthread_setcancelstate;
+	pthread_setcanceltype;
+	pthread_setschedparam;
+	pthread_setspecific;
+	pthread_sigmask;
+	pthread_testcancel;
+	putwc;
+	putwchar;
+	putws;
+	regcmp;
+	regex;
+	resolvepath;
+	_resolvepath;
+	rwlock_destroy		{ FLAGS = NODYNSORT };
+	_rwlock_destroy		{ FLAGS = NODYNSORT };
+	sema_destroy;
+	_sema_destroy;
+	_setjmp;
+	setusershell;
+	siginterrupt;
+	sigstack;
+	snprintf;
+	strtows;
+	sync_instruction_memory;
+	textdomain;
+	thr_main;
+	towctrans;
+	towlower;
+	towupper;
+	ungetwc;
+	vsnprintf;
+	watoll;
+	wcscat;
+	wcschr;
+	wcscmp;
+	wcscoll;
+	wcscpy;
+	wcscspn;
+	wcsftime;
+	wcslen;
+	wcsncat;
+	wcsncmp;
+	wcsncpy;
+	wcspbrk;
+	wcsrchr;
+	wcsspn;
+	wcstod;
+	wcstok;
+	wcstol;
+	wcstoul;
+	wcswcs;
+	wcswidth;
+	wcsxfrm;
+	wctrans;
+	wctype;
+	wcwidth;
+	wscasecmp;
+	wscat;
+	wschr;
+	wscmp;
+	wscol;
+	wscoll;
+	wscpy;
+	wscspn;
+	wsdup;
+	wslen;
+	wsncasecmp;
+	wsncat;
+	wsncmp;
+	wsncpy;
+	wspbrk;
+	wsprintf;
+	wsrchr;
+	wsscanf;
+	wsspn;
+	wstod;
+	wstok;
+	wstol;
+	wstoll;
+	wstostr;
+	wsxfrm;
+	__xpg4_putmsg;
+	__xpg4_putpmsg;
+
+$if _ELF32
+	s_fcntl;
+	_s_fcntl		{ FLAGS = NODYNSORT };
+	s_ioctl;
+$endif
+
+	creat64 { FLAGS = NODYNSORT };
+	fgetpos64 { FLAGS = NODYNSORT };
+	fopen64 { FLAGS = NODYNSORT };
+	freopen64 { FLAGS = NODYNSORT };
+	fseeko64 { FLAGS = NODYNSORT };
+	fsetpos64 { FLAGS = NODYNSORT };
+	fstatvfs64 { FLAGS = NODYNSORT };
+	ftello64 { FLAGS = NODYNSORT };
+	ftruncate64 { FLAGS = NODYNSORT };
+	ftw64 { FLAGS = NODYNSORT };
+	getdents64 { FLAGS = NODYNSORT };
+	getrlimit64 { FLAGS = NODYNSORT };
+	lockf64 { FLAGS = NODYNSORT };
+	lseek64 { FLAGS = NODYNSORT };
+	mkstemp64 { FLAGS = NODYNSORT };
+	mmap64 { FLAGS = NODYNSORT };
+	nftw64 { FLAGS = NODYNSORT };
+	open64 { FLAGS = NODYNSORT };
+	pread64 { FLAGS = NODYNSORT };
+	pwrite64 { FLAGS = NODYNSORT };
+	readdir64 { FLAGS = NODYNSORT };
+	readdir64_r { FLAGS = NODYNSORT };
+	setrlimit64 { FLAGS = NODYNSORT };
+	statvfs64 { FLAGS = NODYNSORT };
+	tell64 { FLAGS = NODYNSORT };
+	tmpfile64 { FLAGS = NODYNSORT };
+	truncate64 { FLAGS = NODYNSORT };
+
+$if _sparc
+	__flt_rounds;
+$endif
+} SUNW_0.9;
+
+SYMBOL_VERSION SUNW_0.9 {	# SunOS 5.5 (Solaris 2.5)
+    protected:
+	acl;
+	bcmp;
+	bcopy;
+	bzero;
+	facl;
+	ftime;
+	getdtablesize;
+	gethostid;
+	gethostname;
+	getpagesize;
+	getpriority;
+	getrusage;
+	getwd;
+	index;
+	initstate;
+	killpg;
+	_nsc_trydoorcall;
+	pthread_condattr_destroy;
+	pthread_condattr_getpshared;
+	pthread_condattr_init;
+	pthread_condattr_setpshared;
+	pthread_cond_broadcast;
+	pthread_cond_destroy;
+	pthread_cond_init;
+	pthread_cond_signal;
+	pthread_cond_timedwait;
+	pthread_cond_wait;
+	pthread_mutexattr_destroy;
+	pthread_mutexattr_getprioceiling;
+	pthread_mutexattr_getprotocol;
+	pthread_mutexattr_getpshared;
+	pthread_mutexattr_init;
+	pthread_mutexattr_setprioceiling;
+	pthread_mutexattr_setprotocol;
+	pthread_mutexattr_setpshared;
+	pthread_mutex_destroy;
+	pthread_mutex_getprioceiling;
+	pthread_mutex_init;
+	pthread_mutex_lock;
+	pthread_mutex_setprioceiling;
+	pthread_mutex_trylock;
+	pthread_mutex_unlock;
+	random;
+	reboot;
+	re_comp;
+	re_exec;
+	rindex;
+	setbuffer;
+	sethostname;
+	setlinebuf;
+	setpriority;
+	setregid;
+	setreuid;
+	setstate;
+	srandom;
+	thr_min_stack;
+	thr_stksegment;
+	ualarm;
+	usleep;
+	wait3;
+	wait4;
+} SUNW_0.8;
+
+SYMBOL_VERSION SUNW_0.8 {	# SunOS 5.4 (Solaris 2.4)
+    global:
+	__xpg4			{ FLAGS = NODIRECT };
+    protected:
+	addsev;
+	cond_broadcast		{ FLAGS = NODYNSORT };
+	cond_destroy		{ FLAGS = NODYNSORT };
+	cond_init;
+	cond_signal		{ FLAGS = NODYNSORT };
+	cond_timedwait;
+	cond_wait;
+	confstr;
+	fnmatch;
+	_getdate_err_addr;
+	glob;
+	globfree;
+	iconv;
+	iconv_close;
+	iconv_open;
+	lfmt;
+	mutex_destroy		{ FLAGS = NODYNSORT };
+	mutex_init;
+	mutex_lock		{ FLAGS = NODYNSORT };
+	mutex_trylock		{ FLAGS = NODYNSORT };
+	mutex_unlock		{ FLAGS = NODYNSORT };
+	pfmt;
+	regcomp;
+	regerror;
+	regexec;
+	regfree;
+	rwlock_init;
+	rw_rdlock		{ FLAGS = NODYNSORT };
+	rw_read_held;
+	rw_tryrdlock		{ FLAGS = NODYNSORT };
+	rw_trywrlock		{ FLAGS = NODYNSORT };
+	rw_unlock		{ FLAGS = NODYNSORT };
+	rw_write_held;
+	rw_wrlock		{ FLAGS = NODYNSORT };
+	sema_held;
+	sema_init;
+	sema_post;
+	sema_trywait;
+	sema_wait;
+	setcat;
+	sigfpe;
+	strfmon;
+	strptime;
+	thr_continue;
+	thr_create;
+	thr_exit;
+	thr_getconcurrency;
+	thr_getprio;
+	thr_getspecific;
+	thr_join;
+	thr_keycreate;
+	thr_kill;
+	thr_self		{ FLAGS = NODYNSORT };
+	thr_setconcurrency;
+	thr_setprio;
+	thr_setspecific;
+	thr_sigsetmask;
+	thr_suspend;
+	thr_yield;
+	vlfmt;
+	vpfmt;
+} SUNW_0.7;
+
+SYMBOL_VERSION SUNW_0.7 {	# SunOS 5.3 (Solaris 2.3)
+    global:
+	altzone;
+	_ctype;
+	isnanf			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	lone;
+	lten;
+	lzero;
+	memalign		{ FLAGS = NODIRECT };
+	modff			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	nss_default_finders;
+	_sibuf;
+	_sobuf;
+	_sys_buslist;
+	_sys_cldlist;
+	_sys_fpelist;
+	_sys_illlist;
+	_sys_segvlist;
+	_sys_siginfolistp;
+	_sys_siglist;
+	_sys_siglistn;
+	_sys_siglistp;
+	_sys_traplist;
+	valloc			{ FLAGS = NODIRECT };
+
+$if _ELF32
+	_bufendtab;
+	_lastbuf;
+	sys_errlist;
+	sys_nerr;
+	_sys_nsig;
+$endif
+
+    protected:
+	a64l;
+	adjtime;
+	ascftime;
+	_assert;
+	atoll;
+	brk;
+	__builtin_alloca;
+	cftime;
+	closelog;
+	csetcol;
+	csetlen;
+	ctermid_r;
+	dbm_close;
+	dbm_delete;
+	dbm_fetch;
+	dbm_firstkey;
+	dbm_nextkey;
+	dbm_open;
+	dbm_store;
+	decimal_to_double;
+	decimal_to_extended;
+	decimal_to_quadruple;
+	decimal_to_single;
+	double_to_decimal;
+	drand48;
+	econvert;
+	ecvt;
+	endnetgrent;
+	endspent;
+	endutent;
+	endutxent;
+	erand48;
+	euccol;
+	euclen;
+	eucscol;
+	extended_to_decimal;
+	fchroot;
+	fconvert;
+	fcvt;
+	ffs;
+	fgetspent;
+	fgetspent_r;
+	_filbuf;
+	file_to_decimal;
+	finite;
+	_flsbuf;
+	fork1			{ FLAGS = NODYNSORT };
+	fpclass;
+	fpgetmask;
+	fpgetsticky;
+	fpsetmask;
+	fpsetsticky;
+	fstatfs;
+	ftruncate;
+	ftw;
+	func_to_decimal;
+	gconvert;
+	gcvt;
+	getdents;
+	gethrtime;
+	gethrvtime;
+	getmntany;
+	getmntent;
+	getnetgrent;
+	getnetgrent_r;
+	getspent;
+	getspent_r;
+	getspnam;
+	getspnam_r;
+	getutent;
+	getutid;
+	getutline;
+	getutmp;
+	getutmpx;
+	getutxent;
+	getutxid;
+	getutxline;
+	getvfsany;
+	getvfsent;
+	getvfsfile;
+	getvfsspec;
+	getwidth;
+	gsignal;
+	hasmntopt;
+	innetgr;
+	insque;
+	_insque;
+	jrand48;
+	l64a;
+	ladd;
+	lckpwdf;
+	lcong48;
+	ldivide;
+	lexp10;
+	llabs;
+	lldiv;
+	llog10;
+	llseek { FLAGS = NODYNSORT };
+	lltostr;
+	lmul;
+	lrand48;
+	lshiftl;
+	lsub;
+	_lwp_cond_broadcast;
+	_lwp_cond_signal;
+	_lwp_cond_timedwait;
+	_lwp_cond_wait;
+	_lwp_continue;
+	_lwp_info;
+	_lwp_kill;
+	_lwp_mutex_lock;
+	_lwp_mutex_trylock;
+	_lwp_mutex_unlock;
+	_lwp_self;
+	_lwp_sema_init;
+	_lwp_sema_post;
+	_lwp_sema_wait;
+	_lwp_suspend;
+	madvise;
+	__major;
+	__makedev;
+	mincore;
+	__minor;
+	mkstemp;
+	mlockall;
+	mrand48;
+	munlockall;
+	_mutex_held		{ FLAGS = NODYNSORT };
+	_mutex_lock		{ FLAGS = NODYNSORT };
+	nrand48;
+	_nss_netdb_aliases;
+	_nss_XbyY_buf_alloc;
+	_nss_XbyY_buf_free;
+	__nsw_extended_action;
+	__nsw_freeconfig;
+	__nsw_getconfig;
+	openlog;
+	plock;
+	p_online;
+	pread;
+	__priocntl;
+	__priocntlset;
+	processor_bind;
+	processor_info;
+	psiginfo;
+	psignal;
+	putpwent;
+	putspent;
+	pututline;
+	pututxline;
+	pwrite;
+	qeconvert;
+	qecvt;
+	qfconvert;
+	qfcvt;
+	qgconvert;
+	qgcvt;
+	quadruple_to_decimal;
+	realpath;
+	remque;
+	_remque;
+	_rw_read_held;
+	_rw_write_held;
+	seconvert;
+	seed48;
+	select;
+	_sema_held;
+	setegid;
+	seteuid;
+	setlogmask;
+	setnetgrent;
+	setspent;
+	settimeofday;
+	setutent;
+	setutxent;
+	sfconvert;
+	sgconvert;
+	sig2str;
+	sigwait;
+	single_to_decimal;
+	srand48;
+	ssignal;
+	statfs;
+	str2sig;
+	strcasecmp;
+	string_to_decimal;
+	strncasecmp;
+	strsignal;
+	strtoll;
+	strtoull;
+	swapctl;
+	_syscall;
+	sysfs;
+	syslog;
+	_syslog;
+	tmpnam_r;
+	truncate;
+	ttyslot;
+	uadmin;
+	ulckpwdf;
+	ulltostr;
+	unordered;
+	updwtmp;
+	updwtmpx;
+	ustat;
+	utimes;
+	utmpname;
+	utmpxname;
+	vfork;
+	vhangup;
+	vsyslog;
+	yield;
+
+$if i386
+	# Note: _syscall is also defined above. Here, we add the NODYNSORT
+	# attribute to it. On this platform, it is an alias to syscall.
+	# If that is changed, this lines should be removed.
+	_syscall		{ FLAGS = NODYNSORT };
+$endif
+
+# The 32-bit sparc ABI requires SISCD_2.3. On other platforms, those symbols
+# go directly into SUNW_0.7.
+$if sparc32
+} SISCD_2.3;
+
+SYMBOL_VERSION SISCD_2.3 {
+$endif
+
+    global:
+	errno			{ FLAGS = NODIRECT };
+
+    protected:
+	addseverity;
+	_addseverity;
+	asctime_r;
+	crypt;
+	_crypt;
+	ctime_r;
+	encrypt;
+	_encrypt;
+	endgrent;
+	endpwent;
+	___errno;
+	fgetgrent;
+	fgetpwent;
+	flockfile;
+	funlockfile;
+	getchar_unlocked;
+	getc_unlocked;
+	getgrent;
+	getgrgid_r;
+	getgrnam_r;
+	getitimer;
+	_getitimer;
+	getlogin_r;
+	getpwent;
+	getpwnam_r;
+	getpwuid_r;
+	gettimeofday;
+	_gettimeofday;
+	gmtime_r;
+	localtime_r;
+	putchar_unlocked;
+	putc_unlocked;
+	rand_r;
+	readdir_r;
+	setgrent;
+	setitimer;
+	_setitimer;
+	setkey;
+	_setkey;
+	setpwent;
+	strtok_r;
+	sysinfo;
+	ttyname_r;
+
+$if _ELF32
+	__div64;
+	__mul64;
+	__rem64;
+	__udiv64;
+	__urem64;
+$endif
+
+$if sparc32
+	__dtoll;
+	__dtoull;
+	__ftoll;
+	__ftoull;
+	_Q_lltoq;
+	_Q_qtoll;
+	_Q_qtoull;
+	_Q_ulltoq;
+	sbrk;
+	_sbrk;
+	__umul64		{ FLAGS = NODYNSORT };	# Same address as __mul64
+$endif
+
+# On 32-bit platforms, the following symbols go into SYSVABI_1.3, but on
+# other platforms they go directly into the current version (which will be
+# either SUNW_0.7, or SISCD_2.3, depending on the similar issue described above.
+$if _ELF32
+} SYSVABI_1.3;
+
+SYMBOL_VERSION SYSVABI_1.3 {
+$endif
+
+    global:
+	_altzone;
+	calloc			{ FLAGS = NODIRECT };
+	__ctype;
+	daylight;
+	_daylight;
+	environ			{ FLAGS = NODIRECT };
+	_environ		{ FLAGS = NODIRECT };
+	free			{ FLAGS = NODIRECT };
+	frexp			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	getdate_err;
+	_getdate_err;
+	getenv;
+	__stdinp;
+	__stdoutp;
+	__stderrp;
+	isnan			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_isnan			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	isnand			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_isnand			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	ldexp			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	logb			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	malloc			{ FLAGS = NODIRECT };
+	memcmp;
+	memcpy;
+	memmove;
+	memset;
+	modf			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_modf			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	nextafter		{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_nextafter		{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_numeric;
+	optarg;
+	opterr;
+	optind;
+	optopt;
+	realloc			{ FLAGS = NODIRECT };
+	scalb			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_scalb			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	timezone;
+	_timezone;
+	tzname;
+	_tzname;
+$if i386
+	_fp_hw;
+$endif
+
+    protected:
+	abort;
+	abs;
+	access;
+	_access;
+	acct;
+	_acct;
+	alarm;
+	_alarm;
+	asctime;
+	__assert;
+	atexit;
+	atof;
+	atoi;
+	atol;
+	bsearch;
+	catclose;
+	_catclose;
+	catgets;
+	_catgets;
+	catopen;
+	_catopen;
+	cfgetispeed;
+	_cfgetispeed;
+	cfgetospeed;
+	_cfgetospeed;
+	cfsetispeed;
+	_cfsetispeed;
+	cfsetospeed;
+	_cfsetospeed;
+	chdir;
+	_chdir;
+	chmod;
+	_chmod;
+	chown;
+	_chown;
+	chroot;
+	_chroot;
+	_cleanup;
+	clearerr;
+	clock;
+	close;
+	closedir;
+	_closedir;
+	creat;
+	ctermid;
+	ctime;
+	cuserid;
+	_cuserid;
+	difftime;
+	div;
+	dup;
+	_dup;
+	dup2;
+	_dup2;
+	execl;
+	_execl;
+	execle;
+	_execle;
+	execlp;
+	_execlp;
+	execv;
+	_execv;
+	execve;
+	_execve;
+	execvp;
+	_execvp;
+	exit;
+	_exit;
+	fattach;
+	_fattach;
+	fchdir;
+	_fchdir;
+	fchmod;
+	_fchmod;
+	fchown;
+	_fchown;
+	fclose;
+	fcntl;
+	fdetach;
+	_fdetach;
+	fdopen;
+	_fdopen;
+	feof;
+	ferror;
+	fflush;
+	fgetc;
+	fgetpos;
+	fgets;
+	__filbuf;
+	fileno;
+	_fileno;
+	__flsbuf;
+	fmtmsg;
+	_fmtmsg;
+	fopen;
+	fork;
+	fpathconf;
+	_fpathconf;
+	fprintf;
+	fputc;
+	fputs;
+	fread;
+	freopen;
+	fscanf;
+	fseek;
+	fsetpos;
+	fstat;
+	fstatvfs;
+	fsync;
+	ftell;
+	ftok;
+	_ftok;
+	fwrite;
+	getc;
+	getchar;
+	getcontext;
+	_getcontext;
+	getcwd;
+	_getcwd;
+	getdate;
+	_getdate;
+	getegid;
+	_getegid;
+	geteuid;
+	_geteuid;
+	getgid;
+	_getgid;
+	getgrgid;
+	getgrnam;
+	getgroups;
+	_getgroups;
+	getlogin;
+	getmsg;
+	getopt;
+	_getopt;
+	getpass;
+	_getpass;
+	getpgid;
+	_getpgid;
+	getpgrp;
+	_getpgrp;
+	getpid;
+	_getpid;
+	getpmsg;
+	getppid;
+	_getppid;
+	getpwnam;
+	getpwuid;
+	getrlimit;
+	gets;
+	getsid;
+	_getsid;
+	getsubopt;
+	_getsubopt;
+	gettxt;
+	_gettxt;
+	getuid;
+	_getuid;
+	getw;
+	_getw;
+	gmtime;
+	grantpt;
+	_grantpt;
+	hcreate;
+	_hcreate;
+	hdestroy;
+	_hdestroy;
+	hsearch;
+	_hsearch;
+	initgroups;
+	_initgroups;
+	ioctl;
+	_ioctl;
+	isalnum;
+	isalpha;
+	isascii;
+	_isascii;
+	isastream;
+	_isastream;
+	isatty;
+	_isatty;
+	iscntrl;
+	isdigit;
+	isgraph;
+	islower;
+	isprint;
+	ispunct;
+	isspace;
+	isupper;
+	isxdigit;
+	kill;
+	_kill;
+	labs;
+	lchown;
+	_lchown;
+	ldiv;
+	lfind;
+	_lfind;
+	link;
+	_link;
+	localeconv;
+	localtime;
+	lockf;
+	longjmp;
+	lsearch;
+	_lsearch;
+	lseek;
+	lstat;
+	makecontext;
+	_makecontext;
+	mblen;
+	mbstowcs;
+	mbtowc;
+	memccpy;
+	_memccpy;
+	memchr;
+	memcntl;
+	_memcntl;
+	mkdir;
+	_mkdir;
+	mkfifo;
+	_mkfifo;
+	mknod;
+	_mknod;
+	mktemp;
+	_mktemp;
+	mktime;
+	mlock;
+	_mlock;
+	mmap;
+	monitor;
+	_monitor;
+	mount;
+	_mount;
+	mprotect;
+	_mprotect;
+	msgctl;
+	_msgctl;
+	msgget;
+	_msgget;
+	msgrcv;
+	msgsnd;
+	msync;
+	munlock;
+	_munlock;
+	munmap;
+	_munmap;
+	nftw;
+	nice;
+	_nice;
+	nl_langinfo;
+	_nl_langinfo;
+	open;
+	opendir;
+	_opendir;
+	pathconf;
+	_pathconf;
+	pause;
+	pclose;
+	_pclose;
+	perror;
+	pipe;
+	_pipe;
+	poll;
+	_poll;
+	popen;
+	_popen;
+	printf;
+	profil;
+	_profil;
+	ptsname;
+	_ptsname;
+	putc;
+	putchar;
+	putenv;
+	_putenv;
+	putmsg;
+	putpmsg;
+	puts;
+	putw;
+	_putw;
+	qsort;
+	raise;
+	rand;
+	read;
+	readdir;
+	readlink;
+	_readlink;
+	readv;
+	remove;
+	rename;
+	_rename;
+	rewind;
+	rewinddir;
+	_rewinddir;
+	rmdir;
+	_rmdir;
+	scanf;
+	seekdir;
+	semctl;
+	_semctl;
+	semget;
+	_semget;
+	semop;
+	_semop;
+	setbuf;
+	setcontext;
+	_setcontext		{ FLAGS = NODYNSORT };
+	setgid;
+	_setgid;
+	setgroups;
+	_setgroups;
+	setjmp;
+	setlabel;
+	setlocale;
+	setpgid;
+	_setpgid;
+	setpgrp;
+	_setpgrp;
+	setrlimit;
+	setsid;
+	_setsid;
+	setuid;
+	_setuid;
+	setvbuf;
+	shmat;
+	_shmat;
+	shmctl;
+	_shmctl;
+	shmdt;
+	_shmdt;
+	shmget;
+	_shmget;
+	sigaction;
+	_sigaction		{ FLAGS = NODYNSORT };
+	sigaddset;
+	_sigaddset;
+	sigaltstack;
+	_sigaltstack;
+	sigdelset;
+	_sigdelset;
+	sigemptyset;
+	_sigemptyset;
+	sigfillset;
+	_sigfillset;
+	sighold;
+	_sighold;
+	sigignore;
+	_sigignore;
+	sigismember;
+	_sigismember;
+	siglongjmp;
+	_siglongjmp;
+	signal;
+	sigpause;
+	sigpending;
+	_sigpending;
+	sigprocmask;
+	_sigprocmask;
+	sigrelse;
+	_sigrelse;
+	sigsend;
+	_sigsend;
+	sigsendset;
+	_sigsendset;
+	sigset;
+	_sigset;
+	sigsetjmp;
+	_sigsetjmp		{ FLAGS = NODYNSORT };
+	sigsuspend;
+	sleep;
+	sprintf;
+	srand;
+	sscanf;
+	stat;
+	statvfs;
+	stime;
+	_stime;
+	strcat;
+	strchr;
+	strcmp;
+	strcoll;
+	strcpy;
+	strcspn;
+	strdup;
+	_strdup;
+	strerror;
+	strftime;
+	strlen;
+	strncat;
+	strncmp;
+	strncpy;
+	strpbrk;
+	strrchr;
+	strspn;
+	strstr;
+	strtod;
+	strtok;
+	strtol;
+	strtoul;
+	strxfrm;
+	swab;
+	_swab;
+	swapcontext;
+	_swapcontext;
+	symlink;
+	_symlink;
+	sync;
+	_sync;
+	sysconf;
+	_sysconf;
+	system;
+	tcdrain;
+	tcflow;
+	_tcflow;
+	tcflush;
+	_tcflush;
+	tcgetattr;
+	_tcgetattr;
+	tcgetpgrp;
+	_tcgetpgrp;
+	tcgetsid;
+	_tcgetsid;
+	tcsendbreak;
+	_tcsendbreak;
+	tcsetattr;
+	_tcsetattr;
+	tcsetpgrp;
+	_tcsetpgrp;
+	tdelete;
+	_tdelete;
+	tell;
+	telldir;
+	tempnam;
+	_tempnam;
+	tfind;
+	_tfind;
+	time;
+	_time;
+	times;
+	_times;
+	tmpfile;
+	tmpnam;
+	toascii;
+	_toascii;
+	tolower;
+	_tolower;
+	toupper;
+	_toupper;
+	tsearch;
+	_tsearch;
+	ttyname;
+	twalk;
+	_twalk;
+	tzset;
+	_tzset;
+	ulimit;
+	_ulimit;
+	umask;
+	_umask;
+	umount;
+	_umount;
+	uname;
+	ungetc;
+	unlink;
+	_unlink;
+	unlockpt;
+	_unlockpt;
+	utime;
+	_utime;
+	vfprintf;
+	vprintf;
+	vsprintf;
+	wait;
+	_wait;
+	waitid;
+	waitpid;
+	_waitpid;
+	wcstombs;
+	wctomb;
+	write;
+	writev;
+	_xftw;
+
+$if _ELF32
+	ptrace;
+	_ptrace;
+$endif
+
+$if !sparc32
+	sbrk;
+$endif
+
+$if _sparc
+	__dtou;
+	__ftou;
+$endif
+
+$if sparc32
+	.div;
+	.mul;
+	.rem;
+	.stret1;
+	.stret2;
+	.stret4;
+	# .stret4 and .stret8 are the same thing
+	.stret8			{ FLAGS = NODYNSORT };
+	.udiv;
+	.umul;
+	.urem;
+	_Q_add;
+	_Q_cmp;
+	_Q_cmpe;
+	_Q_div;
+	_Q_dtoq;
+	_Q_feq;
+	_Q_fge;
+	_Q_fgt;
+	_Q_fle;
+	_Q_flt;
+	_Q_fne;
+	_Q_itoq;
+	_Q_mul;
+	_Q_neg;
+	_Q_qtod;
+	_Q_qtoi;
+	_Q_qtos;
+	_Q_qtou;
+	_Q_sqrt;
+	_Q_stoq;
+	_Q_sub;
+	_Q_utoq;
+$endif
+
+$if sparcv9
+	# __align_cpy_1 is an alias for memcpy. Filter it out of
+	# the .SUNW_dynsymsort section
+	__align_cpy_1		{ FLAGS = NODYNSORT };
+	__align_cpy_16;
+	__align_cpy_2;
+	__align_cpy_4;
+	# __align_cpy_8 is same as __align_cpy_16
+	__align_cpy_8		{ FLAGS = NODYNSORT };
+	__dtoul;
+	__ftoul;
+	_Qp_add;
+	_Qp_cmp;
+	_Qp_cmpe;
+	_Qp_div;
+	_Qp_dtoq;
+	_Qp_feq;
+	_Qp_fge;
+	_Qp_fgt;
+	_Qp_fle;
+	_Qp_flt;
+	_Qp_fne;
+	_Qp_itoq;
+	_Qp_mul;
+	_Qp_neg;
+	_Qp_qtod;
+	_Qp_qtoi;
+	_Qp_qtos;
+	_Qp_qtoui;
+	_Qp_qtoux;
+	_Qp_qtox;
+	_Qp_sqrt;
+	_Qp_stoq;
+	_Qp_sub;
+	_Qp_uitoq;
+	_Qp_uxtoq;
+	_Qp_xtoq;
+	__sparc_utrap_install;
+$endif
+
+# On amd64, we also have SYSVABI_1.3, but it contains a small subset of
+# the symbols put in that version on other platforms.
+$if amd64
+} SYSVABI_1.3;
+
+SYMBOL_VERSION SYSVABI_1.3 { 
+$endif
+    global:
+$if !_sparc
+	__flt_rounds;
+$endif
+
+    protected:
+	_ctermid;
+	_getgrgid;
+	_getgrnam;
+	_getpwnam;
+	_getpwuid;
+
+$if !sparc32
+	_sbrk;
+$endif
+
+$if _x86
+	_fpstart;
+	__fpstart;
+$endif
+};
+
+
+
+# There should never be more than one SUNWprivate version.
+# Don't add any more.  Add new private symbols to SUNWprivate_1.1
+
+SYMBOL_VERSION SUNWprivate_1.1 {
+    global:
+	___Argv			{ FLAGS = NODIRECT };
+	cfree			{ FLAGS = NODIRECT };
+	_cswidth;
+	__ctype_mask;
+	__environ_lock		{ FLAGS = NODIRECT };
+	__inf_read;
+	__inf_written;
+	__i_size;
+	_isnanf			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	__iswrune;
+	__libc_threaded;
+	_lib_version		{ FLAGS = NODIRECT };
+	_logb			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	_lone			{ FLAGS = NODYNSORT };
+	_lten			{ FLAGS = NODYNSORT };
+	_lzero			{ FLAGS = NODYNSORT };
+	__malloc_lock;
+	_memcmp;
+	_memcpy			{ FLAGS = NODYNSORT };
+	_memmove;
+	_memset;
+	_modff			{ TYPE = FUNCTION; FILTER = libm.so.2 };
+	__nan_read;
+	__nan_written;
+	__nextwctype;
+	__nis_debug_bind;
+	__nis_debug_calls;
+	__nis_debug_file;
+	__nis_debug_rpc;
+	__nis_prefsrv;
+	__nis_preftype;
+	__nis_server;
+	_nss_default_finders;
+	__progname		{ FLAGS = NODIRECT };
+	_smbuf;
+	_sp;
+	__strdupa_str		{ FLAGS = NODIRECT };
+	__strdupa_len		{ FLAGS = NODIRECT };
+	_tdb_bootstrap;
+	thr_probe_getfunc_addr;
+	__trans_lower;
+	__trans_upper;
+	_uberdata;
+	__xpg6			{ FLAGS = NODIRECT };
+
+        # FIXME: these data symbols originally from libnsl are marked private
+        # (at least) until we get a name for our OS
+	_null_auth;
+	authdes_lock;
+	h_errno			{ FLAGS = NODIRECT };
+	in6addr_any;
+	in6addr_loopback;
+	svc_fdset;
+	svc_max_pollfd;
+	svc_pollfd;
+	t_nerr;
+        __key_decryptsession_pk_LOCAL;
+        __key_encryptsession_pk_LOCAL;
+        __key_gendes_LOCAL;
+        __nsl_dom;
+        _nderror;
+$if _ELF32
+	_new_svc_fdset;
+$endif
+        _svc_getreqset_proc;
+        rpc_createerr;
+        t_errlist;
+        t_errno;
+        tiusr_statetbl;
+
+$if _ELF32
+	_dladdr			{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dladdr1		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlclose		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dldump			{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlerror		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlinfo			{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlmopen		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlopen			{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_dlsym			{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_ld_libc		{ TYPE = FUNCTION; FILTER = /usr/lib/ld.so.1 };
+	_sys_errlist;
+	_sys_errs;
+	_sys_index;
+	_sys_nerr		{ FLAGS = NODYNSORT };
+	_sys_num_err;
+$elif sparcv9
+	_dladdr		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dladdr1	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlclose	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dldump		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlerror	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlinfo		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlmopen	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlopen		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_dlsym		{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+	_ld_libc	{ TYPE = FUNCTION; FILTER = /usr/lib/sparcv9/ld.so.1 };
+$elif amd64
+	_dladdr		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dladdr1	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlamd64getunwind { TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlclose	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dldump		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlerror	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlinfo		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlmopen	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlopen		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_dlsym		{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+	_ld_libc	{ TYPE = FUNCTION; FILTER = /usr/lib/amd64/ld.so.1 };
+$else
+$error unknown platform
+$endif
+
+$if _sparc
+	__lyday_to_month;
+	__mon_lengths;
+	__yday_to_month;
+$endif
+$if i386
+	_sse_hw;
+$endif
+
+    protected:
+	acctctl;
+	allocids;
+	_assert_c99;
+	__assert_c99;
+	_assfail;
+	attr_count;
+	attr_to_data_type;
+	attr_to_name;
+	attr_to_option;
+	attr_to_xattr_view;	
+	_autofssys;
+	_bufsync;
+	__class_quadruple;
+	core_get_default_content;
+	core_get_default_path;
+	core_get_global_content;
+	core_get_global_path;
+	core_get_options;
+	core_get_process_content;
+	core_get_process_path;
+	core_set_default_content;
+	core_set_default_path;
+	core_set_global_content;
+	core_set_global_path;
+	core_set_options;
+	core_set_process_content;
+	core_set_process_path;
+	dbm_close_status;
+	dbm_do_nextkey;
+	dbm_setdefwrite;
+	_D_cplx_div;
+	_D_cplx_div_ix;
+	_D_cplx_div_rx;
+	_D_cplx_mul;
+	defclose_r;
+	defcntl;
+	defcntl_r;
+	defopen;
+	defopen_r;
+	defread;
+	defread_r;
+	_delete;
+	_dgettext;
+	_doprnt;
+	_doscan;
+	execvpe;
+	exportfs;
+	_F_cplx_div;
+	_F_cplx_div_ix;
+	_F_cplx_div_rx;
+	_F_cplx_mul;
+	_findbuf;
+	_findiop;
+	__fini_daemon_priv;
+	_finite;
+	_fpclass;
+	_fpgetmask;
+	_fpgetround;
+	_fpgetsticky;
+	_fprintf;
+	_fpsetmask;
+	_fpsetround;
+	_fpsetsticky;
+	_gcvt;
+	_getarg;
+	__getcontext;
+	_get_exit_frame_monitor;
+	_getfp;
+	_getgroupsbymember;
+	getrandom;
+	_getsp;
+	__gettsp;
+	getvmusage;
+	__idmap_flush_kcache;
+	__idmap_reg;
+	__idmap_unreg;
+	__init_daemon_priv;
+	__init_suid_priv;
+	_insert;
+	inst_sync;
+	_iswctype;
+	klpd_create;
+	klpd_getpath;
+	klpd_getport;
+	klpd_getucred;
+	klpd_register;
+	klpd_register_id;
+	klpd_unregister;
+	klpd_unregister_id;
+	_lgrp_home_fast		{ FLAGS = NODYNSORT };
+	_lgrpsys;
+	_lltostr;
+	_lock_clear;
+	_lock_try;
+	_ltzset;
+	lwp_self;
+	makeut;
+	makeutx;
+	_mbftowc;
+	mcfiller;
+	mntopt;
+	modctl;
+	modutx;
+	msgctl64;
+	__multi_innetgr;
+	_mutex_destroy		{ FLAGS = NODYNSORT };
+	mutex_enter;
+	mutex_exit;
+	mutex_held;
+	_mutex_init		{ FLAGS = NODYNSORT };
+	_mutex_unlock		{ FLAGS = NODYNSORT };
+	name_to_attr;
+	nfs_getfh;
+	nfssvc;
+	_nfssys;
+	__nis_get_environment;
+	_nss_db_state_destr;
+	nss_default_key2str;
+	nss_delete;
+	nss_endent;
+	nss_getent;
+	_nss_initf_group;
+	_nss_initf_netgroup;
+	_nss_initf_passwd;
+	_nss_initf_shadow;
+	nss_packed_arg_init;
+	nss_packed_context_init;
+	nss_packed_getkey;
+	nss_packed_set_status;
+	nss_search;
+	nss_setent;
+	_nss_XbyY_fgets;
+	_nss_XbyY_fini;
+	__nsw_extended_action_v1;
+	__nsw_freeconfig_v1;
+	__nsw_getconfig_v1;
+	__nthreads;
+	__openattrdirat;
+	option_to_attr;
+	__priv_bracket;
+	__priv_relinquish;
+	psecflags;
+	pset_assign_forced;
+	pset_bind_lwp;
+	_psignal;
+	pthread_attr_getdaemonstate_np;
+	pthread_attr_setdaemonstate_np;
+	_pthread_setcleanupinit;
+	rctlctl;
+	rctllist;
+	_realbufend;
+	_resume;
+	_resume_ret;
+	_rpcsys;
+	_sbrk_grow_aligned;
+	scrwidth;
+	secflag_by_name;
+	secflag_clear;
+	secflags_copy;
+	secflags_difference;
+	secflags_fullset;
+	secflags_intersection;
+	secflags_isempty;
+	secflag_isset;
+	secflags_issubset;
+	secflags_issuperset;
+	secflag_set;
+	secflag_to_bit;
+	secflag_to_str;
+	secflags_union;
+	psecflags_validate_delta;
+	secflags_zero;
+	psecflags_default;
+	secflags_parse;
+	secflags_to_str;
+	psecflags_validate;
+	semctl64;
+	_semctl64;
+	set_setcontext_enforcement;
+	_setbufend;
+	__set_errno;
+	setprojrctl;
+	_setregid;
+	_setreuid;
+	setsigacthandler;
+	shmctl64;
+	_shmctl64;
+	sigflag;
+	_signal;
+	_sigoff;
+	_sigon;
+	_so_accept;
+	_so_bind;
+	_sockconfig;
+	_so_connect;
+	_so_getpeername;
+	_so_getsockname;
+	_so_getsockopt;
+	_so_listen;
+	_so_recv;
+	_so_recvfrom;
+	_so_recvmsg;
+	_so_send;
+	_so_sendmsg;
+	_so_sendto;
+	_so_setsockopt;
+	_so_shutdown;
+	_so_socket;
+	_so_socketpair;
+	str2group;
+	str2passwd;
+	str2spwd;
+	__strptime_dontzero;
+	syscall;
+	_sysconfig;
+	__systemcall;
+	thr_continue_allmutators;
+	_thr_continue_allmutators;
+	thr_continue_mutator;
+	_thr_continue_mutator;
+	thr_getstate;
+	_thr_getstate;
+	thr_mutators_barrier;
+	_thr_mutators_barrier;
+	thr_probe_setup;
+	_thr_schedctl;
+	thr_setmutator;
+	_thr_setmutator;
+	thr_setstate;
+	_thr_setstate;
+	thr_sighndlrinfo;
+	_thr_sighndlrinfo;
+	_thr_slot_offset;
+	thr_suspend_allmutators;
+	_thr_suspend_allmutators;
+	thr_suspend_mutator;
+	_thr_suspend_mutator;
+	thr_wait_mutator;
+	_thr_wait_mutator;
+	__tls_get_addr;
+	_tmem_get_base;
+	_tmem_get_nentries;
+	_tmem_set_cleanup;
+	tpool_create;
+	tpool_dispatch;
+	tpool_destroy;
+	tpool_wait;
+	tpool_suspend;
+	tpool_suspended;
+	tpool_resume;
+	tpool_member;
+	_ttyname_dev;
+	_ucred_alloc;
+	_ulltostr;
+	_uncached_getgrgid_r;
+	_uncached_getgrnam_r;
+	_uncached_getpwnam_r;
+	_uncached_getpwuid_r;
+	_unordered;
+	utssys;
+	__wcsftime_xpg5 { FLAGS = NODYNSORT };
+	__wcstok_xpg5   { FLAGS = NODYNSORT };
+	wdbindf;
+	wdchkind;
+	wddelim;
+	_wrtchk;
+	_xflsbuf;
+	_xgetwidth;
+	zone_add_datalink;
+	zone_boot;
+	zone_check_datalink;
+	zone_create;
+	zone_destroy;
+	zone_enter;
+	zone_getattr;
+	zone_get_id;
+	zone_list;
+	zone_list_datalink;
+	zonept;
+	zone_remove_datalink;
+	zone_setattr;
+	zone_shutdown;
+	zone_version;
+
+$if _ELF32
+	__divdi3;
+	_file_set;
+	_imaxabs_c89;
+	_imaxdiv_c89;
+	__moddi3;
+	_strtoimax_c89;
+	_strtoumax_c89;
+	__udivdi3;
+	__umoddi3;
+	_wcstoimax_c89;
+	_wcstoumax_c89;
+$endif
+
+$if _sparc
+	_cerror;
+	install_utrap;
+	_install_utrap;
+	nop;
+	_Q_cplx_div;
+	_Q_cplx_div_ix;
+	_Q_cplx_div_rx;
+	_Q_cplx_lr_div;
+	_Q_cplx_lr_div_ix;
+	_Q_cplx_lr_div_rx;
+	_Q_cplx_lr_mul;
+	_Q_cplx_mul;
+	_QgetRD;
+	_xregs_clrptr;
+$endif
+
+$if sparc32
+	__ashldi3;
+	__ashrdi3;
+	_cerror64;
+	__cmpdi2;
+	__floatdidf;
+	__floatdisf;
+	__floatundidf;
+	__floatundisf;
+	__lshrdi3;
+	__muldi3;
+	__ucmpdi2;
+$endif
+
+$if _x86
+	_D_cplx_lr_div;
+	_D_cplx_lr_div_ix;
+	_D_cplx_lr_div_rx;
+	_F_cplx_lr_div;
+	_F_cplx_lr_div_ix;
+	_F_cplx_lr_div_rx;
+	__fltrounds;
+	sysi86;
+	_sysi86;
+	_X_cplx_div;
+	_X_cplx_div_ix;
+	_X_cplx_div_rx;
+	_X_cplx_lr_div;
+	_X_cplx_lr_div_ix;
+	_X_cplx_lr_div_rx;
+	_X_cplx_mul;
+	__xgetRD;
+	__xtol;
+	__xtoll;
+	__xtoul;
+	__xtoull;
+$endif
+
+$if i386
+	__divrem64;
+	___tls_get_addr;
+	__udivrem64;
+$endif
+
+# The following functions should not be exported from libc,
+# but /lib/libm.so.2, some older versions of the Studio
+# compiler/debugger components, and some ancient programs
+# found in /usr/dist reference them.  When we no longer
+# care about these old and broken binary objects, these
+# symbols should be deleted.
+	_brk					{ FLAGS = NODYNSORT };
+	_cond_broadcast				{ FLAGS = NODYNSORT };
+	_cond_init				{ FLAGS = NODYNSORT };
+	_cond_signal				{ FLAGS = NODYNSORT };
+	_cond_wait				{ FLAGS = NODYNSORT };
+	_ecvt					{ FLAGS = NODYNSORT };
+	_fcvt					{ FLAGS = NODYNSORT };
+	_getc_unlocked				{ FLAGS = NODYNSORT };
+	_pthread_attr_getdetachstate		{ FLAGS = NODYNSORT };
+	_pthread_attr_getinheritsched		{ FLAGS = NODYNSORT };
+	_pthread_attr_getschedparam		{ FLAGS = NODYNSORT };
+	_pthread_attr_getschedpolicy		{ FLAGS = NODYNSORT };
+	_pthread_attr_getscope			{ FLAGS = NODYNSORT };
+	_pthread_attr_getstackaddr		{ FLAGS = NODYNSORT };
+	_pthread_attr_getstacksize		{ FLAGS = NODYNSORT };
+	_pthread_attr_init			{ FLAGS = NODYNSORT };
+	_pthread_condattr_getpshared		{ FLAGS = NODYNSORT };
+	_pthread_condattr_init			{ FLAGS = NODYNSORT };
+	_pthread_cond_init			{ FLAGS = NODYNSORT };
+	_pthread_create				{ FLAGS = NODYNSORT };
+	_pthread_getschedparam			{ FLAGS = NODYNSORT };
+	_pthread_join				{ FLAGS = NODYNSORT };
+	_pthread_key_create			{ FLAGS = NODYNSORT };
+	_pthread_mutexattr_getprioceiling	{ FLAGS = NODYNSORT };
+	_pthread_mutexattr_getprotocol		{ FLAGS = NODYNSORT };
+	_pthread_mutexattr_getpshared		{ FLAGS = NODYNSORT };
+	_pthread_mutexattr_init			{ FLAGS = NODYNSORT };
+	_pthread_mutex_getprioceiling		{ FLAGS = NODYNSORT };
+	_pthread_mutex_init			{ FLAGS = NODYNSORT };
+	_pthread_sigmask			{ FLAGS = NODYNSORT };
+	_rwlock_init				{ FLAGS = NODYNSORT };
+	_rw_rdlock				{ FLAGS = NODYNSORT };
+	_rw_unlock				{ FLAGS = NODYNSORT };
+	_rw_wrlock				{ FLAGS = NODYNSORT };
+	_sbrk_unlocked				{ FLAGS = NODYNSORT };
+	_select					{ FLAGS = NODYNSORT };
+	_sema_init				{ FLAGS = NODYNSORT };
+	_sema_post				{ FLAGS = NODYNSORT };
+	_sema_trywait				{ FLAGS = NODYNSORT };
+	_sema_wait				{ FLAGS = NODYNSORT };
+	_sysfs					{ FLAGS = NODYNSORT };
+	_thr_create				{ FLAGS = NODYNSORT };
+	_thr_exit				{ FLAGS = NODYNSORT };
+	_thr_getprio				{ FLAGS = NODYNSORT };
+	_thr_getspecific			{ FLAGS = NODYNSORT };
+	_thr_join				{ FLAGS = NODYNSORT };
+	_thr_keycreate				{ FLAGS = NODYNSORT };
+	_thr_kill				{ FLAGS = NODYNSORT };
+	_thr_main				{ FLAGS = NODYNSORT };
+	_thr_self				{ FLAGS = NODYNSORT };
+	_thr_setspecific			{ FLAGS = NODYNSORT };
+	_thr_sigsetmask				{ FLAGS = NODYNSORT };
+	_thr_stksegment				{ FLAGS = NODYNSORT };
+	_ungetc_unlocked			{ FLAGS = NODYNSORT };
+
+# FIXME: pending a name for our OS, these symbols originally from libsocket are
+# marked private.
+	ether_aton_r;
+	ether_ntoa_r;
+	accept4;
+	freeifaddrs;
+	getifaddrs;
+	getipv4sourcefilter;
+	getsourcefilter;
+	setipv4sourcefilter;
+	setsourcefilter;
+	inet6_opt_append;
+	inet6_opt_find;
+	inet6_opt_finish;
+	inet6_opt_get_val;
+	inet6_opt_init;
+	inet6_opt_next;
+	inet6_opt_set_val;
+	inet6_rth_add;
+	inet6_rth_getaddr;
+	inet6_rth_init;
+	inet6_rth_reverse;
+	inet6_rth_segments;
+	inet6_rth_space;
+	sockatmark;
+	__xnet_getaddrinfo;
+	freeaddrinfo;
+	gai_strerror;
+	getaddrinfo;
+	getnameinfo;
+	if_freenameindex;
+	if_indextoname;
+	if_nameindex;
+	if_nametoindex;
+	__xnet_bind;
+	__xnet_connect;
+	__xnet_getsockopt;
+	__xnet_listen;
+	__xnet_recvmsg;
+	__xnet_sendmsg;
+	__xnet_sendto;
+	__xnet_socket;
+	__xnet_socketpair;
+	endnetent;
+	endprotoent;
+	endservent;
+	ether_aton;
+	ether_hostton;
+	ether_line;
+	ether_ntoa;
+	ether_ntohost;
+	getnetbyaddr;
+	getnetbyaddr_r;
+	getnetbyname;
+	getnetbyname_r;
+	getnetent;
+	getnetent_r;
+	getprotobyname_r;
+	getprotobynumber_r;
+	getprotoent_r;
+	getservbyname_r;
+	getservbyport_r;
+	getservent;
+	getservent_r;
+	setnetent;
+	setprotoent;
+	setservent;
+	socketpair;
+	accept;
+	bind;
+	connect;
+	getpeername;
+	getprotobyname;
+	getprotobynumber;
+	getprotoent;
+	getservbyname;
+	getservbyport;
+	getsockname;
+	getsockopt;
+	inet_lnaof;
+	inet_makeaddr;
+	inet_network;
+	listen;
+	recv;
+	recvfrom;
+	recvmsg;
+	send;
+	sendmsg;
+	sendto;
+	setsockopt;
+	shutdown;
+	socket;
+# These were private in libsocket and should stay that way in libc:
+	_link_aton;
+	_link_ntoa;
+	_nss_initf_ethers;
+	_nss_initf_net;
+	_nss_initf_netmasks;
+	_nss_initf_proto;
+	_nss_initf_services;
+	getallifaddrs;
+	getallifs;
+	str2ether;
+	str2addr;
+	str2netent;
+	str2protoent;
+	getnetmaskbyaddr;
+	getnetmaskbynet;
+	bindresvport;
+	bootparams_getbyname;
+	_ruserpass;
+# FIXME: pending a name for our OS, these symbols originally from libnsl are
+# marked private.
+	inet_aton;
+	freeipsecalgent;
+	getipsecalgbyname;
+	getipsecalgbynum;
+	getipsecprotobyname;
+	getipsecprotobynum;
+	svc_fd_negotiate_ucred;
+	svc_getcallerucred;
+	clnt_send;
+	svc_add_input;
+	svc_remove_input;
+	freehostent;
+	getipnodebyaddr;
+	getipnodebyname;
+	inet_ntop;
+	inet_pton;
+	_xti_rcvreldata;
+	_xti_rcvv;
+	_xti_rcvvudata;
+	_xti_sndreldata;
+	_xti_sndv;
+	_xti_sndvudata;
+	_xti_sysconf;
+	_xti_xns5_accept;
+	_xti_xns5_snd;
+	clnt_create_vers_timed;
+	clnt_door_create;
+	rpc_gss_getcred;
+	rpc_gss_get_error;
+	rpc_gss_get_mechanisms;
+	rpc_gss_get_mech_info;
+	rpc_gss_get_principal_name;
+	rpc_gss_get_versions;
+	rpc_gss_is_installed;
+	rpc_gss_max_data_length;
+	rpc_gss_mech_to_oid;
+	rpc_gss_qop_to_num;
+	rpc_gss_seccreate;
+	rpc_gss_set_callback;
+	rpc_gss_set_defaults;
+	rpc_gss_set_svc_name;
+	rpc_gss_svc_max_data_length;
+	svc_door_create;
+	_xti_accept;
+	_xti_alloc;
+	_xti_bind;
+	_xti_close;
+	_xti_connect;
+	_xti_error;
+	_xti_free;
+	_xti_getinfo;
+	_xti_getprotaddr;
+	_xti_getstate;
+	_xti_listen;
+	_xti_look;
+	_xti_open;
+	_xti_optmgmt;
+	_xti_rcv;
+	_xti_rcvconnect;
+	_xti_rcvdis;
+	_xti_rcvrel;
+	_xti_rcvudata;
+	_xti_rcvuderr;
+	_xti_snd;
+	_xti_snddis;
+	_xti_sndrel;
+	_xti_sndudata;
+	_xti_strerror;
+	_xti_sync;
+	_xti_unbind;
+	clnt_create_timed;
+	clnt_tp_create_timed;
+	getrpcport;
+	rpc_control;
+	svc_done;
+	authdes_create;
+	auth_destroy;
+	callrpc;
+	clnt_broadcast;
+	clnt_call;
+	clnt_control;
+	clnt_create_vers;
+	clnt_destroy;
+	clnt_freeres;
+	clnt_geterr;
+	clntraw_create;
+	clnttcp_create;
+	clntudp_bufcreate;
+	clntudp_create;
+	dbmclose;
+	dbminit;
+	delete;
+	des_setparity;
+	doconfig;
+	endhostent;
+	endrpcent;
+	fetch;
+	firstkey;
+	gethostbyaddr_r;
+	gethostbyname_r;
+	gethostent;
+	gethostent_r;
+	get_myaddress;
+	getrpcbyname;
+	getrpcbyname_r;
+	getrpcbynumber;
+	getrpcbynumber_r;
+	getrpcent;
+	getrpcent_r;
+	inet_ntoa_r;
+	key_secretkey_is_set;
+	nc_sperror;
+	netdir_perror;
+	netdir_sperror;
+	nextkey;
+	nis_clone_object;
+	nis_destroy_object;
+	nis_dir_cmp;
+	nis_domain_of;
+	nis_leaf_of;
+	nis_leaf_of_r;
+	nis_local_directory;
+	nis_local_group;
+	nis_local_host;
+	nis_name_of;
+	pmap_getmaps;
+	pmap_getport;
+	pmap_rmtcall;
+	pmap_set;
+	pmap_unset;
+	registerrpc;
+	__rpc_createerr;
+	sethostent;
+	setrpcent;
+	store;
+	svc_auth_reg;
+	svc_control;
+	svc_destroy;
+	svc_dg_enablecache;
+	svcfd_create;
+	svc_exit;
+	svc_freeargs;
+	svc_getargs;
+	svc_getreq;
+	svc_getreq_common;
+	svc_getreq_poll;
+	svc_getrpccaller;
+	svcraw_create;
+	svc_register;
+	svctcp_create;
+	svcudp_bufcreate;
+	svcudp_create;
+	svc_unregister;
+	__t_errno;
+	t_getname;
+	t_strerror;
+	xdr_destroy;
+	xdr_getpos;
+	xdr_hyper;
+	xdr_inline;
+	xdr_longlong_t;
+	xdr_quadruple;
+	xdrrec_endofrecord;
+	xdrrec_readbytes;
+	xdr_setpos;
+	xdr_sizeof;
+	xdr_u_hyper;
+	xdr_u_int;
+	xdr_u_longlong_t;
+	yp_all;
+	yp_bind;
+	yperr_string;
+	yp_first;
+	yp_get_default_domain;
+	yp_master;
+	yp_match;
+	yp_next;
+	yp_order;
+	ypprot_err;
+	yp_unbind;
+	yp_update;
+	gethostbyaddr;
+	gethostbyname;
+	inet_addr;
+	inet_netof;
+	inet_ntoa;
+	rpc_broadcast_exp;
+	authdes_getucred;
+	authdes_seccreate;
+	authnone_create;
+	authsys_create;
+	authsys_create_default;
+	clnt_create;
+	clnt_dg_create;
+	clnt_pcreateerror;
+	clnt_perrno;
+	clnt_perror;
+	clnt_raw_create;
+	clnt_spcreateerror;
+	clnt_sperrno;
+	clnt_sperror;
+	clnt_tli_create;
+	clnt_tp_create;
+	clnt_vc_create;
+	endnetconfig;
+	endnetpath;
+	freenetconfigent;
+	getnetconfig;
+	getnetconfigent;
+	getnetname;
+	getnetpath;
+	getpublickey;
+	getsecretkey;
+	host2netname;
+	key_decryptsession;
+	key_encryptsession;
+	key_gendes;
+	key_setsecret;
+	nc_perror;
+	netdir_free;
+	netdir_getbyaddr;
+	netdir_getbyname;
+	netdir_options;
+	netname2host;
+	netname2user;
+	rpcb_getaddr;
+	rpcb_getmaps;
+	rpcb_gettime;
+	rpcb_rmtcall;
+	rpc_broadcast;
+	rpcb_set;
+	rpcb_unset;
+	rpc_call;
+	rpc_reg;
+	setnetconfig;
+	setnetpath;
+	svc_create;
+	svc_dg_create;
+	svcerr_auth;
+	svcerr_decode;
+	svcerr_noproc;
+	svcerr_noprog;
+	svcerr_progvers;
+	svcerr_systemerr;
+	svcerr_weakauth;
+	svc_fd_create;
+	svc_getreqset;
+	svc_raw_create;
+	svc_reg;
+	svc_run;
+	svc_sendreply;
+	svc_tli_create;
+	svc_tp_create;
+	svc_tp_create_addr;
+	svc_unreg;
+	svc_vc_create;
+	t_accept;
+	taddr2uaddr;
+	t_alloc;
+	t_bind;
+	t_close;
+	t_connect;
+	t_error;
+	t_free;
+	t_getinfo;
+	t_getstate;
+	t_listen;
+	t_look;
+	t_open;
+	t_optmgmt;
+	t_rcv;
+	t_rcvconnect;
+	t_rcvdis;
+	t_rcvrel;
+	t_rcvudata;
+	t_rcvuderr;
+	t_snd;
+	t_snddis;
+	t_sndrel;
+	t_sndudata;
+	t_sync;
+	t_unbind;
+	uaddr2taddr;
+	user2netname;
+	xdr_accepted_reply;
+	xdr_array;
+	xdr_authsys_parms;
+	xdr_bool;
+	xdr_bytes;
+	xdr_callhdr;
+	xdr_callmsg;
+	xdr_char;
+	xdr_double;
+	xdr_double;
+	xdr_enum;
+	xdr_float;
+	xdr_free;
+	xdr_int;
+	xdr_long;
+	xdrmem_create;
+	xdr_opaque;
+	xdr_opaque_auth;
+	xdr_pointer;
+	xdrrec_create;
+	xdrrec_eof;
+	xdrrec_skiprecord;
+	xdr_reference;
+	xdr_rejected_reply;
+	xdr_replymsg;
+	xdr_short;
+	xdrstdio_create;
+	xdr_string;
+	xdr_u_char;
+	xdr_u_long;
+	xdr_union;
+	xdr_u_short;
+	xdr_vector;
+	xdr_void;
+	xdr_wrapstring;
+	xprt_register;
+	xprt_unregister;
+# These were private in libnsl and should stay that way in libc:
+	clnt_create_service_timed;
+	inet_matchaddr;
+	_build_internal_algs;
+	_check_daemon_lock;
+	_clean_trash;
+	_create_daemon_lock;
+	_duplicate_alg;
+	_enter_daemon_lock;
+	_real_getipsecalgs;
+	_real_getipsecprotos;
+	str2hostent6;
+	_str_to_ipsec_exec_mode;
+	__yp_all_cflookup;
+	key_call_ruid;
+	key_removesecret_g_ruid;
+	key_secretkey_is_set_g_ruid;
+	key_setnet_g_ruid;
+	key_setnet_ruid;
+	_doexeclist;
+	_dup_execstr;
+	_endauthattr;
+	_endexecattr;
+	__endhostent6;
+	_endprofattr;
+	_enduserattr;
+	_escape;
+	_exec_cleanup;
+	_exec_wild_id;
+	_fgetuserattr;
+	_free_execstr;
+	_getauthattr;
+	_getauthnam;
+	_getexecattr;
+	_getexecprof;
+	__gethostent6;
+	_getprofattr;
+	_getprofnam;
+	_getuserattr;
+	_getusernam;
+	__nis_netconfig2ep;
+	__nis_netconfig_matches_ep;
+	_readbufline;
+	__rpc_bindresvport_ipv6;
+	_setauthattr;
+	_setexecattr;
+	__sethostent6;
+	_setprofattr;
+	_setuserattr;
+	_strdup_null;
+	_strpbrk_escape;
+	_strtok_escape;
+	_switch_getipnodebyaddr_r;
+	_switch_getipnodebyname_r;
+	_uncached_getipnodebyaddr;
+	_uncached_getipnodebyname;
+	_unescape;
+	__yp_first_cflookup;
+	__yp_match_cflookup;
+	__yp_match_rsvdport_cflookup;
+	__yp_next_cflookup;
+	__authenticate;
+	calchash;
+	cbc_crypt;
+	__cbc_triple_crypt;
+	check_version;
+	__clnt_create_loopback;
+	__des_crypt;
+	des_setparity_g;
+	ecb_crypt;
+	__empty_yp_cache;
+	firsthash;
+	getdomainname;
+	_get_hostserv_inetnetdir_byaddr;
+	_get_hostserv_inetnetdir_byname;
+	__getnetnamebyuid;
+	__getpublickey_cached;
+	__getpublickey_cached_g;
+	__getpublickey_flush;
+	__getpublickey_flush_g;
+	getpublickey_g;
+	getsecretkey_g;
+	hashinc;
+	_herrno2nss;
+	__inet_address_count;
+	__inet_free_local_interfaces;
+	__inet_get_addr;
+	__inet_get_local_interfaces;
+	__inet_get_networka;
+	__inet_get_uaddr;
+	__inet_uaddr_is_local;
+	key_call;
+	key_decryptsession_g;
+	key_decryptsession_pk;
+	key_decryptsession_pk_g;
+	key_encryptsession_g;
+	key_encryptsession_pk;
+	key_encryptsession_pk_g;
+	key_gendes_g;
+	key_get_conv;
+	key_get_conv_g;
+	key_removesecret_g;
+	key_secretkey_is_set_g;
+	key_setnet;
+	key_setnet_g;
+	key_setsecret_g;
+	makdatum;
+	__nderror;
+	__netdir_getbyaddr_nosrv;
+	__nis_authtype2mechalias;
+	__nis_clnt_create;
+	__nis_dhext_extract_pkey;
+	__nis_get_mechanism_library;
+	__nis_get_mechanisms;
+	__nis_get_mechanism_symbol;
+	nis_get_static_storage;
+	__nis_gssprin2netname;
+	__nis_keyalg2authtype;
+	__nis_keyalg2mechalias;
+	__nis_mechalias2authtype;
+	__nis_mechname2alias;
+	nis_read_obj;
+	__nis_release_mechanisms;
+	__nis_rpc_domain;
+	__nis_translate_mechanism;
+	nis_write_obj;
+	__nss2herrno;
+	nss_ioctl;
+	order_haddrlist_af;
+	__rpcbind_is_up;
+	__rpc_bindresvport;
+	rpcb_taddr2uaddr;
+	rpcb_uaddr2taddr;
+	__rpc_control;
+	__rpc_dtbsize;
+	__rpc_endconf;
+	__rpcfd_to_nconf;
+	__rpc_get_a_size;
+	__rpc_getconf;
+	__rpc_getconfip;
+	__rpc_get_default_domain;
+	__rpc_get_local_uid;
+	__rpc_get_t_size;
+	__rpc_matchserv;
+	__rpc_negotiate_uid;
+	__rpc_select_to_poll;
+	__rpc_setconf;
+	__rpc_timeval_to_msec;
+	__rpc_tli_set_options;
+	rtime_tli;
+	setdomainname;
+	__seterr_reply;
+	str2hostent;
+	str2servent;
+	__svcauth_des;
+	svc_get_local_cred;
+	__svc_get_svcauth;
+	__svc_set_proc_cleanup_cb;
+	__svc_vc_dup;
+	__svc_vc_dupcache_init;
+	__svc_vc_dupdone;
+	svc_xprt_alloc;
+	svc_xprt_free;
+	_switch_gethostbyaddr_r;
+	_switch_gethostbyname_r;
+	_uncached_gethostbyaddr_r;
+	_uncached_gethostbyname_r;
+	usingypmap;
+	xdr_authdes_cred;
+	xdr_authdes_verf;
+	xdr_cryptkeyarg;
+	xdr_cryptkeyarg2;
+	xdr_cryptkeyarg3;
+	xdr_cryptkeyres;
+	xdr_cryptkeyres3;
+	xdr_datum;
+	xdr_des_block;
+	xdr_deskeyarg3;
+	xdr_deskeyarray;
+	xdr_directory_obj;
+	xdr_endpoint;
+	xdr_entry_obj;
+	xdr_getcredres;
+	xdr_getcredres3;
+	xdr_gid_t;
+	xdr_int16_t;
+	xdr_int32_t;
+	xdr_int64_t;
+	xdr_int8_t;
+	xdr_keybuf;
+	xdr_keybuf3;
+	xdr_key_netstarg;
+	xdr_key_netstarg3;
+	xdr_key_netstres;
+	xdr_key_netstres3;
+	xdr_keynum_t;
+	xdr_keystatus;
+	xdr_mechtype;
+	xdr_netbuf;
+	xdr_netnamestr;
+	xdr_netobj;
+	xdr_nis_attr;
+	xdr_nis_name;
+	xdr_nis_object;
+	xdr_nis_oid;
+	xdr_nis_server;
+	xdr_objdata;
+	xdr_pmap;
+	xdr_pmaplist;
+	xdr_pmaplist_ptr;
+	xdr_rmtcallargs;
+	xdr_rmtcallres;
+	xdr_rpcb;
+	xdr_rpcb_entry;
+	xdr_rpcb_entry_list_ptr;
+	xdr_rpcblist;
+	xdr_rpcblist_ptr;
+	xdr_rpcb_rmtcallargs;
+	xdr_rpcb_rmtcallres;
+	xdr_rpcbs_addrlist;
+	xdr_rpcbs_addrlist_ptr;
+	xdr_rpcbs_proc;
+	xdr_rpcbs_rmtcalllist;
+	xdr_rpcbs_rmtcalllist_ptr;
+	xdr_rpcb_stat;
+	xdr_rpcb_stat_byvers;
+	xdr_setkeyarg3;
+	xdr_table_obj;
+	xdr_uid_t;
+	xdr_uint16_t;
+	xdr_uint32_t;
+	xdr_uint64_t;
+	xdr_uint8_t;
+	xdr_ulonglong_t;
+	xdr_unixcred;
+	xdr_ypall;
+	xdr_ypbind_domain;
+	xdr_ypbind_resp;
+	xdr_ypbind_resptype;
+	xdr_ypbind_setdom;
+	xdr_yp_buf;
+	xdr_ypdelete_args;
+	xdr_ypdomain_wrap_string;
+	xdr_ypmap_parms;
+	xdr_ypmap_wrap_string;
+	xdr_ypowner_wrap_string;
+	xdr_yppasswd;
+	xdr_yppushresp_xfr;
+	xdr_ypreq_key;
+	xdr_ypreq_newxfr;
+	xdr_ypreq_nokey;
+	xdr_ypreq_xfr;
+	xdr_ypresp_key_val;
+	xdr_ypresp_maplist;
+	xdr_ypresp_master;
+	xdr_ypresp_order;
+	xdr_ypresp_val;
+	xdr_ypupdate_args;
+	__yp_add_binding;
+	__yp_all_rsvdport;
+	ypbindproc_domain_3;
+	__yp_clnt_create_rsvdport;
+	__yp_dobind;
+	__yp_master_rsvdport;
+	yp_match_rsvdport;
+	__yp_rel_binding;
+# End libnsl/libsocket symbols
+# FIXME: new symbols for our OS, but here pending a name.
+	errc;
+	verrc;
+	warnc;
+	vwarnc;
+	fts_close;
+	fts_children;
+	fts_open;
+	fts_read;
+	fts_set;
+	vis;
+	strvis;
+	strnvis;
+	strvisx;
+	stravis;	
+	unvis;
+	strunvis;
+	strnunvis;
+	setmode;
+	getmode;
+	b64_ntop;
+	b64_pton;
+	strtonum;
+
+    global:
+# FIXME: new symbols for our OS, but here pending a name.
+	reallocarray		{ FLAGS = NODIRECT };
+	recallocarray		{ FLAGS = NODIRECT };
+	freezero		{ FLAGS = NODIRECT };
+
+    local:
+	__imax_lldiv				{ FLAGS = NODYNSORT };
+	_ti_thr_self				{ FLAGS = NODYNSORT };
+	*;
+
+$if _sparc
+	__cerror		{ FLAGS = NODYNSORT };
+$endif
+
+$if sparc32
+	__cerror64		{ FLAGS = NODYNSORT };
+$endif
+
+$if sparcv9
+	__cleanup		{ FLAGS = NODYNSORT };
+$endif
+
+$if i386
+	_syscall6		{ FLAGS = NODYNSORT };
+	__systemcall6		{ FLAGS = NODYNSORT };
+$endif
+
+$if amd64
+	___tls_get_addr		{ FLAGS = NODYNSORT };
+$endif
+};

@@ -1,0 +1,28 @@
+((const
+   MACH
+   'amd64)
+
+ (const
+   MACH32
+   'i386)
+
+ (const
+   MACH64
+   'amd64)
+
+ (const
+   ISA32
+   'ia32)
+
+ (const
+   ISA64
+   'amd64)
+
+ (const
+   ; Build 64-bit kernel modules
+   KERNEL_BITS
+   64)
+
+ (include "../../Sconfig"))
+
+; vim: set syntax=scheme:

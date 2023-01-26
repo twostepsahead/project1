@@ -1,0 +1,179 @@
+Features
+========
+
+This file documents feature changes at a very high level.
+
+A '-' means that the support for that feature was removed, a '+' means that
+the support for that feature was added, and a '*' means that the behavior
+was changed.
+
+1.4 release
+-----------
+ + native compiler support:
+   * all provided compilers and binutils generate 64-bit output by default.
+     -m32 is required for 32-bit.
+   * gcc 4.9 has been removed. gcc 6.4.0 is now the default compiler
+     /usr/bin/cc, and it is used to build userland and the bmake part of base.
+   * gcc 4.4.4 aka. illumos-gcc is provided in /opt/gcc/4.4.4/bin/gcc, and it
+     is used to build itself as well as the dmake part of base.
+   * the default compiler uses GNU binutils ld.bfd as the linker. gcc 4.4.4
+     stays with sunld for compatibility.
+   * the default compiler does not support Solaris-specific features (eg.
+     #pragma init/fini, cmn_err format checking, startfile selection from
+     values-{Xa,Xc,Xs,Xt,xpg4,xpg6} based on -std)
+   * the default compiler does not define sun/__sun/__sun___ or
+     __svr4__/__SVR4. gcc 4.4.4 still does, for compatibility reasons.
+   * __unleashed__ is automatically defined by all provided compilers.
+ - multiarch support from python removed; it's now 64-bit only
+ - /etc/log symlink & /var/adm/log directory
+ - /etc/[uw]tmpx symlink
+ - /usr/adm symlink
+ - legacy accounting and reporting
+ * 32-bit libraries moved to i386 subdir of /lib and /usr/lib, and 64-bit
+   libraries moved from the amd64 subdir to the top level of /lib and /usr/lib.
+   in subdirectories not directly handled by the default ld.so configuration,
+   the old style of amd64 subdir is still (mostly) used.
+ * moved all /var/adm files to /var/log
+ * moved /var/svc/log to /var/log/svc
+ * ntp has been replaced with openntpd 6.2p3
+ * bash 5.0.3
+ * zsh 5.7.1
+
+1.3 release
+-----------
+ - ksh93 (/sbin/sh, /bin/ksh93, /bin/rksh93) and related libraries (libast,
+   libcmd, libdll, libpp, libshell, libsum) are no more.
+ - nonstandard getgrent_r, fgetgrent_r removed from libc
+ - wordexp & wordfree removed from libc
+ - sgtty.h removed, including stty() and gtty()
+ - nightly.sh is no more; see README.md for updated build instructions
+ * removed posix.1c draft versions, and made default the standard versions, of
+   the libc functions getgrgid_r, getgrnam_r, ttyname_r, getlogin_r
+ * removed non-posix versions of the libc functions shmdt, sigwait,
+   gethostname, putmsg, putpmsg, getaddrinfo
+ + _XOPEN_SOURCE=700 and __EXTENSIONS__ are defined by default, if not
+   specified. most third-party software already uses these on Solarises in an
+   attempt to get a somewhat sane compilation environment
+ + all applications automatically use 64-bit files. using the LFS/"large file"
+   interfaces _LARGEFILE_SOURCE, _LARGEFILE64_SOURCE and _FILE_OFFSET_BITS is
+   no longer necessary.
+ + various improvements have been made to shorten the build time.
+ + the installer user interface has been simplified considerably.
+
+1.2 release
+-----------
+ - libfruraw, libnvfru, libfru, libfrureg, libfruutils
+ - libpicl, libpicltree, picld(8), etc.
+ - pyzfs & pysolaris
+ - locator(8)
+ - auditing support and libbsm
+ + ship ctfconvert & ctfmerge in /usr/bin
+ * hwdata updated to 2018.11.29
+ * tzdata updated to 2018g
+ * libressl 2.8.2
+ * uname(1) returns "amd64" for -m and -p
+ * sysinfo(SI_ARCHITECTURE) returns "amd64" (or "i386" when UNAME_LEGACY is
+   in the environment)
+ * rename vnode interface's AT_* to VATTR_*
+
+1.1 release
+-----------
+ - hsfs-formatted boot archive support
+ - libc compat symbols: _nuname, __posix_readdir_r, __threaded
+ - binary compatibility bread/bwrite/bwrite2/getblk kernel symbols
+ - libxnet and libsocket filter libraries
+ - libm.so.1 (legacy libm)
+ - shcomp(1) and the ability to run "compiled" ksh93 shell scripts (shbinexec)
+ - useless ksh93 /usr/bin builtins: cd, command, history, jobs, limit,
+   print, read, type, umask, wait
+ - jsh & jsh93
+ + ship libcmdutils.so & libuutil.so compilation symlinks
+ * ship openbsd ksh as /bin/sh (/bin/ksh93, /bin/rksh93, and /sbin/sh remain
+   ksh93)
+ * convert BREAD/BWRITE/BWRITE2/GETBLK macros to bread/bwrite/bwrite2/getblk
+   static inlines
+ * collapse driver packages into system/kernel
+ * replace ksh93 /usr/bin builtins with real programs imported from OpenBSD:
+   comm, cut, join, kill, logname, paste, rev, sleep, tee, test, uniq, wc
+ * autofs is disabled by default
+ * zoneinfo data moved from /usr/share/lib/zoneinfo to /usr/share/zoneinfo
+
+1.0 release
+-----------
+ - 32-bit x86 kernel support (32-bit x86 applications are still supported)
+ - sparc support
+ - xen domU and dom0 support
+ - Trusted Solaris aka. Trusted Extensions
+ - SVR4 pkg support & code
+ - solaris10 zone brand
+ - GRUB
+ - ndd(8) (use ipadm(8) and dladm(8) instead)
+ - closed source components were removed, including:
+   - in.iked(8) and related utilities
+   - kmdb modules: mpt and nfs
+   - kernel drivers: atiatom, bnx, ixgb, sdpib, usbser_edge, glm, mpt, adpu320,
+     bcm_sata, lsimega, marvel88sx, acpi_toshiba, intel_nhmex
+ - avs ("Sun StorageTek Availability Suite")
+ - tcopy(1)
+ - /usr/ucb and libbc ("SunOS/BSD Compatibility Package")
+ - rdist(1), rcp(1), rlogin(1), rlogind(1m), rsh(1), rshd(1m)
+ - uucp services (uuencode and uudecode are still present)
+ - libslp, slpd ("Service Location Protocol daemon")
+ - Java bits: poold(8), libzfs_jni, libadt_jni, libdtrace_jni,  DTrace Java
+   support, parts of libdns_sd
+ - Sun Studio and lint build support
+ - getpwent_r(3c), fgetpwent_r(3c), which are non-standard and were different
+   from other OSes
+ - getpw(3c)
+ - POSIX.1c Draft versions of several reentrant functions were removed.
+   Applications using the draft versions have to be modified; users of the
+   standard versions are unaffected.
+    - readdir_r
+    - getpwuid_r
+    - getpwnam_r
+ - c_synonyms.so
+ - drop support for Riyadh87, Riyadh88, and Riyadh89 timezones
+ - routeadm(1m), svc:/network/routing/legacy-routing,
+   svc:/network/ipv[46]-forwarding removed. use ipadm to manage forwarding and
+   smf to manage the routing-related daemons.
+ - xpg4, xpg6 directories were removed, utilities moved to /usr/bin.
+ - troff(1), nroff(1), addbib(1), checknr(1), deroff(1), diffmk(1), eqn(1),
+   indxbib(1), lookbib(1), refer(1), roffbib(1), soelim(1), tbl(1), ul(1),
+   vgrind(1), /usr/bin/makedev /usr/bin/ta removed -- made obsolete by mandoc
+ - pre-XPG5 behavior: ungetwc(3c), putwchar(3c), putwc(3c), fputwc(3c),
+   fputws(3c), fgetwc(3c), getwc(3c), getwchar(3c), fgetws(3c)
+ - C89 behavior: fprintf(3c), fscanf(3c), fwprintf(3c), fwscanf(3c),
+   printf(3c), scanf(3c), snprintf(3c), sprintf(3c), sscanf(3c),
+   swprintf(3c), swscanf(3c), vfprintf(3c), vfscanf(3c), vfwprintf(3c),
+   vfwscanf(3c), vprintf(3c), vscanf(3c), vsnprintf(3c), vsprintf(3c),
+   vsscanf(3c), vswprintf(3c), vswscanf(3c), vwprintf(3c), vwscanf(3c),
+   wprintf(3c), wscanf(3c)
+ + awk(1) replaced with a version imported from FreeBSD
+ + libcurses, libxcurses, libxcurses2, terminfo were replaced by ncurses
+ + grep(1) replaced with a version imported from FreeBSD
+ + errc(3), warnc(3) were added to libc
+ + fts(3) added to libc
+ + reallocarray(3) added to libc
+ + LibreSSL (libcrypto, libssl, libtls, openssl(1), nc(1)) added
+ + cpio-formatted boot archives
+ * man(1) is mandoc. mandoc.db support added, eliminating the need for
+   manpage symlinks.
+ * socket interfaces are now in libc. libsocket, libxnet and libnsl remain as
+   filter libraries.
+ * socket implementation was modified to be more reasonable by default, and it
+   is no longer possible to choose an alternate socket implementation.
+   msg_accrights was removed and msg_control members are now always visible in
+   struct msghdr.
+   Documentation was updated and moved to section 2: accept(2), bind(2),
+   connect(2), getpeername(2), getsockname(2), getsockopt(2), listen(2),
+   recv(2), send(2), shutdown(2), socket(2), socketpair(2), and the new
+   sockatmark(2) and CMSG_DATA(3)
+ * make(1) is bmake(1) instead of dmake(1)
+ * sed(1) replaced with a version imported from FreeBSD
+ * locale data has been updated to CLDR v28; tools to generate it were imported
+   from FreeBSD. This fixes many character classification errors.
+ * install(1m) was replaced by install(1) from OpenBSD.
+ * all process security flags are on by default
+ * putwchar(3c), putwc(3c), fputwc(3c), and fputws(3c) have only XPG5 behavior
+ * man pages from section 1M have been moved to section 8; third party code
+   (libncurses, namely) is not affected

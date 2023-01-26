@@ -1,0 +1,830 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2017 Nexenta Systems, Inc.  All rights reserved.
+#
+
+#
+# MAPFILE HEADER START
+#
+# WARNING:  STOP NOW.  DO NOT MODIFY THIS FILE.
+# Object versioning must comply with the rules detailed in
+#
+#	usr/src/lib/README.mapfiles
+#
+# You should not be making modifications here until you've read the most current
+# copy of that file. If you need help, contact a gatekeeper for guidance.
+#
+# MAPFILE HEADER END
+#
+
+$mapfile_version 2
+
+SYMBOL_VERSION ILLUMOS_0.1 {    # Illumos additions
+    global:
+	svc_tp_create_addr	{ TYPE = FUNCTION };
+} SUNW_1.10;
+
+SYMBOL_VERSION SUNW_1.10 {	# SunOS 5.11 (Solaris 11)
+    global:
+	SUNW_1.10;
+} SUNW_1.9.1;
+
+SYMBOL_VERSION SUNW_1.9.1 {	# SunOS 5.10 (Solaris 10 update 5)
+    global:
+	inet_aton	{ TYPE = FUNCTION };
+} SUNW_1.9;
+
+SYMBOL_VERSION SUNW_1.9 {	# SunOS 5.10 (Solaris 10)
+    global:
+	freeipsecalgent	{ TYPE = FUNCTION };
+	getipsecalgbyname	{ TYPE = FUNCTION };
+	getipsecalgbynum	{ TYPE = FUNCTION };
+	getipsecprotobyname	{ TYPE = FUNCTION };
+	getipsecprotobynum	{ TYPE = FUNCTION };
+	svc_fd_negotiate_ucred	{ TYPE = FUNCTION };
+	svc_getcallerucred	{ TYPE = FUNCTION };
+} SUNW_1.8;
+
+SYMBOL_VERSION SUNW_1.8 {	# SunOS 5.9 (Solaris 9)
+    global:
+	clnt_send	{ TYPE = FUNCTION };
+	svc_add_input	{ TYPE = FUNCTION };
+	svc_remove_input	{ TYPE = FUNCTION };
+} SUNW_1.7;
+
+SYMBOL_VERSION SUNW_1.7 {	# SunOS 5.8 (Solaris 8)
+    global:
+	freehostent	{ TYPE = FUNCTION };
+	getipnodebyaddr	{ TYPE = FUNCTION };
+	getipnodebyname	{ TYPE = FUNCTION };
+	inet_ntop	{ TYPE = FUNCTION };
+	inet_pton	{ TYPE = FUNCTION };
+} SUNW_1.6;
+
+SYMBOL_VERSION SUNW_1.6 {	# SunOS 5.7 (Solaris 7)
+    global:
+	_xti_rcvreldata	{ TYPE = FUNCTION };
+	_xti_rcvv	{ TYPE = FUNCTION };
+	_xti_rcvvudata	{ TYPE = FUNCTION };
+	_xti_sndreldata	{ TYPE = FUNCTION };
+	_xti_sndv	{ TYPE = FUNCTION };
+	_xti_sndvudata	{ TYPE = FUNCTION };
+	_xti_sysconf	{ TYPE = FUNCTION };
+	_xti_xns5_accept	{ TYPE = FUNCTION };
+	_xti_xns5_snd	{ TYPE = FUNCTION };
+} SUNW_1.5;
+
+# The empty versions SUNW_1.2 through SUNW_1.5 must be preserved because
+# applications built on Solaris 2.6 Beta (when they did contain symbols)
+# may depend on them.  All symbol content for SunOS 5.6 is now in SUNW_1.1
+
+SYMBOL_VERSION SUNW_1.5 {
+    global:
+	SUNW_1.5;
+} SUNW_1.4;
+
+SYMBOL_VERSION SUNW_1.4 {
+    global:
+	SUNW_1.4;
+} SUNW_1.3;
+
+SYMBOL_VERSION SUNW_1.3 {
+    global:
+	SUNW_1.3;
+} SUNW_1.2;
+
+SYMBOL_VERSION SUNW_1.2 {
+    global:
+	SUNW_1.2;
+} SUNW_1.1;
+
+SYMBOL_VERSION SUNW_1.1 {		# SunOS 5.6 (Solaris 2.6)
+    global:
+	clnt_create_vers_timed	{ TYPE = FUNCTION };
+	clnt_door_create	{ TYPE = FUNCTION };
+$if _ELF32
+	_new_svc_fdset	{ TYPE = DATA; SIZE = 0x2000 };
+$endif
+	rpc_gss_getcred	{ TYPE = FUNCTION };
+	rpc_gss_get_error	{ TYPE = FUNCTION };
+	rpc_gss_get_mechanisms	{ TYPE = FUNCTION };
+	rpc_gss_get_mech_info	{ TYPE = FUNCTION };
+	rpc_gss_get_principal_name	{ TYPE = FUNCTION };
+	rpc_gss_get_versions	{ TYPE = FUNCTION };
+	rpc_gss_is_installed	{ TYPE = FUNCTION };
+	rpc_gss_max_data_length	{ TYPE = FUNCTION };
+	rpc_gss_mech_to_oid	{ TYPE = FUNCTION };
+	rpc_gss_qop_to_num	{ TYPE = FUNCTION };
+	rpc_gss_seccreate	{ TYPE = FUNCTION };
+	rpc_gss_set_callback	{ TYPE = FUNCTION };
+	rpc_gss_set_defaults	{ TYPE = FUNCTION };
+	rpc_gss_set_svc_name	{ TYPE = FUNCTION };
+	rpc_gss_svc_max_data_length	{ TYPE = FUNCTION };
+	svc_door_create	{ TYPE = FUNCTION };
+	svc_max_pollfd	{ TYPE = DATA; SIZE = 0x4 };
+	svc_pollfd	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0x4;
+$elif _ELF64
+                SIZE = 0x8;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	_xti_accept	{ TYPE = FUNCTION };
+	_xti_alloc	{ TYPE = FUNCTION };
+	_xti_bind	{ TYPE = FUNCTION };
+	_xti_close	{ TYPE = FUNCTION };
+	_xti_connect	{ TYPE = FUNCTION };
+	_xti_error	{ TYPE = FUNCTION };
+	_xti_free	{ TYPE = FUNCTION };
+	_xti_getinfo	{ TYPE = FUNCTION };
+	_xti_getprotaddr	{ TYPE = FUNCTION };
+	_xti_getstate	{ TYPE = FUNCTION };
+	_xti_listen	{ TYPE = FUNCTION };
+	_xti_look	{ TYPE = FUNCTION };
+	_xti_open	{ TYPE = FUNCTION };
+	_xti_optmgmt	{ TYPE = FUNCTION };
+	_xti_rcv	{ TYPE = FUNCTION };
+	_xti_rcvconnect	{ TYPE = FUNCTION };
+	_xti_rcvdis	{ TYPE = FUNCTION };
+	_xti_rcvrel	{ TYPE = FUNCTION };
+	_xti_rcvudata	{ TYPE = FUNCTION };
+	_xti_rcvuderr	{ TYPE = FUNCTION };
+	_xti_snd	{ TYPE = FUNCTION };
+	_xti_snddis	{ TYPE = FUNCTION };
+	_xti_sndrel	{ TYPE = FUNCTION };
+	_xti_sndudata	{ TYPE = FUNCTION };
+	_xti_strerror	{ TYPE = FUNCTION };
+	_xti_sync	{ TYPE = FUNCTION };
+	_xti_unbind	{ TYPE = FUNCTION };
+} SUNW_0.9;
+
+SYMBOL_VERSION SUNW_0.9 {	# SunOS 5.5 (Solaris 2.5)
+    global:
+	clnt_create_timed	{ TYPE = FUNCTION };
+	clnt_tp_create_timed	{ TYPE = FUNCTION };
+	getrpcport	{ TYPE = FUNCTION };
+} SUNW_0.8;
+
+SYMBOL_VERSION SUNW_0.8 {	# SunOS 5.4 (Solaris 2.4)
+    global:
+	rpc_control	{ TYPE = FUNCTION };
+	svc_done	{ TYPE = FUNCTION };
+} SUNW_0.7;
+
+# SUNW_0.7 is complicated by ABI issues:
+#
+# - On 32-bit sparc, SUNW_0.7 contains __rpc_createerr and svc_exit, and
+#   inherits everyting else from SISCD_2.3, which in turn inherits from
+#   SYSVABI_1.3.
+# - On 32-bit X86, there is no SISCD_2.3, the symbols it contained are
+#   instead found in SUNW_0.7, which directly inherits SYSVABI_1.3.
+# - The other platforms do not have SISCD_2.3, or SYSVABI_1.3, and everything
+#   is directly found in in SUNW_0.7, which does not inherit anything.
+#
+SYMBOL_VERSION SUNW_0.7 {	# SunOS 5.3 (Solaris 2.3)
+    global:
+	authdes_create	{ TYPE = FUNCTION };
+	authdes_lock	{ TYPE = DATA; SIZE = 0x18 };
+	auth_destroy	{ TYPE = FUNCTION };
+	callrpc	{ TYPE = FUNCTION };
+	clnt_broadcast	{ TYPE = FUNCTION };
+	clnt_call	{ TYPE = FUNCTION };
+	clnt_control	{ TYPE = FUNCTION };
+	clnt_create_vers	{ TYPE = FUNCTION };
+	clnt_destroy	{ TYPE = FUNCTION };
+	clnt_freeres	{ TYPE = FUNCTION };
+	clnt_geterr	{ TYPE = FUNCTION };
+	clntraw_create	{ TYPE = FUNCTION };
+	clnttcp_create	{ TYPE = FUNCTION };
+	clntudp_bufcreate	{ TYPE = FUNCTION };
+	clntudp_create	{ TYPE = FUNCTION };
+	dbmclose	{ TYPE = FUNCTION };
+	dbminit	{ TYPE = FUNCTION };
+	delete	{ TYPE = FUNCTION };
+	des_setparity	{ TYPE = FUNCTION };
+	doconfig	{ TYPE = FUNCTION };
+	endhostent	{ TYPE = FUNCTION };
+	endrpcent	{ TYPE = FUNCTION };
+	fetch	{ TYPE = FUNCTION };
+	firstkey	{ TYPE = FUNCTION };
+	gethostbyaddr_r	{ TYPE = FUNCTION };
+	gethostbyname_r	{ TYPE = FUNCTION };
+	gethostent	{ TYPE = FUNCTION };
+	gethostent_r	{ TYPE = FUNCTION };
+	get_myaddress	{ TYPE = FUNCTION };
+	getrpcbyname	{ TYPE = FUNCTION };
+	getrpcbyname_r	{ TYPE = FUNCTION };
+	getrpcbynumber	{ TYPE = FUNCTION };
+	getrpcbynumber_r	{ TYPE = FUNCTION };
+	getrpcent	{ TYPE = FUNCTION };
+	getrpcent_r	{ TYPE = FUNCTION };
+	h_errno			{ TYPE = COMMON; SIZE = 0x4; FLAGS = NODIRECT };
+	inet_ntoa_r	{ TYPE = FUNCTION };
+	key_secretkey_is_set	{ TYPE = FUNCTION };
+	nc_sperror	{ TYPE = FUNCTION };
+	netdir_perror	{ TYPE = FUNCTION };
+	netdir_sperror	{ TYPE = FUNCTION };
+	nextkey	{ TYPE = FUNCTION };
+        nis_clone_object	{ TYPE = FUNCTION };
+        nis_destroy_object	{ TYPE = FUNCTION };
+        nis_dir_cmp	{ TYPE = FUNCTION };
+	nis_domain_of	{ TYPE = FUNCTION };
+	nis_leaf_of	{ TYPE = FUNCTION };
+	nis_leaf_of_r	{ TYPE = FUNCTION };
+	nis_local_directory	{ TYPE = FUNCTION };
+	nis_local_group	{ TYPE = FUNCTION };
+	nis_local_host	{ TYPE = FUNCTION };
+	nis_name_of	{ TYPE = FUNCTION };
+	pmap_getmaps	{ TYPE = FUNCTION };
+	pmap_getport	{ TYPE = FUNCTION };
+	pmap_rmtcall	{ TYPE = FUNCTION };
+	pmap_set	{ TYPE = FUNCTION };
+	pmap_unset	{ TYPE = FUNCTION };
+	registerrpc	{ TYPE = FUNCTION };
+	__rpc_createerr	{ TYPE = FUNCTION };
+	sethostent	{ TYPE = FUNCTION };
+	setrpcent	{ TYPE = FUNCTION };
+	store	{ TYPE = FUNCTION };
+	svc_auth_reg	{ TYPE = FUNCTION };
+	svc_control	{ TYPE = FUNCTION };
+	svc_destroy	{ TYPE = FUNCTION };
+	svc_dg_enablecache	{ TYPE = FUNCTION };
+	svcfd_create	{ TYPE = FUNCTION };
+	svc_exit	{ TYPE = FUNCTION };
+	svc_freeargs	{ TYPE = FUNCTION };
+	svc_getargs	{ TYPE = FUNCTION };
+	svc_getreq	{ TYPE = FUNCTION };
+	svc_getreq_common	{ TYPE = FUNCTION };
+	svc_getreq_poll	{ TYPE = FUNCTION };
+	svc_getrpccaller	{ TYPE = FUNCTION };
+	svcraw_create	{ TYPE = FUNCTION };
+	svc_register	{ TYPE = FUNCTION };
+	svctcp_create	{ TYPE = FUNCTION };
+	svcudp_bufcreate	{ TYPE = FUNCTION };
+	svcudp_create	{ TYPE = FUNCTION };
+	svc_unregister	{ TYPE = FUNCTION };
+	__t_errno	{ TYPE = FUNCTION };
+	t_getname	{ TYPE = FUNCTION };
+	t_nerr	{ TYPE = DATA; SIZE = 0x4 };
+	t_strerror	{ TYPE = FUNCTION };
+	xdr_destroy	{ TYPE = FUNCTION };
+	xdr_getpos	{ TYPE = FUNCTION };
+	xdr_hyper	{ TYPE = FUNCTION };
+	xdr_inline	{ TYPE = FUNCTION };
+	xdr_longlong_t	{ TYPE = FUNCTION };
+	xdr_quadruple	{ TYPE = FUNCTION };
+	xdrrec_endofrecord	{ TYPE = FUNCTION };
+	xdrrec_readbytes	{ TYPE = FUNCTION };
+	xdr_setpos	{ TYPE = FUNCTION };
+	xdr_sizeof	{ TYPE = FUNCTION };
+	xdr_u_hyper	{ TYPE = FUNCTION };
+	xdr_u_int	{ TYPE = FUNCTION };
+	xdr_u_longlong_t	{ TYPE = FUNCTION };
+	yp_all	{ TYPE = FUNCTION };
+	yp_bind	{ TYPE = FUNCTION };
+	yperr_string	{ TYPE = FUNCTION };
+	yp_first	{ TYPE = FUNCTION };
+	yp_get_default_domain	{ TYPE = FUNCTION };
+	yp_master	{ TYPE = FUNCTION };
+	yp_match	{ TYPE = FUNCTION };
+	yp_next	{ TYPE = FUNCTION };
+	yp_order	{ TYPE = FUNCTION };
+	ypprot_err	{ TYPE = FUNCTION };
+	yp_unbind	{ TYPE = FUNCTION };
+	yp_update	{ TYPE = FUNCTION };
+$if _sparc && _ELF32
+} SISCD_2.3;
+
+SYMBOL_VERSION SISCD_2.3 {
+    global:
+$endif
+	gethostbyaddr	{ TYPE = FUNCTION };
+	gethostbyname	{ TYPE = FUNCTION };
+	inet_addr	{ TYPE = FUNCTION };
+	inet_netof	{ TYPE = FUNCTION };
+	inet_ntoa	{ TYPE = FUNCTION };
+	_null_auth	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0xc;
+$elif _ELF64
+                SIZE = 0x18;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	rpc_broadcast_exp	{ TYPE = FUNCTION };
+	svc_fdset	{ TYPE = DATA; SIZE = 0x2000; };
+$if _ELF32
+} SYSVABI_1.3;
+
+SYMBOL_VERSION SYSVABI_1.3 {
+    global:
+$endif
+	authdes_getucred	{ TYPE = FUNCTION };
+	authdes_seccreate	{ TYPE = FUNCTION };
+	authnone_create	{ TYPE = FUNCTION };
+	authsys_create	{ TYPE = FUNCTION };
+	authsys_create_default	{ TYPE = FUNCTION };
+	clnt_create	{ TYPE = FUNCTION };
+	clnt_dg_create	{ TYPE = FUNCTION };
+	clnt_pcreateerror	{ TYPE = FUNCTION };
+	clnt_perrno	{ TYPE = FUNCTION };
+	clnt_perror	{ TYPE = FUNCTION };
+	clnt_raw_create	{ TYPE = FUNCTION };
+	clnt_spcreateerror	{ TYPE = FUNCTION };
+	clnt_sperrno	{ TYPE = FUNCTION };
+	clnt_sperror	{ TYPE = FUNCTION };
+	clnt_tli_create	{ TYPE = FUNCTION };
+	clnt_tp_create	{ TYPE = FUNCTION };
+	clnt_vc_create	{ TYPE = FUNCTION };
+	endnetconfig	{ TYPE = FUNCTION };
+	endnetpath	{ TYPE = FUNCTION };
+	freenetconfigent	{ TYPE = FUNCTION };
+	getnetconfig	{ TYPE = FUNCTION };
+	getnetconfigent	{ TYPE = FUNCTION };
+	getnetname	{ TYPE = FUNCTION };
+	getnetpath	{ TYPE = FUNCTION };
+	getpublickey	{ TYPE = FUNCTION };
+	getsecretkey	{ TYPE = FUNCTION };
+	host2netname	{ TYPE = FUNCTION };
+	key_decryptsession	{ TYPE = FUNCTION };
+	key_encryptsession	{ TYPE = FUNCTION };
+	key_gendes	{ TYPE = FUNCTION };
+	key_setsecret	{ TYPE = FUNCTION };
+	nc_perror	{ TYPE = FUNCTION };
+	_nderror	{ TYPE = DATA; SIZE = 0x4 };
+	netdir_free	{ TYPE = FUNCTION };
+	netdir_getbyaddr	{ TYPE = FUNCTION };
+	netdir_getbyname	{ TYPE = FUNCTION };
+	netdir_options	{ TYPE = FUNCTION };
+	netname2host	{ TYPE = FUNCTION };
+	netname2user	{ TYPE = FUNCTION };
+	rpcb_getaddr	{ TYPE = FUNCTION };
+	rpcb_getmaps	{ TYPE = FUNCTION };
+	rpcb_gettime	{ TYPE = FUNCTION };
+	rpcb_rmtcall	{ TYPE = FUNCTION };
+	rpc_broadcast	{ TYPE = FUNCTION };
+	rpcb_set	{ TYPE = FUNCTION };
+	rpcb_unset	{ TYPE = FUNCTION };
+	rpc_call	{ TYPE = FUNCTION };
+	rpc_createerr	{ TYPE = DATA; SIZE = 0x10 };
+	rpc_reg	{ TYPE = FUNCTION };
+	setnetconfig	{ TYPE = FUNCTION };
+	setnetpath	{ TYPE = FUNCTION };
+	svc_create	{ TYPE = FUNCTION };
+	svc_dg_create	{ TYPE = FUNCTION };
+	svcerr_auth	{ TYPE = FUNCTION };
+	svcerr_decode	{ TYPE = FUNCTION };
+	svcerr_noproc	{ TYPE = FUNCTION };
+	svcerr_noprog	{ TYPE = FUNCTION };
+	svcerr_progvers	{ TYPE = FUNCTION };
+	svcerr_systemerr	{ TYPE = FUNCTION };
+	svcerr_weakauth	{ TYPE = FUNCTION };
+	svc_fd_create	{ TYPE = FUNCTION };
+	svc_getreqset	{ TYPE = FUNCTION };
+	svc_raw_create	{ TYPE = FUNCTION };
+	svc_reg	{ TYPE = FUNCTION };
+	svc_run	{ TYPE = FUNCTION };
+	svc_sendreply	{ TYPE = FUNCTION };
+	svc_tli_create	{ TYPE = FUNCTION };
+	svc_tp_create	{ TYPE = FUNCTION };
+	svc_unreg	{ TYPE = FUNCTION };
+	svc_vc_create	{ TYPE = FUNCTION };
+	t_accept	{ TYPE = FUNCTION };
+	taddr2uaddr	{ TYPE = FUNCTION };
+	t_alloc	{ TYPE = FUNCTION };
+	t_bind	{ TYPE = FUNCTION };
+	t_close	{ TYPE = FUNCTION };
+	t_connect	{ TYPE = FUNCTION };
+	t_errno	{ TYPE = DATA; SIZE = 0x4 };
+	t_error	{ TYPE = FUNCTION };
+	t_free	{ TYPE = FUNCTION };
+	t_getinfo	{ TYPE = FUNCTION };
+	t_getstate	{ TYPE = FUNCTION };
+	t_listen	{ TYPE = FUNCTION };
+	t_look	{ TYPE = FUNCTION };
+	t_open	{ TYPE = FUNCTION };
+	t_optmgmt	{ TYPE = FUNCTION };
+	t_rcv	{ TYPE = FUNCTION };
+	t_rcvconnect	{ TYPE = FUNCTION };
+	t_rcvdis	{ TYPE = FUNCTION };
+	t_rcvrel	{ TYPE = FUNCTION };
+	t_rcvudata	{ TYPE = FUNCTION };
+	t_rcvuderr	{ TYPE = FUNCTION };
+	t_snd	{ TYPE = FUNCTION };
+	t_snddis	{ TYPE = FUNCTION };
+	t_sndrel	{ TYPE = FUNCTION };
+	t_sndudata	{ TYPE = FUNCTION };
+	t_sync	{ TYPE = FUNCTION };
+	t_unbind	{ TYPE = FUNCTION };
+	uaddr2taddr	{ TYPE = FUNCTION };
+	user2netname	{ TYPE = FUNCTION };
+	xdr_accepted_reply	{ TYPE = FUNCTION };
+	xdr_array	{ TYPE = FUNCTION };
+	xdr_authsys_parms	{ TYPE = FUNCTION };
+	xdr_bool	{ TYPE = FUNCTION };
+	xdr_bytes	{ TYPE = FUNCTION };
+	xdr_callhdr	{ TYPE = FUNCTION };
+	xdr_callmsg	{ TYPE = FUNCTION };
+	xdr_char	{ TYPE = FUNCTION };
+	xdr_double	{ TYPE = FUNCTION };
+	xdr_enum	{ TYPE = FUNCTION };
+	xdr_float	{ TYPE = FUNCTION };
+	xdr_free	{ TYPE = FUNCTION };
+	xdr_int	{ TYPE = FUNCTION };
+	xdr_long	{ TYPE = FUNCTION };
+	xdrmem_create	{ TYPE = FUNCTION };
+	xdr_opaque	{ TYPE = FUNCTION };
+	xdr_opaque_auth	{ TYPE = FUNCTION };
+	xdr_pointer	{ TYPE = FUNCTION };
+	xdrrec_create	{ TYPE = FUNCTION };
+	xdrrec_eof	{ TYPE = FUNCTION };
+	xdrrec_skiprecord	{ TYPE = FUNCTION };
+	xdr_reference	{ TYPE = FUNCTION };
+	xdr_rejected_reply	{ TYPE = FUNCTION };
+	xdr_replymsg	{ TYPE = FUNCTION };
+	xdr_short	{ TYPE = FUNCTION };
+	xdrstdio_create	{ TYPE = FUNCTION };
+	xdr_string	{ TYPE = FUNCTION };
+	xdr_u_char	{ TYPE = FUNCTION };
+	xdr_u_long	{ TYPE = FUNCTION };
+	xdr_union	{ TYPE = FUNCTION };
+	xdr_u_short	{ TYPE = FUNCTION };
+	xdr_vector	{ TYPE = FUNCTION };
+	xdr_void	{ TYPE = FUNCTION };
+	xdr_wrapstring	{ TYPE = FUNCTION };
+	xprt_register	{ TYPE = FUNCTION };
+	xprt_unregister	{ TYPE = FUNCTION };
+};
+
+
+# There really should be only one SUNWprivate version.
+# Don't add any more.  Add new private symbols to SUNWprivate_1.5
+
+SYMBOL_VERSION SUNWprivate_1.5 {
+    global:
+	clnt_create_service_timed	{ TYPE = FUNCTION };
+	inet_matchaddr	{ TYPE = FUNCTION };
+} SUNWprivate_1.4;
+
+SYMBOL_VERSION SUNWprivate_1.4 {
+    global:
+	_build_internal_algs	{ TYPE = FUNCTION };
+	_check_daemon_lock	{ TYPE = FUNCTION };
+	_clean_trash	{ TYPE = FUNCTION };
+	_create_daemon_lock	{ TYPE = FUNCTION };
+	_duplicate_alg	{ TYPE = FUNCTION };
+	_enter_daemon_lock	{ TYPE = FUNCTION };
+	_real_getipsecalgs	{ TYPE = FUNCTION };
+	_real_getipsecprotos	{ TYPE = FUNCTION };
+	str2hostent6	{ TYPE = FUNCTION };
+	_str_to_ipsec_exec_mode	{ TYPE = FUNCTION };
+	__yp_all_cflookup	{ TYPE = FUNCTION };
+} SUNWprivate_1.3;
+
+SYMBOL_VERSION SUNWprivate_1.3 {
+    global:
+	key_call_ruid	{ TYPE = FUNCTION };
+	key_removesecret_g_ruid	{ TYPE = FUNCTION };
+	key_secretkey_is_set_g_ruid	{ TYPE = FUNCTION };
+	key_setnet_g_ruid	{ TYPE = FUNCTION };
+	key_setnet_ruid	{ TYPE = FUNCTION };
+} SUNWprivate_1.2;
+
+SYMBOL_VERSION SUNWprivate_1.2 {
+    global:
+	_doexeclist	{ TYPE = FUNCTION };
+	_dup_execstr	{ TYPE = FUNCTION };
+	_endauthattr	{ TYPE = FUNCTION };
+	_endauuser	{ TYPE = FUNCTION };
+	_endexecattr	{ TYPE = FUNCTION };
+	__endhostent6	{ TYPE = FUNCTION };
+	_endprofattr	{ TYPE = FUNCTION };
+	_enduserattr	{ TYPE = FUNCTION };
+	_escape	{ TYPE = FUNCTION };
+	_exec_cleanup	{ TYPE = FUNCTION };
+	_exec_wild_id	{ TYPE = FUNCTION };
+	_fgetuserattr	{ TYPE = FUNCTION };
+	_free_execstr	{ TYPE = FUNCTION };
+	_getauthattr	{ TYPE = FUNCTION };
+	_getauthnam	{ TYPE = FUNCTION };
+	_getauuserent	{ TYPE = FUNCTION };
+	_getauusernam	{ TYPE = FUNCTION };
+	_getexecattr	{ TYPE = FUNCTION };
+	_getexecprof	{ TYPE = FUNCTION };
+	__gethostent6	{ TYPE = FUNCTION };
+	_getprofattr	{ TYPE = FUNCTION };
+	_getprofnam	{ TYPE = FUNCTION };
+	_getuserattr	{ TYPE = FUNCTION };
+	_getusernam	{ TYPE = FUNCTION };
+	__nis_netconfig2ep	{ TYPE = FUNCTION };
+	__nis_netconfig_matches_ep	{ TYPE = FUNCTION };
+	_readbufline	{ TYPE = FUNCTION };
+	__rpc_bindresvport_ipv6	{ TYPE = FUNCTION };
+	_setauthattr	{ TYPE = FUNCTION };
+	_setauuser	{ TYPE = FUNCTION };
+	_setexecattr	{ TYPE = FUNCTION };
+	__sethostent6	{ TYPE = FUNCTION };
+	_setprofattr	{ TYPE = FUNCTION };
+	_setuserattr	{ TYPE = FUNCTION };
+	_strdup_null	{ TYPE = FUNCTION };
+	_strpbrk_escape	{ TYPE = FUNCTION };
+	_strtok_escape	{ TYPE = FUNCTION };
+	_switch_getipnodebyaddr_r	{ TYPE = FUNCTION };
+	_switch_getipnodebyname_r	{ TYPE = FUNCTION };
+	_uncached_getipnodebyaddr	{ TYPE = FUNCTION };
+	_uncached_getipnodebyname	{ TYPE = FUNCTION };
+	_unescape	{ TYPE = FUNCTION };
+	__yp_first_cflookup	{ TYPE = FUNCTION };
+	__yp_match_cflookup	{ TYPE = FUNCTION };
+	__yp_match_rsvdport_cflookup	{ TYPE = FUNCTION };
+	__yp_next_cflookup	{ TYPE = FUNCTION };
+} SUNWprivate_1.1;
+
+SYMBOL_VERSION SUNWprivate_1.1 {
+    global:
+	__authenticate	{ TYPE = FUNCTION };
+	calchash	{ TYPE = FUNCTION };
+	cbc_crypt	{ TYPE = FUNCTION };
+	__cbc_triple_crypt	{ TYPE = FUNCTION };
+	check_version	{ TYPE = FUNCTION };
+	__clnt_create_loopback	{ TYPE = FUNCTION };
+	__des_crypt	{ TYPE = FUNCTION };
+	des_setparity_g	{ TYPE = FUNCTION };
+	ecb_crypt	{ TYPE = FUNCTION };
+	__empty_yp_cache	{ TYPE = FUNCTION };
+	firsthash	{ TYPE = FUNCTION };
+	getdomainname	{ TYPE = FUNCTION };
+	gethostname	{ TYPE = FUNCTION };
+	_get_hostserv_inetnetdir_byaddr	{ TYPE = FUNCTION };
+	_get_hostserv_inetnetdir_byname	{ TYPE = FUNCTION };
+	__getnetnamebyuid	{ TYPE = FUNCTION };
+	__getpublickey_cached	{ TYPE = FUNCTION };
+	__getpublickey_cached_g	{ TYPE = FUNCTION };
+        __getpublickey_flush	{ TYPE = FUNCTION };
+        __getpublickey_flush_g	{ TYPE = FUNCTION };
+	getpublickey_g	{ TYPE = FUNCTION };
+	getsecretkey_g	{ TYPE = FUNCTION };
+	hashinc	{ TYPE = FUNCTION };
+	_herrno2nss	{ TYPE = FUNCTION };
+	__inet_address_count	{ TYPE = FUNCTION };
+	__inet_free_local_interfaces	{ TYPE = FUNCTION };
+	__inet_get_addr	{ TYPE = FUNCTION };
+	__inet_get_local_interfaces	{ TYPE = FUNCTION };
+	__inet_get_networka	{ TYPE = FUNCTION };
+	__inet_get_uaddr	{ TYPE = FUNCTION };
+	__inet_uaddr_is_local	{ TYPE = FUNCTION };
+	key_call	{ TYPE = FUNCTION };
+	key_decryptsession_g	{ TYPE = FUNCTION };
+	key_decryptsession_pk	{ TYPE = FUNCTION };
+	key_decryptsession_pk_g	{ TYPE = FUNCTION };
+	__key_decryptsession_pk_LOCAL	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0x4;
+$elif _ELF64
+                SIZE = 0x8;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	key_encryptsession_g	{ TYPE = FUNCTION };
+	key_encryptsession_pk	{ TYPE = FUNCTION };
+	key_encryptsession_pk_g	{ TYPE = FUNCTION };
+	__key_encryptsession_pk_LOCAL	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0x4;
+$elif _ELF64
+                SIZE = 0x8;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	key_gendes_g	{ TYPE = FUNCTION };
+	__key_gendes_LOCAL	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0x4;
+$elif _ELF64
+                SIZE = 0x8;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	key_get_conv	{ TYPE = FUNCTION };
+	key_get_conv_g	{ TYPE = FUNCTION };
+	key_removesecret_g	{ TYPE = FUNCTION };
+	key_secretkey_is_set_g	{ TYPE = FUNCTION };
+	key_setnet	{ TYPE = FUNCTION };
+	key_setnet_g	{ TYPE = FUNCTION };
+	key_setsecret_g	{ TYPE = FUNCTION };
+	makdatum	{ TYPE = FUNCTION };
+	__nderror	{ TYPE = FUNCTION };
+	__netdir_getbyaddr_nosrv	{ TYPE = FUNCTION };
+	__nis_authtype2mechalias	{ TYPE = FUNCTION };
+	__nis_clnt_create	{ TYPE = FUNCTION };
+	__nis_dhext_extract_pkey	{ TYPE = FUNCTION };
+	__nis_get_mechanism_library	{ TYPE = FUNCTION };
+	__nis_get_mechanisms	{ TYPE = FUNCTION };
+	__nis_get_mechanism_symbol	{ TYPE = FUNCTION };
+        nis_get_static_storage	{ TYPE = FUNCTION };
+	__nis_gssprin2netname	{ TYPE = FUNCTION };
+	__nis_keyalg2authtype	{ TYPE = FUNCTION };
+	__nis_keyalg2mechalias	{ TYPE = FUNCTION };
+	__nis_mechalias2authtype	{ TYPE = FUNCTION };
+	__nis_mechname2alias	{ TYPE = FUNCTION };
+        nis_read_obj	{ TYPE = FUNCTION };
+	__nis_release_mechanisms	{ TYPE = FUNCTION };
+	__nis_rpc_domain	{ TYPE = FUNCTION };
+	__nis_translate_mechanism	{ TYPE = FUNCTION };
+        nis_write_obj	{ TYPE = FUNCTION };
+	__nsl_dom	{ TYPE = DATA; SIZE = 0x10 };
+	__nss2herrno	{ TYPE = FUNCTION };
+	nss_ioctl	{ TYPE = FUNCTION };
+	order_haddrlist_af	{ TYPE = FUNCTION };
+	__rpcbind_is_up	{ TYPE = FUNCTION };
+	__rpc_bindresvport	{ TYPE = FUNCTION };
+	rpcb_taddr2uaddr	{ TYPE = FUNCTION };
+	rpcb_uaddr2taddr	{ TYPE = FUNCTION };
+	__rpc_control	{ TYPE = FUNCTION };
+	__rpc_dtbsize	{ TYPE = FUNCTION };
+	__rpc_endconf	{ TYPE = FUNCTION };
+	__rpcfd_to_nconf	{ TYPE = FUNCTION };
+	__rpc_get_a_size	{ TYPE = FUNCTION };
+	__rpc_getconf	{ TYPE = FUNCTION };
+	__rpc_getconfip	{ TYPE = FUNCTION };
+	__rpc_get_default_domain	{ TYPE = FUNCTION };
+	__rpc_get_local_uid	{ TYPE = FUNCTION };
+	__rpc_get_t_size	{ TYPE = FUNCTION };
+	__rpc_matchserv	{ TYPE = FUNCTION };
+	__rpc_negotiate_uid	{ TYPE = FUNCTION };
+	__rpc_select_to_poll	{ TYPE = FUNCTION };
+	__rpc_setconf	{ TYPE = FUNCTION };
+	__rpc_timeval_to_msec	{ TYPE = FUNCTION };
+	__rpc_tli_set_options	{ TYPE = FUNCTION };
+	rtime_tli	{ TYPE = FUNCTION };
+	setdomainname	{ TYPE = FUNCTION };
+	__seterr_reply	{ TYPE = FUNCTION };
+	str2hostent	{ TYPE = FUNCTION };
+	str2servent	{ TYPE = FUNCTION };
+	__svcauth_des	{ TYPE = FUNCTION };
+	svc_get_local_cred	{ TYPE = FUNCTION };
+	_svc_getreqset_proc	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0x4;
+$elif _ELF64
+                SIZE = 0x8;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	__svc_get_svcauth	{ TYPE = FUNCTION };
+	__svc_set_proc_cleanup_cb	{ TYPE = FUNCTION };
+	__svc_vc_dup	{ TYPE = FUNCTION };
+	__svc_vc_dupcache_init	{ TYPE = FUNCTION };
+	__svc_vc_dupdone	{ TYPE = FUNCTION };
+	svc_xprt_alloc	{ TYPE = FUNCTION };
+	svc_xprt_free	{ TYPE = FUNCTION };
+	_switch_gethostbyaddr_r	{ TYPE = FUNCTION };
+	_switch_gethostbyname_r	{ TYPE = FUNCTION };
+	t_errlist	{
+                TYPE = DATA;
+$if _ELF32
+                SIZE = 0xe8;
+$elif _ELF64
+                SIZE = 0x1d0;
+$else
+$error unknown ELFCLASS
+$endif
+        };
+	tiusr_statetbl	{ TYPE = DATA; SIZE = 0xe1 };
+	_uncached_gethostbyaddr_r	{ TYPE = FUNCTION };
+	_uncached_gethostbyname_r	{ TYPE = FUNCTION };
+	usingypmap	{ TYPE = FUNCTION };
+	xdr_authdes_cred	{ TYPE = FUNCTION };
+	xdr_authdes_verf	{ TYPE = FUNCTION };
+	xdr_cryptkeyarg	{ TYPE = FUNCTION };
+	xdr_cryptkeyarg2	{ TYPE = FUNCTION };
+	xdr_cryptkeyarg3	{ TYPE = FUNCTION };
+	xdr_cryptkeyres	{ TYPE = FUNCTION };
+	xdr_cryptkeyres3	{ TYPE = FUNCTION };
+	xdr_datum	{ TYPE = FUNCTION };
+	xdr_des_block	{ TYPE = FUNCTION };
+	xdr_deskeyarg3	{ TYPE = FUNCTION };
+	xdr_deskeyarray	{ TYPE = FUNCTION };
+	xdr_directory_obj	{ TYPE = FUNCTION };
+	xdr_endpoint	{ TYPE = FUNCTION };
+	xdr_entry_obj	{ TYPE = FUNCTION };
+	xdr_getcredres	{ TYPE = FUNCTION };
+	xdr_getcredres3	{ TYPE = FUNCTION };
+	xdr_gid_t	{ TYPE = FUNCTION };
+	xdr_int16_t	{ TYPE = FUNCTION };
+	xdr_int32_t	{ TYPE = FUNCTION };
+	xdr_int64_t	{ TYPE = FUNCTION };
+	xdr_int8_t	{ TYPE = FUNCTION };
+	xdr_keybuf	{ TYPE = FUNCTION };
+	xdr_keybuf3	{ TYPE = FUNCTION };
+	xdr_key_netstarg	{ TYPE = FUNCTION };
+	xdr_key_netstarg3	{ TYPE = FUNCTION };
+	xdr_key_netstres	{ TYPE = FUNCTION };
+	xdr_key_netstres3	{ TYPE = FUNCTION };
+	xdr_keynum_t	{ TYPE = FUNCTION };
+	xdr_keystatus	{ TYPE = FUNCTION };
+	xdr_mechtype	{ TYPE = FUNCTION };
+	xdr_netbuf	{ TYPE = FUNCTION };
+	xdr_netnamestr	{ TYPE = FUNCTION };
+	xdr_netobj	{ TYPE = FUNCTION };
+	xdr_nis_attr	{ TYPE = FUNCTION };
+	xdr_nis_name	{ TYPE = FUNCTION };
+	xdr_nis_object	{ TYPE = FUNCTION };
+	xdr_nis_oid	{ TYPE = FUNCTION };
+	xdr_nis_server	{ TYPE = FUNCTION };
+	xdr_objdata	{ TYPE = FUNCTION };
+	xdr_pmap	{ TYPE = FUNCTION };
+	xdr_pmaplist	{ TYPE = FUNCTION };
+	xdr_pmaplist_ptr	{ TYPE = FUNCTION };
+	xdr_rmtcallargs	{ TYPE = FUNCTION };
+	xdr_rmtcallres	{ TYPE = FUNCTION };
+	xdr_rpcb	{ TYPE = FUNCTION };
+	xdr_rpcb_entry	{ TYPE = FUNCTION };
+	xdr_rpcb_entry_list_ptr	{ TYPE = FUNCTION };
+	xdr_rpcblist	{ TYPE = FUNCTION };
+	xdr_rpcblist_ptr	{ TYPE = FUNCTION };
+	xdr_rpcb_rmtcallargs	{ TYPE = FUNCTION };
+	xdr_rpcb_rmtcallres	{ TYPE = FUNCTION };
+	xdr_rpcbs_addrlist	{ TYPE = FUNCTION };
+	xdr_rpcbs_addrlist_ptr	{ TYPE = FUNCTION };
+	xdr_rpcbs_proc	{ TYPE = FUNCTION };
+	xdr_rpcbs_rmtcalllist	{ TYPE = FUNCTION };
+	xdr_rpcbs_rmtcalllist_ptr	{ TYPE = FUNCTION };
+	xdr_rpcb_stat	{ TYPE = FUNCTION };
+	xdr_rpcb_stat_byvers	{ TYPE = FUNCTION };
+	xdr_setkeyarg3	{ TYPE = FUNCTION };
+	xdr_table_obj	{ TYPE = FUNCTION };
+	xdr_uid_t	{ TYPE = FUNCTION };
+	xdr_uint16_t	{ TYPE = FUNCTION };
+	xdr_uint32_t	{ TYPE = FUNCTION };
+	xdr_uint64_t	{ TYPE = FUNCTION };
+	xdr_uint8_t	{ TYPE = FUNCTION };
+	xdr_ulonglong_t	{ TYPE = FUNCTION };
+	xdr_unixcred	{ TYPE = FUNCTION };
+	xdr_ypall	{ TYPE = FUNCTION };
+	xdr_ypbind_domain	{ TYPE = FUNCTION };
+	xdr_ypbind_resp	{ TYPE = FUNCTION };
+	xdr_ypbind_resptype	{ TYPE = FUNCTION };
+	xdr_ypbind_setdom	{ TYPE = FUNCTION };
+	xdr_yp_buf	{ TYPE = FUNCTION };
+	xdr_ypdelete_args	{ TYPE = FUNCTION };
+	xdr_ypdomain_wrap_string	{ TYPE = FUNCTION };
+	xdr_ypmap_parms	{ TYPE = FUNCTION };
+	xdr_ypmap_wrap_string	{ TYPE = FUNCTION };
+	xdr_ypowner_wrap_string	{ TYPE = FUNCTION };
+	xdr_yppasswd	{ TYPE = FUNCTION };
+	xdr_yppushresp_xfr	{ TYPE = FUNCTION };
+	xdr_ypreq_key	{ TYPE = FUNCTION };
+	xdr_ypreq_newxfr	{ TYPE = FUNCTION };
+	xdr_ypreq_nokey	{ TYPE = FUNCTION };
+	xdr_ypreq_xfr	{ TYPE = FUNCTION };
+	xdr_ypresp_key_val	{ TYPE = FUNCTION };
+	xdr_ypresp_maplist	{ TYPE = FUNCTION };
+	xdr_ypresp_master	{ TYPE = FUNCTION };
+	xdr_ypresp_order	{ TYPE = FUNCTION };
+	xdr_ypresp_val	{ TYPE = FUNCTION };
+	xdr_ypupdate_args	{ TYPE = FUNCTION };
+	__yp_add_binding	{ TYPE = FUNCTION };
+	__yp_all_rsvdport	{ TYPE = FUNCTION };
+	ypbindproc_domain_3	{ TYPE = FUNCTION };
+	__yp_clnt_create_rsvdport	{ TYPE = FUNCTION };
+	__yp_dobind	{ TYPE = FUNCTION };
+	__yp_master_rsvdport	{ TYPE = FUNCTION };
+	yp_match_rsvdport	{ TYPE = FUNCTION };
+	__yp_rel_binding	{ TYPE = FUNCTION };
+    local:
+	*;
+};

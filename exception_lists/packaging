@@ -1,0 +1,575 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2014 Garrett D'Amore <garrett@damore.org>
+# Copyright 2016 Toomas Soome <tsoome@me.com>
+# Copyright 2016 Hans Rosenfeld <rosenfeld@grumpf.hope-2000.org>
+# Copyright 2018 Nexenta Systems, Inc.
+# Copyright 2017 Toomas Soome <tsoome@me.com>
+# Copyright 2017 RackTop Systems.
+# Copyright 2018, Joyent, Inc.
+#
+
+#
+# Exception List for validate_pkg
+#
+
+#
+# rpc_sztypes.{h,x} are unfortunate files; see comment in
+# include/rpcsvc/Makefile
+#
+usr/include/rpc/rpc_sztypes.x
+
+#
+# The following entries are built in the /proto area
+# but not included in any packages - this is intentional.
+#
+usr/include/auth_list.h
+usr/include/getxby_door.h
+usr/include/lastlog.h
+usr/include/passwdutil.h
+usr/include/priv_utils.h
+usr/include/rpcsvc/dbm.h
+usr/include/rpcsvc/daemon_utils.h
+usr/include/rpcsvc/svc_dg_priv.h
+usr/include/security/pam_impl.h
+usr/include/sys/clock_impl.h
+usr/include/sys/winlockio.h
+usr/include/scsi/plugins/ses/vendor/sun_impl.h
+#
+# Private lofi interface.
+#
+usr/include/sys/lofi_impl.h
+#
+# Private/Internal libraries of the Cryptographic Framework.
+#
+lib/libkcfd.so
+usr/include/libelfsign.h
+
+#
+# The following files are used by the DHCP service, the
+# standalone's DHCP implementation, and the kernel (nfs_dlboot).
+# They contain interfaces which are currently private.
+#
+usr/include/dhcp_symbol.h
+usr/include/sys/sunos_dhcp_class.h
+#
+# Private MAC driver header files
+#
+usr/include/inet/iptun.h
+usr/include/sys/aggr_impl.h
+usr/include/sys/aggr.h
+usr/include/sys/dld_impl.h
+usr/include/sys/dld_ioc.h
+usr/include/sys/dls_impl.h
+usr/include/sys/dls.h
+usr/include/sys/mac_client_impl.h
+usr/include/sys/mac_client.h
+usr/include/sys/mac_flow_impl.h
+usr/include/sys/mac_impl.h
+usr/include/sys/mac_soft_ring.h
+usr/include/sys/mac_stat.h
+#
+# Private GLDv3 userland libraries and headers
+#
+usr/include/libdladm_impl.h
+usr/include/libdlaggr.h
+usr/include/libdlether.h
+usr/include/libdlflow_impl.h
+usr/include/libdlflow.h
+usr/include/libdliptun.h
+usr/include/libdlmgmt.h
+usr/include/libdlsim.h
+usr/include/libdlstat.h
+usr/include/libdlvnic.h
+usr/include/libdlwlan_impl.h
+usr/include/libdlwlan.h
+#
+# Virtual Network Interface Card (VNIC)
+#
+usr/include/sys/vnic.h
+usr/include/sys/vnic_impl.h
+#
+# Private libipadm lint library and header files
+#
+usr/include/ipadm_ipmgmt.h
+usr/include/ipadm_ndpd.h
+usr/include/libipadm.h
+lib/libipadm.so
+#
+# Private libsocket header file
+#
+usr/include/libsocket_priv.h
+#
+# IKE and IPsec support library exceptions.  The IKE support
+# library contains exclusively private interfaces, as does
+# libipsecutil.  My apologies for the glut of header files here.
+#
+usr/include/ikedoor.h
+usr/include/ipsec_util.h
+usr/lib/libipsecutil.so
+usr/lib/amd64/libipsecutil.so		i386
+#
+usr/include/inet/ip_impl.h
+usr/include/inet/ip_ndp.h
+usr/include/inet/ip2mac_impl.h
+usr/include/inet/ip2mac.h
+usr/include/inet/rawip_impl.h
+usr/include/inet/tcp_impl.h
+usr/include/inet/udp_impl.h
+usr/include/libmail.h
+usr/include/libnwam_priv.h
+usr/include/protocols/ripngd.h
+usr/include/s_string.h
+usr/include/sys/logindmux_impl.h
+usr/include/sys/vgareg.h
+#
+# Some IPsec headers can't be shipped lest we hit export controls...
+#
+usr/include/inet/ipsec_impl.h
+usr/include/inet/ipsec_info.h
+usr/include/inet/ipsecah.h
+usr/include/inet/ipsecesp.h
+usr/include/inet/keysock.h
+usr/include/inet/sadb.h
+usr/include/sys/sha1_consts.h
+usr/include/sys/sha2_consts.h
+#
+# These files contain definitions shared privately between the kernel
+# and libc.  There is no reason for them to be part of a package that
+# a customer should ever see.  They are installed in the proto area by
+# the uts build because libc and and other components, like truss, are
+# dependent upon their contents and should not have their own copies.
+#
+usr/include/sys/libc_kernel.h
+usr/include/sys/synch32.h
+#
+# Private interfaces for libdisasm
+#
+usr/include/libdisasm.h
+#
+# Private interfaces for libraidcfg
+#
+usr/include/raidcfg_spi.h
+usr/include/raidcfg.h
+usr/lib/libraidcfg.so
+usr/lib/amd64/libraidcfg.so		i386
+#
+# This file is used for private communication between mdb, drv/kmdb, and
+# misc/kmdb.  The interfaces described herein are not intended for customer
+# use, and are thus excluded from packaging.
+#
+usr/include/sys/kmdb.h
+#
+# These files are installed in the proto area by the build of libdhcpagent
+# and libdhcputil for the benefit of DHCP-related networking commands such
+# as dhcpagent, dhcpinfo, ifconfig, and netstat.  These are not interfaces
+# for customer use, so the files are excluded from packaging.
+#
+lib/libdhcpagent.so
+lib/libdhcputil.so
+lib/amd64/libdhcputil.so		i386
+usr/include/dhcp_hostconf.h
+usr/include/dhcp_impl.h
+usr/include/dhcp_inittab.h
+usr/include/dhcp_stable.h
+usr/include/dhcp_symbol_common.h
+usr/include/dhcpagent_ipc.h
+usr/include/dhcpagent_util.h
+usr/include/dhcpmsg.h
+usr/lib/libdhcpagent.so
+usr/lib/libdhcputil.so
+usr/lib/amd64/libdhcputil.so		i386
+#
+# Don't ship header files private to libipmp and in.mpathd
+#
+usr/include/ipmp_query_impl.h
+#
+# These files are installed in the proto area by the build of libinetsvc,
+# an inetd-specific library shared by inetd, inetadm and inetconv. Only
+# the shared object is shipped.
+#
+usr/include/inetsvc.h
+usr/lib/libinetsvc.so
+#
+# These files are installed in the proto area by the build of libinetutil,
+# a general purpose library for the benefit of internet utilities. Only
+# the shared object is shipped.
+#
+lib/libinetutil.so
+lib/amd64/libinetutil.so		i386
+usr/include/libinetutil.h
+usr/include/netinet/inetutil.h
+usr/include/ofmt.h
+usr/lib/libinetutil.so
+usr/lib/amd64/libinetutil.so		i386
+#
+# Miscellaneous kernel interfaces or kernel<->user interfaces that are
+# consolidation private and we do not want to export at this time.
+#
+usr/include/sys/cryptmod.h
+usr/include/sys/dumpadm.h
+usr/include/sys/ontrap.h
+usr/include/sys/sysmsg_impl.h
+usr/include/sys/vlan.h
+#
+# non-public pci header
+#
+usr/include/sys/pci_impl.h
+usr/include/sys/pci_tools.h
+#
+# Exception list for RCM project, included by librcm and rcm_daemon
+#
+usr/include/librcm_event.h
+usr/include/librcm_impl.h
+#
+# MDB deliverables that are not yet public
+#
+usr/lib/mdb/proc/mdb_test.so
+#
+# these are "removed" from the source product build because the only
+# packages that currently deliver them are removed.
+# they really should't be in here.
+#
+etc/sfw
+#
+# Entries for the libmech_krb5 symlink, which has been included
+# for build purposes only, not delivered to customers.
+#
+usr/include/gssapi/gssapi_krb5.h
+usr/lib/gss/libmech_krb5.so
+usr/lib/amd64/gss/libmech_krb5.so	i386
+usr/lib/libmech_krb5.so
+usr/lib/amd64/libmech_krb5.so		i386
+#
+# Private net80211 headers
+#
+usr/include/sys/net80211_amrr.h
+usr/include/sys/net80211_crypto.h
+usr/include/sys/net80211_ht.h
+usr/include/sys/net80211_proto.h
+usr/include/sys/net80211.h
+#
+# Private ucred kernel header
+#
+usr/include/sys/ucred.h
+#
+# Private and/or platform-specific smf(5) files
+#
+lib/librestart.so
+usr/include/libcontract_priv.h
+usr/include/librestart_priv.h
+usr/include/librestart.h
+usr/lib/librestart.so
+#
+# Private libuutil files
+#
+usr/include/libuutil_impl.h
+#
+# Private Multidata file.
+#
+usr/include/sys/multidata_impl.h
+#
+# libcmdutils contains interfaces which are all private interfaces.
+#
+usr/include/libcmdutils.h
+#
+# Private interfaces in libsec
+#
+usr/include/aclutils.h
+#
+# USB skeleton driver stays in sync with the rest of USB but doesn't ship.
+#
+kernel/drv/usbskel	i386
+kernel/drv/usbskel.conf
+#
+# Consolidation and Sun private libdevid interfaces
+# Public libdevid interfaces provided by devid.h
+#
+usr/include/sys/libdevid.h
+#
+# This library is installed in the proto area by the build of libdisasm, and is
+# only used when building the KMDB disasm module.
+#
+usr/lib/libstanddisasm.so
+usr/lib/amd64/libstanddisasm.so		i386
+#
+# nss interfaces shared between libnsl and other ON libraries.
+#
+usr/include/nss.h
+#
+# These files are used by the iSCSI Target and the iSCSI Initiator
+#
+usr/include/sys/iscsi_protocol.h
+usr/include/sys/iscsi_authclient.h
+usr/include/sys/iscsi_authclientglue.h
+#
+# libshare is private and the 64-bit sharemgr is not delivered.
+#
+usr/lib/libshare.so
+usr/lib/amd64/libshare.so		i386
+usr/lib/fs/autofs/libshare_autofs.so
+usr/lib/fs/autofs/amd64/libshare_autofs.so		i386
+usr/lib/fs/nfs/libshare_nfs.so
+usr/lib/fs/nfs/amd64/libshare_nfs.so		i386
+usr/lib/fs/nfs/test_svc_tp_create
+usr/lib/fs/smb/libshare_smb.so
+usr/lib/fs/smb/amd64/libshare_smb.so		i386
+usr/lib/fs/smbfs/libshare_smbfs.so
+usr/lib/fs/smbfs/amd64/libshare_smbfs.so	i386
+usr/include/libshare_impl.h
+usr/include/scfutil.h
+#
+# Private/Internal u8_textprep header file. Do not ship.
+#
+usr/include/sys/u8_textprep_data.h
+#
+# SQLite is private, used by SMF (svc.configd), idmapd and libsmb.
+#
+usr/include/sqlite-sys
+lib/libsqlite-native.o
+lib/libsqlite-sys.so
+#
+# Private/Internal kiconv header files. Do not ship.
+#
+usr/include/sys/kiconv_big5_utf8.h
+usr/include/sys/kiconv_cck_common.h
+usr/include/sys/kiconv_cp950hkscs_utf8.h
+usr/include/sys/kiconv_emea1.h
+usr/include/sys/kiconv_emea2.h
+usr/include/sys/kiconv_euckr_utf8.h
+usr/include/sys/kiconv_euctw_utf8.h
+usr/include/sys/kiconv_gb18030_utf8.h
+usr/include/sys/kiconv_gb2312_utf8.h
+usr/include/sys/kiconv_hkscs_utf8.h
+usr/include/sys/kiconv_ja_jis_to_unicode.h
+usr/include/sys/kiconv_ja_unicode_to_jis.h
+usr/include/sys/kiconv_ja.h
+usr/include/sys/kiconv_ko.h
+usr/include/sys/kiconv_latin1.h
+usr/include/sys/kiconv_sc.h
+usr/include/sys/kiconv_tc.h
+usr/include/sys/kiconv_uhc_utf8.h
+usr/include/sys/kiconv_utf8_big5.h
+usr/include/sys/kiconv_utf8_cp950hkscs.h
+usr/include/sys/kiconv_utf8_euckr.h
+usr/include/sys/kiconv_utf8_euctw.h
+usr/include/sys/kiconv_utf8_gb18030.h
+usr/include/sys/kiconv_utf8_gb2312.h
+usr/include/sys/kiconv_utf8_hkscs.h
+usr/include/sys/kiconv_utf8_uhc.h
+#
+# At this time, the directory and its contents
+# are only useful on sun4u systems
+#
+etc/flash/postdeployment			i386
+#
+# This header file is shared only between the power commands and
+# ppm/srn modules # and should not be in any package
+#
+usr/include/sys/srn.h
+#
+# Private/Internal header files of smbsrv. Do not ship.
+#
+usr/include/smb
+usr/include/smbsrv
+#
+# Private/Internal libraries of smbsrv. Do not ship.
+#
+usr/lib/smbsrv/bind-helper
+usr/lib/smbsrv/libmlsvc.so
+usr/lib/smbsrv/libsmb.so
+usr/lib/smbsrv/libsmbns.so
+#
+#
+# Private/Internal 64-bit libraries of smbsrv. Do not ship.
+#
+usr/lib/smbsrv/amd64				i386
+
+usr/lib/reparse/amd64/libreparse_smb.so		i386
+usr/lib/reparse/amd64/libreparse_smb.so.1	i386
+#
+# Private dirent, extended to include flags, for use by SMB server
+#
+usr/include/sys/extdirent.h
+#
+# Private header files for vscan service
+#
+usr/include/libvscan.h
+usr/include/sys/vscan.h
+#
+# Private sdcard framework headers
+#
+usr/include/sys/sdcard
+#
+# libmlrpc is private (SMB client and server)
+#
+usr/include/libmlrpc
+usr/lib/libmlrpc.so
+usr/lib/amd64/libmlrpc.so		i386
+usr/lib/amd64/libmlrpc.so.2		i386
+#
+# libsmbfs is private (SMB client and server)
+#
+usr/include/netsmb
+usr/lib/libsmbfs.so
+usr/lib/amd64/libsmbfs.so		i386
+#
+# demo & test program for smbfs (private) ACL support
+#
+usr/lib/fs/smbfs/chacl
+usr/lib/fs/smbfs/lsacl
+opt/smbcl-tests
+#
+# FC related files
+kernel/kmdb/fcip		i386
+kernel/kmdb/fcp			i386
+kernel/kmdb/fctl		i386
+kernel/kmdb/qlc			i386
+#
+# sbd ioctl hdr
+#
+usr/include/sys/stmf_sbd_ioctl.h
+#
+# proxy port provider interface
+#
+usr/include/sys/pppt_ic_if.h
+usr/include/sys/pppt_ioctl.h
+#
+# portable object file and dictionary used by libfmd_msg test
+#
+usr/lib/fm/dict/TEST.dict
+usr/lib/locale/C/LC_MESSAGES/TEST.mo
+usr/lib/locale/C/LC_MESSAGES/TEST.po
+#
+# Private idmap RPC protocol
+#
+usr/include/rpcsvc/idmap_prot.h
+usr/include/rpcsvc/idmap_prot.x
+#
+# Private idmap directory API
+#
+usr/include/directory.h
+#
+# librstp is private for bridging
+#
+usr/include/stp_bpdu.h
+usr/include/stp_in.h
+usr/include/stp_vectors.h
+usr/lib/librstp.so
+#
+# vrrp
+#
+usr/include/libvrrpadm.h
+usr/lib/libvrrpadm.so
+usr/lib/amd64/libvrrpadm.so		i386
+#
+# Tools
+#
+opt/onbld/bin/i386/makesoftcore	i386
+
+#
+# Private socket filter API
+#
+usr/include/sys/sockfilter.h
+#
+# We don't actually validate license action payloads, and the license
+# staging area is provided as a separate basedir for package
+# publication.  The net result is that everything therein should be
+# ignored for packaging validation.
+#
+licenses
+#
+# Libbe is private
+#
+usr/include/libbe_priv.h
+
+#
+# libsaveargs is private
+#
+usr/include/saveargs.h			i386
+usr/lib/amd64/libsaveargs.so		i386
+usr/lib/amd64/libstandsaveargs.so	i386
+
+#
+# libpcidb is private
+#
+usr/include/pcidb.h
+usr/lib/amd64/libpcidb.so		i386
+usr/lib/libpcidb.so
+
+#
+# private nvme header file
+#
+usr/include/sys/nvme.h
+
+#
+# debugging program for libadutils
+#
+usr/bin/test-getdc
+
+#
+# libficl-sys is private
+#
+usr/include/ficllocal.h
+usr/lib/amd64/libficl-sys.so		i386
+usr/lib/libficl-sys.so
+
+#
+# Avoid packaging conflicts with GNU coreutils.
+#
+usr/bin/printenv
+usr/share/man/man1/printenv.1
+usr/bin/users
+usr/share/man/man1/users.1
+
+#
+# TNF headers we need to build stuff with, but don't want to ship.
+#
+usr/include/sys/tnf.h
+usr/include/sys/tnf_com.h
+usr/include/sys/tnf_probe.h
+usr/include/sys/tnf_writer.h
+
+#
+# libdwarf is private for the moment
+#
+lib/amd64/libdwarf.so			i386
+lib/libdwarf.so
+usr/lib/amd64/libdwarf.so		i386
+usr/lib/libdwarf.so
+
+#
+# libsff is private
+#
+usr/include/libsff.h
+usr/lib/amd64/libsff.so			i386
+usr/lib/libsff.so
+
+#
+# libcustr is private
+#
+usr/include/libcustr.h
+lib/amd64/libcustr.so		i386
+lib/libcustr.so

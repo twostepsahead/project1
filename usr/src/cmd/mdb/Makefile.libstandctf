@@ -1,0 +1,90 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+
+.KEEP_STATE:
+
+CTF_COMMON_SRCS = \
+	ctf_create.c \
+	ctf_decl.c \
+	ctf_error.c \
+	ctf_hash.c \
+	ctf_labels.c \
+	ctf_lookup.c \
+	ctf_open.c \
+	ctf_types.c \
+	ctf_util.c
+
+CTF_STUB_SRCS = \
+	ctf_subr.c
+
+MAPFILE = ../../../common/libstandctf/mapfile
+
+$(NOT_RELEASE_BUILD)CPPFLAGS += -DDEBUG
+CPPFLAGS += -I$(SRC)/common/ctf -I../../../common -DCTF_OLD_VERSIONS -D_MDB \
+    -Dvsnprintf=ctf_vsnprintf -Dassfail=kmdb_prom_assfail
+
+CSTD=	$(CSTD_GNU99)
+
+#
+# kmdb is a kernel module, so we'll use the kernel's build flags.
+CFLAGS64 += $(STAND_FLAGS_64)
+
+LDFLAGS = $(ZNOVERSION) $(BREDUCE) -M $(MAPFILE) -dy -r
+
+LIB = libstandctf.so
+OBJS = $(CTF_COMMON_SRCS:%.c=%.o) $(CTF_STUB_SRCS:%.c=%.o)
+
+
+CERRWARN += -Wno-uninitialized
+
+.NO_PARALLEL:
+.PARALLEL: $(OBJS)
+
+install all: $(LIB)
+
+# The use of sed is a gross hack needed because the current build system
+# assumed that the compiler accepted linker flags (-Bfoo -zfoo and -Mfoo)
+# directly.  Here, since we're calling the linker directly, we have to
+# discard the prefixes.  Ideally, we would be using the LD_Z* and LD_B*
+# variables instead, but that would require a lot of mucking with makefiles.
+# So for now, we do this.
+REMOVE_GCC_PREFIX=echo $(LDFLAGS) | $(SED) -e 's/-Wl,//g'
+$(LIB): $(OBJS) $(MAPFILE)
+	$(LD) $(REMOVE_GCC_PREFIX:sh) -o $@ $(OBJS)
+
+clobber clean:
+	$(RM) $(LIB) $(OBJS)
+
+#
+# Dynamic rules for object construction
+#
+
+%.o: ../../../common/libstandctf/%.c
+	$(COMPILE.c) $<
+	$(CTFCONVERT_O)
+
+%.o: $(SRC)/common/ctf/%.c
+	$(COMPILE.c) $<
+	$(CTFCONVERT_O)
